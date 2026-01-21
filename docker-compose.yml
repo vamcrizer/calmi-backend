@@ -35,7 +35,7 @@ services:
       PORT: 8000
     volumes:
       - ./storage:/app/storage
-    expose:
+    ports:
       - "8000:8000"
     restart: unless-stopped
     healthcheck:
