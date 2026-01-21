@@ -158,18 +158,29 @@ jobs:
     needs: build
     if: github.ref == 'refs/heads/dev' && github.event_name == 'push'
     runs-on: ubuntu-latest
-    environment:
-      name: development
-      url: https://dev.calmi.yourdomain.com
     
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup SSH
-        uses: webfactory/ssh-agent@v0.9.0
-        with:
-          ssh-private-key: ${{ secrets.DEV_SSH_PRIVATE_KEY }}
+      - name: Setup SSH with passphrase
+        run: |
+          eval $(ssh-agent -s)
+          echo "${{ secrets.DEV_SSH_PRIVATE_KEY }}" > /tmp/ssh_key
+          chmod 600 /tmp/ssh_key
+          
+          # Install expect to handle passphrase
+          sudo apt-get update && sudo apt-get install -y expect
+          
+          # Add SSH key with passphrase using expect
+          expect << 'EOF'
+          spawn ssh-add /tmp/ssh_key
+          expect "Enter passphrase"
+          send "${{ secrets.DEV_SSH_PASSPHRASE }}\r"
+          expect eof
+          EOF
+          
+          rm /tmp/ssh_key
 
       - name: Deploy to Dev Server via SSH
         env:
@@ -238,18 +249,29 @@ jobs:
     needs: build
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     runs-on: ubuntu-latest
-    environment:
-      name: development
-      url: https://dev-api.calmi.yourdomain.com
     
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup SSH
-        uses: webfactory/ssh-agent@v0.9.0
-        with:
-          ssh-private-key: ${{ secrets.DEV_SSH_PRIVATE_KEY }}
+      - name: Setup SSH with passphrase
+        run: |
+          eval $(ssh-agent -s)
+          echo "${{ secrets.DEV_SSH_PRIVATE_KEY }}" > /tmp/ssh_key
+          chmod 600 /tmp/ssh_key
+          
+          # Install expect to handle passphrase
+          sudo apt-get update && sudo apt-get install -y expect
+          
+          # Add SSH key with passphrase using expect
+          expect << 'EOF'
+          spawn ssh-add /tmp/ssh_key
+          expect "Enter passphrase"
+          send "${{ secrets.DEV_SSH_PASSPHRASE }}\r"
+          expect eof
+          EOF
+          
+          rm /tmp/ssh_key
 
       - name: Deploy to Dev Server
         env:
