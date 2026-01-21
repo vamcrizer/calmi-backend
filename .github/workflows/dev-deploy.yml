@@ -184,19 +184,19 @@ jobs:
             
             echo "🔑 Logging into GitHub Container Registry..."
             echo "🐳 Stopping existing containers..."
-            docker-compose down
+            docker compose down
             
             echo "📦 Pulling latest images..."
-            docker-compose pull
+            docker compose pull
             
             echo "🚀 Starting containers..."
-            docker-compose up -d --build
+            docker compose up -d --build
             
             echo "🧹 Cleaning up old images..."
             docker image prune -af
             
             echo "✅ Deployment completed!"
-            docker-compose ps
+            docker compose ps
           ENDSSH
 
       - name: Wait for service to be ready
@@ -250,27 +250,29 @@ jobs:
           DEV_HOST: ${{ secrets.DEV_HOST }}
           DEV_USER: ${{ secrets.DEV_USER }}
           DEV_PATH: ${{ secrets.DEV_PATH }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_ACTOR: ${{ github.actor }}
         run: |
-          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no $DEV_USER@$DEV_HOST << 'ENDSSH'
+          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no $DEV_USER@$DEV_HOST << ENDSSH
             set -e
             cd ~/calmi-backend
             
             echo "📥 Pulling latest changes..."
-            git pull origin main
+            git pull https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/vamcrizer/calmi-backend.git main
             
             echo "🔑 Logging into GitHub Container Registry..."
-            echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+            echo "${GITHUB_TOKEN}" | docker login ghcr.io -u "${GITHUB_ACTOR}" --password-stdin
             
-            echo "🐳 Deploying with image: ${{ env.IMAGE_TAG }}"
-            docker-compose down
-            docker-compose pull
-            docker-compose up -d --build
+            echo "🐳 Deploying..."
+            docker compose down
+            docker compose pull
+            docker compose up -d --build
             
             echo "🧹 Cleaning up..."
             docker image prune -af
             
             echo "✅ Deployment completed!"
-            docker-compose ps
+            docker compose ps
           ENDSSH
 
       - name: Health Check
