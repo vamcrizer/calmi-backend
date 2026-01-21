@@ -250,18 +250,13 @@ jobs:
           DEV_HOST: ${{ secrets.DEV_HOST }}
           DEV_USER: ${{ secrets.DEV_USER }}
           DEV_PATH: ${{ secrets.DEV_PATH }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_ACTOR: ${{ github.actor }}
         run: |
-          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no $DEV_USER@$DEV_HOST << ENDSSH
+          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no $DEV_USER@$DEV_HOST << 'ENDSSH'
             set -e
             cd ~/calmi-backend
             
             echo "📥 Pulling latest changes..."
-            git pull https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/vamcrizer/calmi-backend.git main
-            
-            echo "🔑 Logging into GitHub Container Registry..."
-            echo "${GITHUB_TOKEN}" | docker login ghcr.io -u "${GITHUB_ACTOR}" --password-stdin
+            git pull origin main
             
             echo "🐳 Deploying..."
             docker compose down
