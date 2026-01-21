@@ -4,7 +4,7 @@ Moi lop thuoc mot truong va co giao vien chu nhiem.
 """
 from __future__ import annotations
 
-from sqlalchemy import BigInteger, String, ForeignKey
+from sqlalchemy import BigInteger, ForeignKey, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.models.base import Base, TimestampMixin

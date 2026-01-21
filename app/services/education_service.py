@@ -3,33 +3,34 @@ Services for Module 4 - Education.
 Business logic for educational content and student learning.
 """
 from datetime import date
+
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.models.user import User
 from app.models.education import EducationContent, ExerciseQuestion
+from app.models.user import User
 from app.repositories.education_repository import (
-    EducationContentRepository,
-    ExerciseQuestionRepository,
-    ExerciseAttemptRepository,
     BookletReadRepository,
-    MinigameResultRepository,
     DailyKindMessageRepository,
     DailyKindResponseRepository,
+    EducationContentRepository,
+    ExerciseAttemptRepository,
+    ExerciseQuestionRepository,
+    MinigameResultRepository,
 )
 from app.schemas.education import (
-    ContentListItem,
-    ContentDetail,
-    ContentListResponse,
-    QuestionItem,
-    ExerciseSubmitResponse,
     BookletProgressResponse,
-    MinigameResultResponse,
+    ContentDetail,
+    ContentListItem,
+    ContentListResponse,
     DailyKindMessageResponse,
     DailyKindRespondResponse,
-    LearningHistoryResponse,
-    HistoryExerciseItem,
+    ExerciseSubmitResponse,
     HistoryBookletItem,
+    HistoryExerciseItem,
     HistoryMinigameItem,
+    LearningHistoryResponse,
+    MinigameResultResponse,
+    QuestionItem,
 )
 
 

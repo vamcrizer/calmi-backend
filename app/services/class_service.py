@@ -5,8 +5,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models.class_ import Class
 from app.repositories.class_repository import ClassRepository
-from app.repositories.user_repository import UserRepository
 from app.repositories.role_repository import RoleRepository
+from app.repositories.user_repository import UserRepository
 from app.schemas.class_ import ClassCreate, ClassUpdate
 
 

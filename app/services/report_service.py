@@ -3,23 +3,23 @@ Report Service - Main orchestrator for report operations.
 Coordinates Identity Firewall, AI, Routing services.
 """
 from datetime import datetime
+
 from fastapi import UploadFile
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.models.user import User
 from app.models.reports import Report
+from app.models.user import User
 from app.repositories.report_repository import (
-    ReportRepository,
     IncidentTypeRepository,
-    ReportDestinationRepository,
     ReportAttachmentRepository,
+    ReportDestinationRepository,
+    ReportRepository,
     ReportStatusHistoryRepository,
 )
+from app.schemas.reports import DestinationInput, ReportCreate
 from app.services.identity_firewall_service import IdentityFirewallService
 from app.services.report_ai_service import ReportAIService
 from app.services.report_routing_service import ReportRoutingService
-from app.schemas.reports import ReportCreate, DestinationInput
-
 
 # Valid status transitions
 STATUS_TRANSITIONS = {

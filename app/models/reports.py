@@ -7,19 +7,26 @@ from __future__ import annotations
 
 from datetime import datetime
 from typing import TYPE_CHECKING
+
 from sqlalchemy import (
-    BigInteger, String, Text, Boolean, DateTime, 
-    ForeignKey, Numeric, JSON
+    JSON,
+    BigInteger,
+    Boolean,
+    DateTime,
+    ForeignKey,
+    Numeric,
+    String,
+    Text,
 )
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.models.base import Base, TimestampMixin
 
 if TYPE_CHECKING:
-    from app.models.user import User
+    from app.models.file import File
     from app.models.school import School
     from app.models.support_organization import SupportOrganization
-    from app.models.file import File
+    from app.models.user import User
 
 
 class IncidentType(Base, TimestampMixin):

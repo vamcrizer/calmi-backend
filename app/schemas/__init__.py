@@ -1,29 +1,54 @@
 """
 Module schemas - Export tat ca cac Pydantic schemas.
 """
-from app.schemas.common import PaginationParams, PaginatedResponse, MessageResponse
-from app.schemas.role import RoleBase, RoleCreate, RoleUpdate, RoleRead
-from app.schemas.school import (
-    SchoolBase, SchoolCreate, SchoolUpdate, SchoolRead, SchoolListRead
-)
-from app.schemas.user import (
-    UserBase, UserCreate, UserUpdate, UserRead, UserListRead,
-    StudentProfileBase, StudentProfileCreate, StudentProfileRead,
-    TeacherProfileBase, TeacherProfileCreate, TeacherProfileRead,
-)
 from app.schemas.class_ import (
-    ClassBase, ClassCreate, ClassUpdate, ClassRead, ClassWithTeacherRead
+    ClassBase,
+    ClassCreate,
+    ClassRead,
+    ClassUpdate,
+    ClassWithTeacherRead,
 )
+from app.schemas.common import MessageResponse, PaginatedResponse, PaginationParams
 from app.schemas.emergency_contact import (
-    EmergencyContactBase, EmergencyContactCreate, EmergencyContactUpdate,
-    EmergencyContactRead, EmergencyContactQueryParams,
+    EmergencyContactBase,
+    EmergencyContactCreate,
+    EmergencyContactQueryParams,
+    EmergencyContactRead,
+    EmergencyContactUpdate,
 )
-from app.schemas.file import FileBase, FileCreate, FileRead, FileAnonymizeRequest
+from app.schemas.file import FileAnonymizeRequest, FileBase, FileCreate, FileRead
 from app.schemas.notification import (
-    NotificationBase, NotificationCreate, NotificationRead, NotificationMarkRead
+    NotificationBase,
+    NotificationCreate,
+    NotificationMarkRead,
+    NotificationRead,
+)
+from app.schemas.role import RoleBase, RoleCreate, RoleRead, RoleUpdate
+from app.schemas.school import (
+    SchoolBase,
+    SchoolCreate,
+    SchoolListRead,
+    SchoolRead,
+    SchoolUpdate,
 )
 from app.schemas.system_setting import (
-    SystemSettingBase, SystemSettingCreate, SystemSettingUpdate, SystemSettingRead
+    SystemSettingBase,
+    SystemSettingCreate,
+    SystemSettingRead,
+    SystemSettingUpdate,
+)
+from app.schemas.user import (
+    StudentProfileBase,
+    StudentProfileCreate,
+    StudentProfileRead,
+    TeacherProfileBase,
+    TeacherProfileCreate,
+    TeacherProfileRead,
+    UserBase,
+    UserCreate,
+    UserListRead,
+    UserRead,
+    UserUpdate,
 )
 
 __all__ = [

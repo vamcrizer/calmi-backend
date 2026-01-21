@@ -3,8 +3,8 @@ Schemas cho Auth module.
 Bao gom cac Pydantic models cho login, token, change password.
 """
 from datetime import datetime
-from pydantic import BaseModel, Field, EmailStr
 
+from pydantic import BaseModel, EmailStr, Field
 
 # ============================================
 # REGISTER SCHEMAS

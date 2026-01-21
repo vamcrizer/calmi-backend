@@ -3,21 +3,28 @@ Voice Chat Router - WebSocket relay for OpenAI Realtime API.
 Enables real-time voice conversations with AI chatbot.
 """
 import asyncio
+import base64
 import json
 import os
-import base64
 from typing import Annotated
 
-from fastapi import APIRouter, WebSocket, WebSocketDisconnect, Depends, HTTPException, status
-from sqlalchemy.ext.asyncio import AsyncSession
 import websockets
+from fastapi import (
+    APIRouter,
+    Depends,
+    HTTPException,
+    WebSocket,
+    WebSocketDisconnect,
+    status,
+)
+from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.core.config import get_settings
 from app.core.database import get_db
 from app.core.deps import require_roles
-from app.models.user import User
 from app.models.chat import ChatSession
+from app.models.user import User
 from app.repositories.chat_repository import ChatSessionRepository
-from app.core.config import get_settings
 
 router = APIRouter(prefix="/voice-chat", tags=["Voice Chat"])
 settings = get_settings()

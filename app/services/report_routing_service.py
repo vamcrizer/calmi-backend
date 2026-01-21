@@ -3,12 +3,16 @@ Report Routing Service - Route reports to destinations.
 Handles in-app notifications and email sending with AI analysis and attachments.
 """
 from datetime import datetime
+
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
 from app.models.reports import Report, ReportDestination
-from app.repositories.report_repository import ReportDestinationRepository, ReportAttachmentRepository
 from app.repositories.notification_repository import NotificationRepository
+from app.repositories.report_repository import (
+    ReportAttachmentRepository,
+    ReportDestinationRepository,
+)
 from app.services.email_service import get_email_service
 from app.services.report_ai_service import AIAnalysisResult
 

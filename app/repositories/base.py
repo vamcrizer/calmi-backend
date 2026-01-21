@@ -2,8 +2,9 @@
 Base Repository - Cung cap cac thao tac CRUD co ban.
 Cac repository khac se ke thua tu class nay.
 """
-from typing import TypeVar, Generic, Type
-from sqlalchemy import select, func
+from typing import Generic, Type, TypeVar
+
+from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models.base import Base

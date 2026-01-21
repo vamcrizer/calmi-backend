@@ -4,7 +4,7 @@ Ho tro luu tru file goc va file da an danh hoa.
 """
 from __future__ import annotations
 
-from sqlalchemy import BigInteger, String, Boolean, ForeignKey
+from sqlalchemy import BigInteger, Boolean, ForeignKey, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.models.base import Base, TimestampMixin

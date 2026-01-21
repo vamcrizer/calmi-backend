@@ -2,11 +2,12 @@
 Repository cho User va cac Profile.
 """
 from datetime import datetime
-from sqlalchemy import select, func, and_, or_
+
+from sqlalchemy import and_, func, or_, select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
-from app.models.user import User, StudentProfile, TeacherProfile
+from app.models.user import StudentProfile, TeacherProfile, User
 from app.repositories.base import BaseRepository
 
 

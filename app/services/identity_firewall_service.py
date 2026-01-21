@@ -3,8 +3,8 @@ Identity Firewall Service - Anonymize uploaded files.
 Strips metadata (EXIF, GPS) and renames files to protect reporter identity.
 """
 import os
-import uuid
 import shutil
+import uuid
 from datetime import datetime
 from pathlib import Path
 from typing import BinaryIO

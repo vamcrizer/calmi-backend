@@ -6,6 +6,7 @@ import base64
 from pathlib import Path
 
 import resend
+
 from app.core.config import get_settings
 
 settings = get_settings()

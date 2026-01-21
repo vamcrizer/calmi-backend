@@ -3,25 +3,26 @@ Auth Service - Xu ly logic nghiep vu xac thuc.
 Bao gom login, refresh, logout, change password, register.
 """
 from datetime import datetime, timedelta
+
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.config import get_settings
 from app.core.security import (
-    verify_password,
-    hash_password,
     create_access_token,
     create_refresh_token,
     decode_refresh_token,
     generate_reset_token,
+    hash_password,
+    verify_password,
 )
 from app.models.user import User
-from app.repositories.user_repository import UserRepository
-from app.repositories.role_repository import RoleRepository
 from app.repositories.auth_repository import (
     AuthRefreshTokenRepository,
     PasswordResetTokenRepository,
 )
-from app.schemas.auth import TokenResponse, UserInfo, RegisterRequest
+from app.repositories.role_repository import RoleRepository
+from app.repositories.user_repository import UserRepository
+from app.schemas.auth import RegisterRequest, TokenResponse, UserInfo
 
 settings = get_settings()
 

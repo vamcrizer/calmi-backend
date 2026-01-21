@@ -2,12 +2,16 @@
 Custom LangChain wrapper for OpenAI Responses API (gpt-5-nano).
 Simpler implementation without complex Pydantic inheritance.
 """
-from typing import Any, List, Optional, Iterator, AsyncIterator
+import asyncio
+from typing import Any, AsyncIterator, Iterator, List, Optional
+
+from langchain_core.callbacks import (
+    AsyncCallbackManagerForLLMRun,
+    CallbackManagerForLLMRun,
+)
 from langchain_core.language_models.llms import LLM
 from langchain_core.outputs import GenerationChunk
-from langchain_core.callbacks import CallbackManagerForLLMRun, AsyncCallbackManagerForLLMRun
 from openai import OpenAI
-import asyncio
 
 
 class GPT5NanoLLM(LLM):

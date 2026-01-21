@@ -3,10 +3,11 @@ Mood Service - Business logic for mood tracking.
 Handles mood entry creation, stats, and streak calculation.
 """
 from datetime import date, datetime, timedelta
+
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.models.user import User
 from app.models.mood import MoodEntry
+from app.models.user import User
 from app.repositories.mood_repository import MoodRepository
 from app.schemas.mood import MoodEntryCreate
 

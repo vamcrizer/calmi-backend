@@ -3,11 +3,12 @@ Repositories for Module 3 - Chat.
 Data access layer for chat sessions and messages.
 """
 from datetime import datetime
-from sqlalchemy import select, desc
+
+from sqlalchemy import desc, select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
-from app.models.chat import ChatSession, ChatMessage
+from app.models.chat import ChatMessage, ChatSession
 from app.repositories.base import BaseRepository
 
 

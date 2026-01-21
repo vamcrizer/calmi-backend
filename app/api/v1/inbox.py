@@ -2,25 +2,26 @@
 Router for Receiver Inbox - View and manage received reports.
 """
 from datetime import datetime
+
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.database import get_db
 from app.core.deps import require_roles
 from app.models.user import User
-from app.services.report_service import (
-    ReportService,
-    ReportNotFoundError,
-    UnauthorizedError,
-    InvalidStatusTransitionError,
-)
+from app.schemas.common import api_error, api_list_response, api_response
 from app.schemas.reports import (
-    ReportReceiverRead,
-    ReportReceiverDetail,
-    ReportStatusUpdate,
     AttachmentRead,
+    ReportReceiverDetail,
+    ReportReceiverRead,
+    ReportStatusUpdate,
 )
-from app.schemas.common import api_response, api_list_response, api_error
+from app.services.report_service import (
+    InvalidStatusTransitionError,
+    ReportNotFoundError,
+    ReportService,
+    UnauthorizedError,
+)
 
 router = APIRouter(prefix="/inbox/reports", tags=["Reports - Inbox"])
 

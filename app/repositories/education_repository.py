@@ -2,19 +2,20 @@
 Repositories for Module 4 - Education.
 Data access layer for educational content and student progress.
 """
-from datetime import datetime, date
-from sqlalchemy import select, desc, func
+from datetime import date, datetime
+
+from sqlalchemy import desc, func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
 from app.models.education import (
-    EducationContent,
-    ExerciseQuestion,
-    ExerciseAttempt,
     BookletRead,
-    MinigameResult,
     DailyKindMessage,
     DailyKindResponse,
+    EducationContent,
+    ExerciseAttempt,
+    ExerciseQuestion,
+    MinigameResult,
 )
 from app.repositories.base import BaseRepository
 

@@ -2,12 +2,12 @@
 Report AI Service - Severity analysis using OpenAI GPT-5-nano.
 Supports text + image input for multimodal analysis.
 """
+import base64
+import json
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Any
 from pathlib import Path
-import json
-import base64
+from typing import Any
 
 from openai import OpenAI
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -15,9 +15,9 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.core.config import get_settings
 from app.models.reports import Report, ReportAIAnalysis
 from app.repositories.report_repository import (
-    ReportRepository,
     ReportAIAnalysisRepository,
     ReportAttachmentRepository,
+    ReportRepository,
 )
 
 settings = get_settings()

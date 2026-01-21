@@ -3,27 +3,28 @@ Education Router - API endpoints for Module 4 Preventive Education.
 Only authenticated students can access these endpoints.
 """
 from typing import Annotated
+
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.database import get_db
 from app.core.deps import require_roles
 from app.models.user import User
+from app.schemas.common import api_error, api_response
+from app.schemas.education import (
+    BookletProgressRequest,
+    DailyKindRespondRequest,
+    ExerciseSubmitRequest,
+    MinigameResultRequest,
+)
 from app.services.education_service import (
-    EducationService,
-    ContentNotFoundError,
-    ContentNotActiveError,
-    InvalidContentTypeError,
     AlreadyRespondedError,
+    ContentNotActiveError,
+    ContentNotFoundError,
+    EducationService,
+    InvalidContentTypeError,
     NoMessageTodayError,
 )
-from app.schemas.education import (
-    ExerciseSubmitRequest,
-    BookletProgressRequest,
-    MinigameResultRequest,
-    DailyKindRespondRequest,
-)
-from app.schemas.common import api_response, api_error
 
 router = APIRouter(prefix="/education", tags=["Education - Preventive Mental Health"])
 

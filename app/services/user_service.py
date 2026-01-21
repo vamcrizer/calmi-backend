@@ -4,12 +4,12 @@ Service cho User - Xu ly logic nghiep vu lien quan den nguoi dung.
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models.user import User
+from app.repositories.role_repository import RoleRepository
 from app.repositories.user_repository import (
-    UserRepository,
     StudentProfileRepository,
     TeacherProfileRepository,
+    UserRepository,
 )
-from app.repositories.role_repository import RoleRepository
 from app.schemas.user import UserCreate, UserUpdate
 
 

@@ -2,6 +2,7 @@
 Router for File Serving - Download files with permission check.
 """
 from pathlib import Path
+
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.responses import FileResponse
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -10,8 +11,11 @@ from app.core.database import get_db
 from app.core.deps import get_current_user, require_roles
 from app.models.user import User
 from app.repositories.file_repository import FileRepository
-from app.repositories.report_repository import ReportRepository, ReportAttachmentRepository
-from app.schemas.common import api_response, api_error
+from app.repositories.report_repository import (
+    ReportAttachmentRepository,
+    ReportRepository,
+)
+from app.schemas.common import api_error, api_response
 
 router = APIRouter(prefix="/files", tags=["Files"])
 

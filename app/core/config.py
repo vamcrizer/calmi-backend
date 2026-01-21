@@ -2,8 +2,9 @@
 Cau hinh ung dung Calmi.
 Doc cac bien moi truong tu file .env va cung cap cho toan bo ung dung.
 """
-from pydantic_settings import BaseSettings
 from functools import lru_cache
+
+from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):

@@ -3,13 +3,13 @@ Calmi - Ung dung FastAPI chinh.
 Entry point cua ung dung backend.
 """
 from contextlib import asynccontextmanager
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.core.config import get_settings
 from app.api.v1 import api_router
+from app.core.config import get_settings
 from app.schemas.common import api_response
-
 
 settings = get_settings()
 

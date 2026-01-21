@@ -3,9 +3,9 @@ Schemas for Module 1 - Anonymous Reporting.
 Pydantic DTOs for reports, destinations, AI analysis.
 """
 from datetime import datetime
-from pydantic import BaseModel, Field
 from typing import Any
 
+from pydantic import BaseModel, Field
 
 # ============================================
 # INCIDENT TYPE SCHEMAS

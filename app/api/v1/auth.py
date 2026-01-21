@@ -1,30 +1,30 @@
 """
 Router cho Auth - API endpoints xac thuc nguoi dung.
 """
-from fastapi import APIRouter, Depends, HTTPException, status, Request
+from fastapi import APIRouter, Depends, HTTPException, Request, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.database import get_db
 from app.core.deps import get_current_user
 from app.models.user import User
+from app.schemas.auth import (
+    ChangePasswordRequest,
+    ForgotPasswordRequest,
+    LoginRequest,
+    LogoutRequest,
+    RefreshRequest,
+    RegisterRequest,
+    ResetPasswordRequest,
+    TokenResponse,
+)
+from app.schemas.common import api_error, api_response
 from app.services.auth_service import (
     AuthService,
     InvalidCredentialsError,
-    UserNotActiveError,
     InvalidTokenError,
     UserExistsError,
+    UserNotActiveError,
 )
-from app.schemas.auth import (
-    RegisterRequest,
-    LoginRequest,
-    TokenResponse,
-    RefreshRequest,
-    LogoutRequest,
-    ChangePasswordRequest,
-    ForgotPasswordRequest,
-    ResetPasswordRequest,
-)
-from app.schemas.common import api_response, api_error
 
 router = APIRouter(prefix="/auth", tags=["Authentication"])
 

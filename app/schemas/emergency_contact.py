@@ -3,6 +3,7 @@ Schemas cho EmergencyContact - Lien he khan cap cho SOS.
 """
 from datetime import datetime
 from decimal import Decimal
+
 from pydantic import BaseModel, Field
 
 

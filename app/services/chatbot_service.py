@@ -4,11 +4,11 @@ Sử dụng conversation summary để nhớ lịch sử mà không lưu toàn b
 """
 from dataclasses import dataclass
 from typing import Optional
-from langchain_openai import ChatOpenAI
-from langchain_classic.memory import ConversationSummaryBufferMemory
-from langchain_classic.chains import ConversationChain
-from langchain_classic.prompts import PromptTemplate
 
+from langchain_classic.chains import ConversationChain
+from langchain_classic.memory import ConversationSummaryBufferMemory
+from langchain_classic.prompts import PromptTemplate
+from langchain_openai import ChatOpenAI
 
 # LangChain imports - correct for latest version
 try:

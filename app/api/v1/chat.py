@@ -2,30 +2,31 @@
 Chat Router - API endpoints for Module 3 AI Psychological Chatbot.
 Only authenticated students can access these endpoints.
 """
+import json
 from typing import Annotated
+
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 from fastapi.responses import StreamingResponse
 from sqlalchemy.ext.asyncio import AsyncSession
-import json
 
 from app.core.database import get_db
 from app.core.deps import require_roles
 from app.models.user import User
-from app.services.chat_service import (
-    ChatService,
-    SessionNotFoundError,
-    SessionNotOwnedError,
-    SessionEndedError,
-)
 from app.schemas.chat import (
-    SessionCreateResponse,
-    SessionListResponse,
+    EndSessionResponse,
     MessageCreateRequest,
     MessageCreateResponse,
     MessageListResponse,
-    EndSessionResponse,
+    SessionCreateResponse,
+    SessionListResponse,
 )
-from app.schemas.common import api_response, api_error
+from app.schemas.common import api_error, api_response
+from app.services.chat_service import (
+    ChatService,
+    SessionEndedError,
+    SessionNotFoundError,
+    SessionNotOwnedError,
+)
 
 router = APIRouter(prefix="/chat", tags=["Chat - AI Psychological Chatbot"])
 

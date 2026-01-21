@@ -1,7 +1,7 @@
 """
 Repository cho EmergencyContact - Lien he khan cap.
 """
-from sqlalchemy import select, and_, or_
+from sqlalchemy import and_, or_, select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 

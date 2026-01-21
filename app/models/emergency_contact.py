@@ -5,7 +5,8 @@ Ho tro tim lien he theo vi tri dia ly va loai lien he.
 from __future__ import annotations
 
 from decimal import Decimal
-from sqlalchemy import BigInteger, String, SmallInteger, Boolean, Numeric, ForeignKey
+
+from sqlalchemy import BigInteger, Boolean, ForeignKey, Numeric, SmallInteger, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.models.base import Base, TimestampMixin

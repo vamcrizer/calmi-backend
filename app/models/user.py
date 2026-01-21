@@ -4,11 +4,12 @@ User la thuc the chinh dai dien cho nguoi dung trong he thong.
 """
 from __future__ import annotations
 
-from datetime import datetime, date
-from sqlalchemy import BigInteger, String, Text, Boolean, Date, DateTime, ForeignKey
+from datetime import date, datetime
+
+from sqlalchemy import BigInteger, Boolean, Date, DateTime, ForeignKey, String, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from app.models.base import Base, TimestampMixin, SoftDeleteMixin
+from app.models.base import Base, SoftDeleteMixin, TimestampMixin
 
 
 class User(Base, TimestampMixin, SoftDeleteMixin):

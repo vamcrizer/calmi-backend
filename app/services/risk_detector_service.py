@@ -2,8 +2,8 @@
 Risk Detector Service - Rule-based risk detection for chat messages.
 Easily replaceable with AI-based detection in the future.
 """
-from dataclasses import dataclass
 import re
+from dataclasses import dataclass
 
 
 @dataclass

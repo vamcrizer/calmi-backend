@@ -5,7 +5,8 @@ Ho tro thong bao cho nguoi dung ve cac su kien trong he thong.
 from __future__ import annotations
 
 from datetime import datetime
-from sqlalchemy import BigInteger, String, Text, Boolean, DateTime, ForeignKey, func
+
+from sqlalchemy import BigInteger, Boolean, DateTime, ForeignKey, String, Text, func
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.models.base import Base

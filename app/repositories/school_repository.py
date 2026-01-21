@@ -1,7 +1,7 @@
 """
 Repository cho School.
 """
-from sqlalchemy import select, func
+from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models.school import School

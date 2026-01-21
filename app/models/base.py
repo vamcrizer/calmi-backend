@@ -3,6 +3,7 @@ Base model va mixins cho SQLAlchemy ORM.
 Dinh nghia cac class cha de cac model khac ke thua.
 """
 from datetime import datetime
+
 from sqlalchemy import BigInteger, DateTime, func
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 

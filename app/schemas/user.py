@@ -1,9 +1,9 @@
 """
 Schemas cho User va cac Profile lien quan.
 """
-from datetime import datetime, date
-from pydantic import BaseModel, Field
+from datetime import date, datetime
 
+from pydantic import BaseModel, Field
 
 # ============================================
 # STUDENT PROFILE SCHEMAS

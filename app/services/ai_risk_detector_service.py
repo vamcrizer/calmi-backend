@@ -2,12 +2,13 @@
 AI-Powered Risk Detector Service.
 Uses OpenAI gpt-4.1-nano to analyze messages and determine risk levels + recommended actions.
 """
+import json
 from dataclasses import dataclass
 from typing import Optional
-import json
-from langchain_openai import ChatOpenAI
+
 from langchain_core.output_parsers import JsonOutputParser
 from langchain_core.prompts import ChatPromptTemplate
+from langchain_openai import ChatOpenAI
 from pydantic import BaseModel, Field
 
 from app.core.config import get_settings

@@ -2,29 +2,36 @@
 Chat Service - Orchestrator for chat functionality.
 Coordinates sessions, messages, risk detection, and AI responses.
 """
-from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import text
+from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.models.chat import ChatSession, ChatMessage
+from app.models.chat import ChatMessage, ChatSession
 from app.models.user import User
-from app.repositories.chat_repository import ChatSessionRepository, ChatMessageRepository
+from app.repositories.chat_repository import (
+    ChatMessageRepository,
+    ChatSessionRepository,
+)
 from app.repositories.mood_repository import MoodRepository
-# Use AI-powered risk detector instead of keyword-based
-from app.services.ai_risk_detector_service import get_ai_risk_detector, RiskDetectionResult
-from app.services.chatbot_service import get_chatbot_service, ChatbotResponse
 from app.schemas.chat import (
-    SessionCreateResponse,
-    SessionListItem,
-    SessionListResponse,
+    EndSessionResponse,
     MessageCreateResponse,
     MessageListItem,
     MessageListResponse,
-    EndSessionResponse,
+    RecommendedAction,
     RiskLevel,
     RiskType,
+    SessionCreateResponse,
+    SessionListItem,
+    SessionListResponse,
     SessionStatus,
-    RecommendedAction,
 )
+
+# Use AI-powered risk detector instead of keyword-based
+from app.services.ai_risk_detector_service import (
+    RiskDetectionResult,
+    get_ai_risk_detector,
+)
+from app.services.chatbot_service import ChatbotResponse, get_chatbot_service
 
 
 class ChatServiceError(Exception):

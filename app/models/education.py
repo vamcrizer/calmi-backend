@@ -4,10 +4,19 @@ Educational content, exercises, booklets, minigames, and daily messages.
 """
 from __future__ import annotations
 
-from datetime import datetime, date
+from datetime import date, datetime
 from typing import Any
 
-from sqlalchemy import BigInteger, String, Text, Boolean, Integer, Date, ForeignKey, JSON
+from sqlalchemy import (
+    JSON,
+    BigInteger,
+    Boolean,
+    Date,
+    ForeignKey,
+    Integer,
+    String,
+    Text,
+)
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.models.base import Base, TimestampMixin

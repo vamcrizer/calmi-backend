@@ -2,7 +2,8 @@
 Repository cho Notification.
 """
 from datetime import datetime
-from sqlalchemy import select, and_, update
+
+from sqlalchemy import and_, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models.notification import Notification

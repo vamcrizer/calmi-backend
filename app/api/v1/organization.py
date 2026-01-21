@@ -4,17 +4,18 @@ Handles report management and statistics for organization users.
 """
 from datetime import datetime, timedelta
 from typing import Annotated
+
 from fastapi import APIRouter, Depends, HTTPException, Query, status
-from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select, func, and_
 from pydantic import BaseModel, Field
+from sqlalchemy import and_, func, select
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.database import get_db
 from app.core.deps import get_current_user, require_roles
-from app.models.user import User
 from app.models.reports import Report, ReportDestination, ReportStatusHistory
 from app.models.support_organization import SupportOrganization
-from app.schemas.common import api_response, api_list_response
+from app.models.user import User
+from app.schemas.common import api_list_response, api_response
 
 router = APIRouter(prefix="/organization", tags=["Organization"])
 

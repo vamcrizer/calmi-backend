@@ -4,8 +4,8 @@ DTOs for chat sessions, messages, and risk detection.
 """
 from datetime import datetime
 from enum import Enum
-from pydantic import BaseModel, Field
 
+from pydantic import BaseModel, Field
 
 # ==========================================
 # ENUMS

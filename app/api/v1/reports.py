@@ -1,28 +1,39 @@
 """
 Router for Student Reports - Submit and view anonymous reports.
 """
-from typing import Annotated
-from fastapi import APIRouter, Depends, HTTPException, Query, UploadFile, File, Form, status, BackgroundTasks
-from sqlalchemy.ext.asyncio import AsyncSession
 import json
+from typing import Annotated
+
+from fastapi import (
+    APIRouter,
+    BackgroundTasks,
+    Depends,
+    File,
+    Form,
+    HTTPException,
+    Query,
+    UploadFile,
+    status,
+)
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.database import get_db
 from app.core.deps import get_current_user, require_roles
 from app.models.user import User
+from app.schemas.common import api_error, api_list_response, api_response
+from app.schemas.reports import (
+    IncidentTypeRead,
+    ReportCreate,
+    ReportCreateResponse,
+    ReportStudentDetail,
+    ReportStudentRead,
+)
 from app.services.report_service import (
+    ReportNotFoundError,
     ReportService,
     ReportServiceError,
-    ReportNotFoundError,
     UnauthorizedError,
 )
-from app.schemas.reports import (
-    ReportCreate,
-    ReportStudentRead,
-    ReportStudentDetail,
-    ReportCreateResponse,
-    IncidentTypeRead,
-)
-from app.schemas.common import api_response, api_list_response, api_error
 
 router = APIRouter(prefix="/reports", tags=["Reports - Student"])
 

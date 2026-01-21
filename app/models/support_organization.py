@@ -4,7 +4,7 @@ Cac to chuc nhu: Hotline 111, NGO, Trung tam bao ve tre em, Cong an.
 """
 from __future__ import annotations
 
-from sqlalchemy import BigInteger, String, Text, Boolean
+from sqlalchemy import BigInteger, Boolean, String, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.models.base import Base, TimestampMixin

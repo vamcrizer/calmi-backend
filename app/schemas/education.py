@@ -2,11 +2,11 @@
 Schemas for Module 4 - Preventive Education.
 DTOs for educational content, exercises, and daily messages.
 """
-from datetime import datetime, date
+from datetime import date, datetime
 from enum import Enum
-from pydantic import BaseModel, Field
 from typing import Any
 
+from pydantic import BaseModel, Field
 
 # ==========================================
 # ENUMS
