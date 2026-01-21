@@ -1,0 +1,81 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+
+# Virtual Environment
+venv/
+env/
+ENV/
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+*.dump
+*.sql
+
+# Logs
+*.log
+logs/
+import_log_*.txt
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.hypothesis/
+
+# Docker
+Dockerfile
+docker-compose*.yml
+.dockerignore
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# Documentation
+README.md
+*.md
+!quick_migrate.md
+
+# Scripts
+*.ps1
+*.sh
+
+# Backup files
+*backup*.dump
+*backup*.sql
+
+# Storage (uploaded files - không cần trong image)
+storage/
+
+# CI/CD
+.github/
+
+# Misc
+.DS_Store
+Thumbs.db
+*.bak
+*.tmp
