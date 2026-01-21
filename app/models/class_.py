@@ -2,6 +2,8 @@
 Model Class - Quan ly thong tin lop hoc.
 Moi lop thuoc mot truong va co giao vien chu nhiem.
 """
+from __future__ import annotations
+
 from sqlalchemy import BigInteger, String, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 

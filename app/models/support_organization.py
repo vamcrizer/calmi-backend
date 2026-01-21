@@ -2,6 +2,8 @@
 Model SupportOrganization - Quan ly to chuc ho tro.
 Cac to chuc nhu: Hotline 111, NGO, Trung tam bao ve tre em, Cong an.
 """
+from __future__ import annotations
+
 from sqlalchemy import BigInteger, String, Text, Boolean
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 

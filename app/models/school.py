@@ -2,6 +2,8 @@
 Model School - Quan ly thong tin truong hoc.
 Moi truong co the co nhieu lop va nhieu nguoi dung.
 """
+from __future__ import annotations
+
 from sqlalchemy import BigInteger, String, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 

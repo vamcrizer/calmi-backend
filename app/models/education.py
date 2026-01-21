@@ -2,6 +2,8 @@
 Models for Module 4 - Preventive Education & Positive Mental Health.
 Educational content, exercises, booklets, minigames, and daily messages.
 """
+from __future__ import annotations
+
 from datetime import datetime, date
 from typing import Any
 

@@ -2,6 +2,8 @@
 Models cho Auth module.
 Bao gom AuthRefreshToken va PasswordResetToken.
 """
+from __future__ import annotations
+
 from datetime import datetime
 from sqlalchemy import BigInteger, String, Boolean, DateTime, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship

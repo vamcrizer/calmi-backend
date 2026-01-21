@@ -2,6 +2,8 @@
 Model SystemSetting - Quan ly cau hinh he thong.
 Luu tru cac tham so cau hinh dang key-value.
 """
+from __future__ import annotations
+
 from sqlalchemy import BigInteger, String, Text
 from sqlalchemy.orm import Mapped, mapped_column
 

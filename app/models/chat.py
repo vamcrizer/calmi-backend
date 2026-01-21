@@ -2,6 +2,8 @@
 Models for Module 3 - AI Psychological Chatbot.
 Chat sessions and messages with risk detection metadata.
 """
+from __future__ import annotations
+
 from datetime import datetime
 from typing import Any
 

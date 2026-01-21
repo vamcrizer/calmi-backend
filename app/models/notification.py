@@ -2,6 +2,8 @@
 Model Notification - Quan ly thong bao trong ung dung.
 Ho tro thong bao cho nguoi dung ve cac su kien trong he thong.
 """
+from __future__ import annotations
+
 from datetime import datetime
 from sqlalchemy import BigInteger, String, Text, Boolean, DateTime, ForeignKey, func
 from sqlalchemy.orm import Mapped, mapped_column, relationship

@@ -2,6 +2,8 @@
 Model Role - Quan ly vai tro nguoi dung trong he thong.
 Cac vai tro: STUDENT, TEACHER, COUNSELOR, SCHOOL_ADMIN, SYSTEM_ADMIN
 """
+from __future__ import annotations
+
 from sqlalchemy import BigInteger, String, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 

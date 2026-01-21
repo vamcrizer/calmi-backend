@@ -2,6 +2,8 @@
 Models for Student Mood Tracking (Emotion Diary).
 Tracks daily mood check-ins with notes.
 """
+from __future__ import annotations
+
 from datetime import datetime
 from typing import TYPE_CHECKING
 from sqlalchemy import BigInteger, Integer, String, Text, DateTime, ForeignKey, Date

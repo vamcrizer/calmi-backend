@@ -2,6 +2,8 @@
 Model User va cac Profile lien quan.
 User la thuc the chinh dai dien cho nguoi dung trong he thong.
 """
+from __future__ import annotations
+
 from datetime import datetime, date
 from sqlalchemy import BigInteger, String, Text, Boolean, Date, DateTime, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship

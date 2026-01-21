@@ -3,6 +3,8 @@ Models for Module 1 - Anonymous Reporting.
 Includes: IncidentType, Report, ReportAIAnalysis, ReportDestination,
           ReportAttachment, ReportStatusHistory.
 """
+from __future__ import annotations
+
 from datetime import datetime
 from typing import TYPE_CHECKING
 from sqlalchemy import (
