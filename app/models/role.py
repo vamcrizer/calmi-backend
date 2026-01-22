@@ -4,10 +4,15 @@ Cac vai tro: STUDENT, TEACHER, COUNSELOR, SCHOOL_ADMIN, SYSTEM_ADMIN
 """
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 from sqlalchemy import BigInteger, String, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.models.base import Base, TimestampMixin
+
+if TYPE_CHECKING:
+    from app.models.user import User
 
 
 class Role(Base, TimestampMixin):

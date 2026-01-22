@@ -5,11 +5,18 @@ User la thuc the chinh dai dien cho nguoi dung trong he thong.
 from __future__ import annotations
 
 from datetime import date, datetime
+from typing import TYPE_CHECKING
 
 from sqlalchemy import BigInteger, Boolean, Date, DateTime, ForeignKey, String, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.models.base import Base, SoftDeleteMixin, TimestampMixin
+
+if TYPE_CHECKING:
+    from app.models.chat import ChatSession
+    from app.models.class_ import Class
+    from app.models.file import File
+    from app.models.notification import Notification
 
 
 class User(Base, TimestampMixin, SoftDeleteMixin):
