@@ -20,8 +20,9 @@ RUN pip install --no-cache-dir --upgrade pip && \
 # Copy application code
 COPY . .
 
-# Create storage directory
-RUN mkdir -p /app/storage && chmod 755 /app/storage
+# Create storage directory and subdirectories
+RUN mkdir -p /app/storage/anonymized /app/storage/reports /app/storage/uploads && \
+    chmod -R 777 /app/storage
 
 # Create non-root user
 RUN useradd -m -u 1000 appuser && \

@@ -82,9 +82,14 @@ jobs:
               cp "$PROJECT_DIR/.env.example" "$PROJECT_DIR/.env"
             fi
             
+            # Tạo storage directory với permissions đúng
+            echo "📁 Creating storage directory with proper permissions..."
+            cd "$PROJECT_DIR"
+            mkdir -p storage/anonymized storage/reports storage/uploads
+            chmod -R 777 storage
+            
             # Build và chạy Docker containers
             echo "🐳 Building and starting Docker containers..."
-            cd "$PROJECT_DIR"
             docker compose down || true
             docker compose up -d --build
             
@@ -146,20 +151,6 @@ jobs:
             DB_STATUS="FAILED"
           fi
           
-          # Check Frontend (if exists)
-          echo ""
-          echo "3️⃣ Checking Frontend..."
-          if curl -f -s http://$DEV_HOST:3000 > /dev/null 2>&1; then
-            echo "   ✅ Frontend is accessible"
-            FRONTEND_STATUS="OK"
-          elif curl -f -s http://$DEV_HOST > /dev/null 2>&1; then
-            echo "   ✅ Frontend is accessible (via proxy)"
-            FRONTEND_STATUS="OK"
-          else
-            echo "   ⚠️  Frontend is not accessible (may not be deployed)"
-            FRONTEND_STATUS="SKIPPED"
-          fi
-          
           # Summary
           echo ""
           echo "======================================"
@@ -167,7 +158,6 @@ jobs:
           echo "======================================"
           echo "Backend:  $BACKEND_STATUS"
           echo "Database: $DB_STATUS"
-          echo "Frontend: $FRONTEND_STATUS"
           echo "======================================"
           
           # Fail if critical services are down
