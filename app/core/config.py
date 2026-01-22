@@ -43,7 +43,19 @@ class Settings(BaseSettings):
     @property
     def cors_origins_list(self) -> list[str]:
         """Tra ve danh sach cac origin duoc phep truy cap."""
-        return [origin.strip() for origin in self.CORS_ORIGINS.split(",")]
+        if not self.CORS_ORIGINS or self.CORS_ORIGINS == "*":
+            return ["*"]
+        
+        # Xu ly ca dang chuoi phay (a,b,c) hoac dang JSON (["a","b"])
+        import json
+        try:
+            origins = json.loads(self.CORS_ORIGINS)
+            if isinstance(origins, list):
+                return origins
+        except:
+            pass
+            
+        return [origin.strip() for origin in self.CORS_ORIGINS.split(",") if origin.strip()]
     
     class Config:
         env_file = ".env"
