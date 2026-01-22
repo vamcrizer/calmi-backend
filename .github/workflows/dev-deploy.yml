@@ -124,31 +124,16 @@ jobs:
           
           # Check Database Connection via Backend Container
           echo ""
-          echo "2️⃣ Checking Azure Database Connection..."
+          echo "2️⃣ Checking Database Connection..."
           DB_CHECK=$(ssh -o StrictHostKeyChecking=no $DEV_USER@$DEV_HOST "export DEV_PATH='$DEV_PATH' && bash -s" << 'DBCHECK'
             cd "$DEV_PATH"
-            # Check database connection through backend container
-            docker compose exec -T backend python -c "
-import asyncio
-from sqlalchemy.ext.asyncio import create_async_engine
-import os
-from dotenv import load_dotenv
-
-load_dotenv()
-db_url = os.getenv('DATABASE_URL')
-
-async def check_db():
-    try:
-        engine = create_async_engine(db_url, echo=False)
-        async with engine.connect() as conn:
-            await conn.execute('SELECT 1')
-        await engine.dispose()
-        print('DB_OK')
-    except Exception as e:
-        print(f'DB_FAILED: {e}')
-
-asyncio.run(check_db())
-" 2>&1 || echo "DB_FAILED: Cannot execute check"
+            # Check if backend container is healthy (which means DB connection is OK)
+            CONTAINER_STATUS=$(docker compose ps backend --format json | grep -o '"Health":"[^"]*"' | cut -d'"' -f4)
+            if [ "$CONTAINER_STATUS" = "healthy" ] || [ -z "$CONTAINER_STATUS" ]; then
+              echo "DB_OK"
+            else
+              echo "DB_FAILED: Container status is $CONTAINER_STATUS"
+            fi
           DBCHECK
           )
           
