@@ -98,12 +98,102 @@ jobs:
       - name: Health Check
         env:
           DEV_HOST: ${{ secrets.DEV_HOST }}
+          DEV_USER: ${{ secrets.DEV_USER }}
+          DEV_PATH: ${{ secrets.DEV_PATH }}
         run: |
-          echo "⏳ Waiting for application to start..."
+          echo "⏳ Waiting for services to start..."
           sleep 30
           
-          echo "🏥 Running health check..."
-          curl -f http://$DEV_HOST:8000/health || curl -f http://$DEV_HOST/health || echo "⚠️  Health check failed"
+          echo "======================================"
+          echo "🏥 Running Health Checks..."
+          echo "======================================"
+          
+          # Check Backend API
+          echo ""
+          echo "1️⃣ Checking Backend API..."
+          if curl -f -s http://$DEV_HOST:8000/health > /dev/null 2>&1; then
+            echo "   ✅ Backend API is healthy"
+            BACKEND_STATUS="OK"
+          elif curl -f -s http://$DEV_HOST/health > /dev/null 2>&1; then
+            echo "   ✅ Backend API is healthy (via proxy)"
+            BACKEND_STATUS="OK"
+          else
+            echo "   ❌ Backend API is not responding"
+            BACKEND_STATUS="FAILED"
+          fi
+          
+          # Check Database Connection via Backend Container
+          echo ""
+          echo "2️⃣ Checking Azure Database Connection..."
+          DB_CHECK=$(ssh -o StrictHostKeyChecking=no $DEV_USER@$DEV_HOST "export DEV_PATH='$DEV_PATH' && bash -s" << 'DBCHECK'
+            cd "$DEV_PATH"
+            # Check database connection through backend container
+            docker compose exec -T backend python -c "
+import asyncio
+from sqlalchemy.ext.asyncio import create_async_engine
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+db_url = os.getenv('DATABASE_URL')
+
+async def check_db():
+    try:
+        engine = create_async_engine(db_url, echo=False)
+        async with engine.connect() as conn:
+            await conn.execute('SELECT 1')
+        await engine.dispose()
+        print('DB_OK')
+    except Exception as e:
+        print(f'DB_FAILED: {e}')
+
+asyncio.run(check_db())
+" 2>&1 || echo "DB_FAILED: Cannot execute check"
+          DBCHECK
+          )
+          
+          if [[ "$DB_CHECK" == *"DB_OK"* ]]; then
+            echo "   ✅ Azure Database is accepting connections"
+            DB_STATUS="OK"
+          else
+            echo "   ❌ Azure Database connection failed"
+            echo "   Details: $DB_CHECK"
+            DB_STATUS="FAILED"
+          fi
+          
+          # Check Frontend (if exists)
+          echo ""
+          echo "3️⃣ Checking Frontend..."
+          if curl -f -s http://$DEV_HOST:3000 > /dev/null 2>&1; then
+            echo "   ✅ Frontend is accessible"
+            FRONTEND_STATUS="OK"
+          elif curl -f -s http://$DEV_HOST > /dev/null 2>&1; then
+            echo "   ✅ Frontend is accessible (via proxy)"
+            FRONTEND_STATUS="OK"
+          else
+            echo "   ⚠️  Frontend is not accessible (may not be deployed)"
+            FRONTEND_STATUS="SKIPPED"
+          fi
+          
+          # Summary
+          echo ""
+          echo "======================================"
+          echo "📊 Health Check Summary:"
+          echo "======================================"
+          echo "Backend:  $BACKEND_STATUS"
+          echo "Database: $DB_STATUS"
+          echo "Frontend: $FRONTEND_STATUS"
+          echo "======================================"
+          
+          # Fail if critical services are down
+          if [[ "$BACKEND_STATUS" == "FAILED" ]] || [[ "$DB_STATUS" == "FAILED" ]]; then
+            echo ""
+            echo "❌ Critical services are not healthy!"
+            exit 1
+          fi
+          
+          echo ""
+          echo "✅ All critical services are healthy!"
 
       - name: Notify Success
         if: success()
