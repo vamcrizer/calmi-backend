@@ -61,7 +61,7 @@ jobs:
             if [ -d "$PROJECT_DIR" ]; then
               echo "🛑 Stopping existing containers..."
               cd "$PROJECT_DIR"
-              docker-compose down || true
+              docker compose down || true
               cd ..
               
               echo "🗑️  Removing old project directory..."
@@ -85,14 +85,14 @@ jobs:
             # Build và chạy Docker containers
             echo "🐳 Building and starting Docker containers..."
             cd "$PROJECT_DIR"
-            docker-compose down || true
-            docker-compose up -d --build
+            docker compose down || true
+            docker compose up -d --build
             
             # Cleanup
             rm -f /tmp/backend-deploy.zip /tmp/backup.env
             
             echo "✅ Deployment completed!"
-            docker-compose ps
+            docker compose ps
           ENDSSH
 
       - name: Health Check
