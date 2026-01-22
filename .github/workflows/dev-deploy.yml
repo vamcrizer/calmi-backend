@@ -36,12 +36,15 @@ jobs:
           scp -o StrictHostKeyChecking=no backend-deploy.zip $DEV_USER@$DEV_HOST:/tmp/backend-deploy.zip
           
           # SSH vào server và thực hiện deploy
-          ssh -o StrictHostKeyChecking=no $DEV_USER@$DEV_HOST << 'ENDSSH'
+          ssh -o StrictHostKeyChecking=no $DEV_USER@$DEV_HOST "export DEV_PATH='$DEV_PATH' && bash -s" << 'ENDSSH'
             set -e
             
             # Lưu đường dẫn thư mục dự án
-            PROJECT_DIR="${DEV_PATH}"
-            PARENT_DIR="$(dirname $PROJECT_DIR)"
+            PROJECT_DIR="$DEV_PATH"
+            PARENT_DIR="$(dirname "$PROJECT_DIR")"
+            
+            echo "📂 Project directory: $PROJECT_DIR"
+            echo "📂 Parent directory: $PARENT_DIR"
             
             # Backup .env từ parent directory nếu có
             if [ -f "$PARENT_DIR/.env" ]; then
