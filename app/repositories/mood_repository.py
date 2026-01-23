@@ -2,13 +2,21 @@
 Repository for Mood operations.
 Handles database queries for mood entries.
 """
-from datetime import date, datetime, timedelta
+from datetime import date, datetime, timedelta, timezone
 
 from sqlalchemy import and_, desc, func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models.mood import MoodEntry
 from app.repositories.base import BaseRepository
+
+# Vietnam timezone (GMT+7)
+VN_TIMEZONE = timezone(timedelta(hours=7))
+
+
+def get_vietnam_date() -> date:
+    """Get current date in Vietnam timezone."""
+    return datetime.now(VN_TIMEZONE).date()
 
 
 class MoodRepository(BaseRepository[MoodEntry]):
@@ -81,7 +89,7 @@ class MoodRepository(BaseRepository[MoodEntry]):
     
     async def get_last_n_days(self, user_id: int, days: int = 7) -> list[MoodEntry]:
         """Get mood entries for last N days."""
-        from_date = date.today() - timedelta(days=days - 1)
+        from_date = get_vietnam_date() - timedelta(days=days - 1)
         return await self.list_by_user(user_id, from_date=from_date, limit=days)
     
     async def get_streak(self, user_id: int) -> dict:
@@ -98,7 +106,7 @@ class MoodRepository(BaseRepository[MoodEntry]):
         if not unique_dates:
             return {"count": 0, "active": False}
         
-        today = date.today()
+        today = get_vietnam_date()
         yesterday = today - timedelta(days=1)
         
         latest_date = unique_dates[0]

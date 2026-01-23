@@ -2,7 +2,7 @@
 Mood Service - Business logic for mood tracking.
 Handles mood entry creation, stats, and streak calculation.
 """
-from datetime import date, datetime, timedelta
+from datetime import date, datetime, timedelta, timezone
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -10,6 +10,14 @@ from app.models.mood import MoodEntry
 from app.models.user import User
 from app.repositories.mood_repository import MoodRepository
 from app.schemas.mood import MoodEntryCreate
+
+# Vietnam timezone (GMT+7)
+VN_TIMEZONE = timezone(timedelta(hours=7))
+
+
+def get_vietnam_date() -> date:
+    """Get current date in Vietnam timezone."""
+    return datetime.now(VN_TIMEZONE).date()
 
 
 class MoodService:
@@ -30,7 +38,7 @@ class MoodService:
         If entry exists for the date, updates it.
         Otherwise creates new entry.
         """
-        mood_date = data.mood_date or date.today()
+        mood_date = data.mood_date or get_vietnam_date()
         
         return await self.mood_repo.create_or_update(
             user_id=user.id,
@@ -74,7 +82,7 @@ class MoodService:
         count_with_entry = 0
         
         for i in range(days - 1, -1, -1):
-            check_date = date.today() - timedelta(days=i)
+            check_date = get_vietnam_date() - timedelta(days=i)
             entry = entries_dict.get(check_date)
             
             if entry:

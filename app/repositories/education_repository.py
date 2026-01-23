@@ -2,7 +2,7 @@
 Repositories for Module 4 - Education.
 Data access layer for educational content and student progress.
 """
-from datetime import date, datetime
+from datetime import date, datetime, timedelta, timezone
 
 from sqlalchemy import desc, func, select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -240,8 +240,11 @@ class DailyKindMessageRepository(BaseRepository[DailyKindMessage]):
         return result.scalar_one_or_none()
     
     async def get_today(self) -> DailyKindMessage | None:
-        """Get today's message."""
-        return await self.get_by_date(date.today())
+        """Get today's message (Vietnam timezone)."""
+        # Use Vietnam timezone (GMT+7)
+        vn_tz = timezone(timedelta(hours=7))
+        today_vn = datetime.now(vn_tz).date()
+        return await self.get_by_date(today_vn)
 
 
 class DailyKindResponseRepository(BaseRepository[DailyKindResponse]):
