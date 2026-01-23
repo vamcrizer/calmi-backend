@@ -1,7 +1,7 @@
 """
 Router for Mood Tracking - Student emotion diary.
 """
-from datetime import date
+from datetime import date, datetime, timedelta, timezone
 
 from fastapi import APIRouter, Depends, Query
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -113,3 +113,35 @@ async def get_mood_streak(
         data=response.model_dump(),
         message="Lay chuoi ngay lien tuc thanh cong",
     )
+
+
+@router.get("/debug-timezone")
+async def debug_timezone():
+    """
+    Debug endpoint to check timezone settings.
+    Shows current time in UTC, Vietnam, and server local.
+    """
+    vn_tz = timezone(timedelta(hours=7))
+    
+    now_utc = datetime.now(timezone.utc)
+    now_vn = datetime.now(vn_tz)
+    now_local = datetime.now()
+    
+    return {
+        "utc": {
+            "datetime": now_utc.isoformat(),
+            "date": now_utc.date().isoformat(),
+            "weekday": now_utc.strftime("%A"),
+        },
+        "vietnam_gmt7": {
+            "datetime": now_vn.isoformat(),
+            "date": now_vn.date().isoformat(),
+            "weekday": now_vn.strftime("%A"),
+        },
+        "server_local": {
+            "datetime": now_local.isoformat(),
+            "date": now_local.date().isoformat(),
+            "weekday": now_local.strftime("%A"),
+        },
+        "expected_today_vn": now_vn.date().isoformat(),
+    }

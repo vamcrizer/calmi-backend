@@ -98,22 +98,25 @@ class MoodRepository(BaseRepository[MoodEntry]):
         entries = await self.list_by_user(user_id, limit=100)
         
         if not entries:
-            return {"count": 0, "active": False}
+            return {"count": 0, "active": False, "checked_in_today": False}
         
         # Get unique dates
         unique_dates = sorted(list(set(e.mood_date for e in entries)), reverse=True)
         
         if not unique_dates:
-            return {"count": 0, "active": False}
+            return {"count": 0, "active": False, "checked_in_today": False}
         
         today = get_vietnam_date()
         yesterday = today - timedelta(days=1)
         
         latest_date = unique_dates[0]
         
+        # Check if already checked in today
+        checked_in_today = latest_date == today
+        
         # Check if streak is active (latest entry is today or yesterday)
         if latest_date != today and latest_date != yesterday:
-            return {"count": 0, "active": False}
+            return {"count": 0, "active": False, "checked_in_today": False}
         
         # Count consecutive days
         streak_count = 0
@@ -126,4 +129,4 @@ class MoodRepository(BaseRepository[MoodEntry]):
             else:
                 break
         
-        return {"count": streak_count, "active": True}
+        return {"count": streak_count, "active": True, "checked_in_today": checked_in_today}

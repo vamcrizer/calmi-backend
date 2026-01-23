@@ -45,3 +45,4 @@ class MoodStreakResponse(BaseModel):
     """Streak information."""
     count: int  # Number of consecutive days
     active: bool  # Is streak active (includes today or yesterday)
+    checked_in_today: bool = False  # Has user checked in today
