@@ -2,7 +2,6 @@
 Chat Service - Orchestrator for chat functionality.
 Coordinates sessions, messages, risk detection, and AI responses.
 """
-from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models.chat import ChatMessage, ChatSession
@@ -365,27 +364,19 @@ class ChatService:
         
         # 9. Update user message with actual risk (if different)
         if final_risk.risk_level != optimistic_risk.risk_level:
-            # Serialize signals to JSON string for asyncpg
-            import json
-            signals_json = json.dumps({"matched": final_risk.signals}) if final_risk.signals else None
-            
-            await self.db.execute(
-                text("""
-                    UPDATE chat_messages 
-                    SET risk_level = :risk_level, 
-                        risk_type = :risk_type,
-                        is_sensitive = :is_sensitive,
-                        signals = :signals::jsonb
-                    WHERE id = :msg_id
-                """),
-                {
-                    "risk_level": final_risk.risk_level,
-                    "risk_type": final_risk.risk_type,
-                    "is_sensitive": final_risk.is_sensitive,
-                    "signals": signals_json,
-                    "msg_id": user_message.id,
-                }
+            # Use ORM update - SQLAlchemy handles JSON serialization automatically
+            from app.models.chat import ChatMessage as ChatMessageModel
+            stmt = (
+                ChatMessageModel.__table__.update()
+                .where(ChatMessageModel.id == user_message.id)
+                .values(
+                    risk_level=final_risk.risk_level,
+                    risk_type=final_risk.risk_type,
+                    is_sensitive=final_risk.is_sensitive,
+                    signals={"matched": final_risk.signals} if final_risk.signals else None,
+                )
             )
+            await self.db.execute(stmt)
         
         # 10. Save AI message to DB
         ai_message = await self.message_repo.create_message(
@@ -409,10 +400,13 @@ class ChatService:
         
         # Save conversation summary
         if summary:
-            await self.db.execute(
-                text("UPDATE chat_sessions SET conversation_summary = :summary WHERE id = :id"),
-                {"summary": summary, "id": session_id}
+            from app.models.chat import ChatSession as ChatSessionModel
+            stmt = (
+                ChatSessionModel.__table__.update()
+                .where(ChatSessionModel.id == session_id)
+                .values(conversation_summary=summary)
             )
+            await self.db.execute(stmt)
         
         await self.db.commit()
         
