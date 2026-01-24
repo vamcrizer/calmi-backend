@@ -1,6 +1,8 @@
 """
 Cau hinh ket noi database PostgreSQL voi async SQLAlchemy.
 Cung cap session maker va dependency injection cho FastAPI.
+
+OPTIMIZED: Connection pooling for better performance.
 """
 from typing import AsyncGenerator
 
@@ -10,12 +12,17 @@ from app.core.config import get_settings
 
 settings = get_settings()
 
-# Tao async engine ket noi PostgreSQL
-# echo=True de log cac cau SQL trong che do debug
+# OPTIMIZED: Async engine với connection pool settings
 engine = create_async_engine(
     settings.DATABASE_URL,
     echo=settings.DEBUG,
     future=True,
+    # Connection pool optimization
+    pool_size=10,  # Base pool size
+    max_overflow=20,  # Extra connections when pool is full
+    pool_pre_ping=True,  # Check connection health before use
+    pool_recycle=3600,  # Recycle connections after 1 hour
+    pool_timeout=30,  # Wait max 30s for connection
 )
 
 # Tao session factory

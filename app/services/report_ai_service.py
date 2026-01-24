@@ -2,7 +2,7 @@
 Report AI Service - Severity analysis using OpenAI.
 Supports text + image input for multimodal analysis.
 
-OPTIMIZED: Uses AsyncOpenAI client for non-blocking operations.
+OPTIMIZED: Uses shared AsyncOpenAI client with connection pooling.
 """
 import base64
 import json
@@ -11,7 +11,6 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
-from openai import AsyncOpenAI
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.config import get_settings
@@ -96,7 +95,7 @@ class ReportAIService:
     Service for AI-based report analysis.
     Supports multimodal input (text + images).
     
-    OPTIMIZED: Uses AsyncOpenAI for non-blocking operations.
+    OPTIMIZED: Uses shared AsyncOpenAI client with connection pooling.
     """
     
     def __init__(self, session: AsyncSession):
@@ -105,12 +104,9 @@ class ReportAIService:
         self.analysis_repo = ReportAIAnalysisRepository(session)
         self.attach_repo = ReportAttachmentRepository(session)
         self.model_name = settings.OPENAI_MODEL
-        # OPTIMIZED: Use AsyncOpenAI with timeout
-        self.client = AsyncOpenAI(
-            api_key=settings.OPENAI_API_KEY,
-            timeout=30.0,  # 30s timeout
-            max_retries=2,  # Retry on transient failures
-        )
+        # OPTIMIZED: Use shared client with connection pooling
+        from app.core.openai_client import get_async_openai_client
+        self.client = get_async_openai_client()
     
     def _encode_image_to_base64(self, file_path: str) -> str | None:
         """Encode image file to base64 string."""

@@ -57,7 +57,23 @@ class ChatSessionRepository(BaseRepository[ChatSession]):
         return result.scalar() or 0
     
     async def get_session_by_id(self, session_id: int) -> ChatSession | None:
-        """Get session by ID with messages loaded."""
+        """
+        Get session by ID (without loading messages).
+        
+        OPTIMIZED: Removed selectinload - messages loaded separately when needed.
+        This prevents unnecessary data transfer for simple validation.
+        """
+        result = await self.session.execute(
+            select(ChatSession)
+            .where(ChatSession.id == session_id)
+        )
+        return result.scalar_one_or_none()
+    
+    async def get_session_with_messages(self, session_id: int) -> ChatSession | None:
+        """
+        Get session by ID WITH messages loaded.
+        Use this only when you actually need the messages.
+        """
         result = await self.session.execute(
             select(ChatSession)
             .options(selectinload(ChatSession.messages))

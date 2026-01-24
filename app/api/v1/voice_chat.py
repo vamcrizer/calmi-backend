@@ -37,7 +37,7 @@ settings = get_settings()
 # OpenAI Realtime API configuration
 OPENAI_REALTIME_URL = "wss://api.openai.com/v1/realtime"
 OPENAI_REALTIME_HTTP_URL = "https://api.openai.com/v1/realtime"
-OPENAI_MODEL = "gpt-4o-realtime-preview-2024-12-17"  # WebRTC compatible model
+OPENAI_MODEL = "gpt-realtime-mini"  # Required mini model for voice chat
 
 
 async def get_chat_session(session_id: int, user: User, db: AsyncSession) -> ChatSession:

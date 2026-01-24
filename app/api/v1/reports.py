@@ -43,6 +43,11 @@ def get_report_service(db: AsyncSession = Depends(get_db)) -> ReportService:
     return ReportService(db)
 
 
+# Cache for incident types (static data, rarely changes)
+_incident_types_cache = None
+_incident_types_cache_time = None
+
+
 @router.get("/incident-types")
 async def list_incident_types(
     service: ReportService = Depends(get_report_service),
@@ -51,12 +56,30 @@ async def list_incident_types(
     List all available incident types.
     
     Public endpoint for form population.
+    
+    OPTIMIZED: Cached for 1 hour (static data).
     """
+    global _incident_types_cache, _incident_types_cache_time
+    
+    from datetime import datetime, timedelta
+    
+    # Check cache (1 hour TTL)
+    if _incident_types_cache and _incident_types_cache_time:
+        if datetime.utcnow() - _incident_types_cache_time < timedelta(hours=1):
+            return _incident_types_cache
+    
+    # Fetch from DB
     types = await service.list_incident_types()
-    return api_list_response(
+    response = api_list_response(
         data=[IncidentTypeRead.model_validate(t) for t in types],
         message="Lay danh sach loai su co thanh cong",
     )
+    
+    # Update cache
+    _incident_types_cache = response
+    _incident_types_cache_time = datetime.utcnow()
+    
+    return response
 
 
 @router.post("/")
