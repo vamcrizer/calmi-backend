@@ -74,21 +74,30 @@ class ChatbotService:
     """
     AI-powered chatbot với LangChain conversation memory.
     Sử dụng summary thay vì lưu toàn bộ messages.
+    
+    OPTIMIZED: Added connection pooling and timeout settings.
     """
     
     def __init__(self):
-        # Use ChatOpenAI with gpt-4.1-nano (stable and fast)
+        # OPTIMIZED: ChatOpenAI with connection settings for faster response
         self.llm = ChatOpenAI(
             model="gpt-4.1-nano",
             temperature=0.7,
             openai_api_key=settings.OPENAI_API_KEY,
+            max_retries=2,  # Retry on transient failures
+            timeout=30.0,  # 30s timeout
+            max_tokens=500,  # Limit response length for speed
+            streaming=True,  # Enable streaming by default
         )
         
-        # Summary LLM cũng dùng gpt-4.1-nano
+        # Summary LLM - lighter settings for faster summarization
         self.summary_llm = ChatOpenAI(
             model="gpt-4.1-nano",
-            temperature=0.7,
+            temperature=0.5,  # Lower temp for more consistent summaries
             openai_api_key=settings.OPENAI_API_KEY,
+            max_retries=1,
+            timeout=15.0,  # Faster timeout for summaries
+            max_tokens=150,  # Summaries should be short
         )
         
         # Cache của memory theo session_id
@@ -235,7 +244,7 @@ class ChatbotService:
         
         return "\n".join(lines) + "\n" + trend
     
-    def generate_reply(
+    async def generate_reply(
         self,
         session: ChatSession,
         user_message: str,
@@ -245,6 +254,8 @@ class ChatbotService:
     ) -> ChatbotResponse:
         """
         Generate AI response sử dụng LangChain với conversation summary.
+        
+        OPTIMIZED: Now async for non-blocking operation.
         
         Args:
             session: Chat session (để load/save summary)
@@ -268,11 +279,10 @@ class ChatbotService:
         # Format mood context
         mood_context = self._format_mood_context(mood_history)
         
-        # Build prompt template
-        # Note: {history} will be automatically injected by ConversationSummaryBufferMemory
-        # We inject risk_level and risk_type directly into template (not as variables)
-        # because ConversationChain only accepts memory variables + input
-        template = f"""{CHATBOT_SYSTEM_PROMPT}
+        # Build prompt với memory history
+        history_text = memory.load_memory_variables({}).get("history", "")
+        
+        full_prompt = f"""{CHATBOT_SYSTEM_PROMPT}
 
 NHẬT KÝ CẢM XÚC 5 NGÀY GẦN NHẤT:
 {mood_context}
@@ -282,30 +292,19 @@ NHẬT KÝ CẢM XÚC 5 NGÀY GẦN NHẤT:
 {risk_instruction}
 
 Current conversation:
-{{history}}
+{history_text}
 
-Học sinh: {{input}}
+Học sinh: {user_message}
 Calmi:"""
-
-        prompt = PromptTemplate(
-            input_variables=["input"],
-            template=template
-        )
-        
-        # Create conversation chain
-        conversation = ConversationChain(
-            llm=self.llm,
-            memory=memory,
-            prompt=prompt,
-            verbose=False
-        )
         
         try:
-            # Generate response
-            response = conversation.predict(input=user_message)
-
+            # OPTIMIZED: Use async invoke
+            response = await self.llm.ainvoke(full_prompt)
+            ai_message = response.content.strip() if hasattr(response, 'content') else str(response).strip()
             
-            ai_message = response.strip()
+            # Add to memory
+            memory.chat_memory.add_user_message(user_message)
+            memory.chat_memory.add_ai_message(ai_message)
             
             # Get updated summary
             summary = memory.moving_summary_buffer if hasattr(memory, 'moving_summary_buffer') else None

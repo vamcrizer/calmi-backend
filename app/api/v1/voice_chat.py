@@ -1,5 +1,5 @@
 """
-Voice Chat Router - WebSocket relay for OpenAI Realtime API.
+Voice Chat Router - WebSocket relay and WebRTC SDP proxy for OpenAI Realtime API.
 Enables real-time voice conversations with AI chatbot.
 """
 import asyncio
@@ -8,20 +8,25 @@ import json
 import os
 from typing import Annotated
 
+import httpx
 import websockets
 from fastapi import (
     APIRouter,
+    Body,
     Depends,
     HTTPException,
+    Request,
+    Response,
     WebSocket,
     WebSocketDisconnect,
     status,
 )
+from fastapi.responses import PlainTextResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.config import get_settings
 from app.core.database import get_db
-from app.core.deps import require_roles
+from app.core.deps import get_current_user, require_roles
 from app.models.chat import ChatSession
 from app.models.user import User
 from app.repositories.chat_repository import ChatSessionRepository
@@ -31,7 +36,8 @@ settings = get_settings()
 
 # OpenAI Realtime API configuration
 OPENAI_REALTIME_URL = "wss://api.openai.com/v1/realtime"
-OPENAI_MODEL = "gpt-realtime-mini"  # Latest speech-to-speech model
+OPENAI_REALTIME_HTTP_URL = "https://api.openai.com/v1/realtime"
+OPENAI_MODEL = "gpt-4o-realtime-preview-2024-12-17"  # WebRTC compatible model
 
 
 async def get_chat_session(session_id: int, user: User, db: AsyncSession) -> ChatSession:
@@ -225,3 +231,104 @@ NẾU phát hiện dấu hiệu nguy hiểm (tự tử, bạo lực, tự hại)
     finally:
         await websocket.close()
         print(f"🔌 Voice chat closed: session={session_id}")
+
+
+# =============================================================================
+# WebRTC SDP Proxy Endpoint - For browser WebRTC connections
+# =============================================================================
+
+@router.post(
+    "/rtc/offer",
+    response_class=PlainTextResponse,
+    summary="Proxy WebRTC SDP offer to OpenAI",
+    description="""
+    Securely proxy WebRTC SDP negotiation to OpenAI Realtime API.
+    
+    Frontend sends SDP offer -> Backend forwards to OpenAI -> Returns SDP answer.
+    
+    This prevents:
+    - CORS issues (OpenAI doesn't allow direct browser calls)
+    - API key exposure in frontend
+    """,
+)
+async def proxy_webrtc_offer(
+    request: Request,
+    current_user: User = Depends(get_current_user),
+):
+    """
+    Proxy WebRTC SDP offer to OpenAI and return SDP answer.
+    
+    Request body: Raw SDP offer text
+    Response: Raw SDP answer text
+    """
+    # Verify student role
+    if not current_user.role or current_user.role.code != "STUDENT":
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Only students can use voice chat"
+        )
+    
+    # Get raw SDP offer from request body
+    sdp_offer = await request.body()
+    sdp_offer_text = sdp_offer.decode("utf-8")
+    
+    if not sdp_offer_text or not sdp_offer_text.startswith("v="):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Invalid SDP offer format"
+        )
+    
+    print(f"[VoiceChat RTC] User {current_user.id} sending SDP offer to OpenAI...")
+    
+    # Forward to OpenAI Realtime API
+    openai_url = f"{OPENAI_REALTIME_HTTP_URL}?model={OPENAI_MODEL}"
+    
+    try:
+        async with httpx.AsyncClient(timeout=30.0) as client:
+            response = await client.post(
+                openai_url,
+                content=sdp_offer_text,
+                headers={
+                    "Authorization": f"Bearer {settings.OPENAI_API_KEY}",
+                    "Content-Type": "application/sdp",
+                },
+            )
+            
+            if response.status_code != 200 and response.status_code != 201:
+                error_text = response.text
+                print(f"[VoiceChat RTC] OpenAI error: {response.status_code} - {error_text}")
+                raise HTTPException(
+                    status_code=status.HTTP_502_BAD_GATEWAY,
+                    detail=f"OpenAI API error: {response.status_code}"
+                )
+            
+            sdp_answer = response.text
+            print(f"[VoiceChat RTC] ✅ Got SDP answer from OpenAI")
+            
+            return PlainTextResponse(
+                content=sdp_answer,
+                media_type="application/sdp"
+            )
+            
+    except httpx.TimeoutException:
+        print("[VoiceChat RTC] ❌ OpenAI request timeout")
+        raise HTTPException(
+            status_code=status.HTTP_504_GATEWAY_TIMEOUT,
+            detail="OpenAI API timeout"
+        )
+    except httpx.RequestError as e:
+        print(f"[VoiceChat RTC] ❌ Request error: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_502_BAD_GATEWAY,
+            detail=f"Failed to connect to OpenAI: {str(e)}"
+        )
+
+
+@router.get("/rtc/health")
+async def rtc_health_check():
+    """Health check for WebRTC proxy."""
+    return {
+        "status": "ok",
+        "model": OPENAI_MODEL,
+        "api_configured": bool(settings.OPENAI_API_KEY),
+    }

@@ -1,6 +1,8 @@
 """
-Report AI Service - Severity analysis using OpenAI GPT-5-nano.
+Report AI Service - Severity analysis using OpenAI.
 Supports text + image input for multimodal analysis.
+
+OPTIMIZED: Uses AsyncOpenAI client for non-blocking operations.
 """
 import base64
 import json
@@ -9,7 +11,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
-from openai import OpenAI
+from openai import AsyncOpenAI
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.config import get_settings
@@ -91,8 +93,10 @@ LƯU Ý: Dùng \\n để xuống dòng. Mỗi bullet point phải là hành đ�
 
 class ReportAIService:
     """
-    Service for AI-based report analysis using OpenAI GPT-5-nano.
+    Service for AI-based report analysis.
     Supports multimodal input (text + images).
+    
+    OPTIMIZED: Uses AsyncOpenAI for non-blocking operations.
     """
     
     def __init__(self, session: AsyncSession):
@@ -101,7 +105,12 @@ class ReportAIService:
         self.analysis_repo = ReportAIAnalysisRepository(session)
         self.attach_repo = ReportAttachmentRepository(session)
         self.model_name = settings.OPENAI_MODEL
-        self.client = OpenAI(api_key=settings.OPENAI_API_KEY)
+        # OPTIMIZED: Use AsyncOpenAI with timeout
+        self.client = AsyncOpenAI(
+            api_key=settings.OPENAI_API_KEY,
+            timeout=30.0,  # 30s timeout
+            max_retries=2,  # Retry on transient failures
+        )
     
     def _encode_image_to_base64(self, file_path: str) -> str | None:
         """Encode image file to base64 string."""
@@ -171,11 +180,12 @@ class ReportAIService:
         messages.append({"role": "user", "content": user_content})
         
         try:
-            response = self.client.chat.completions.create(
+            # OPTIMIZED: Use async client for non-blocking
+            response = await self.client.chat.completions.create(
                 model=self.model_name,
                 messages=messages,
                 response_format={"type": "json_object"},
-                # temperature removed - gpt-4.1-nano only supports default (1)
+                max_tokens=500,  # Limit response for speed
             )
             content = response.choices[0].message.content
             if not content:
@@ -183,7 +193,7 @@ class ReportAIService:
             result = json.loads(content)
         except Exception as e:
             # Fallback for error handling
-            print(f"AI Analysis Error: {e}")
+            print(f"[ReportAI] Analysis Error: {e}")
             result = {}
         
         severity_level = result.get("severity_level", "LOW")

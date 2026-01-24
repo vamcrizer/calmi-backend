@@ -103,13 +103,19 @@ class AIRiskDetectorService:
     """
     AI-powered risk detection service.
     Uses gpt-4.1-nano for fast and accurate classification.
+    
+    OPTIMIZED: Shorter timeout and limited tokens for speed.
     """
     
     def __init__(self):
+        # OPTIMIZED: Fast settings for classification task
         self.llm = ChatOpenAI(
             model="gpt-4.1-nano",
             temperature=0.3,  # Low temp for consistent classification
             openai_api_key=settings.OPENAI_API_KEY,
+            max_retries=1,  # Quick fail on error
+            timeout=10.0,  # 10s timeout - classification should be fast
+            max_tokens=200,  # JSON output is small
         )
         
         # Use Pydantic-based parser
@@ -183,12 +189,34 @@ class AIRiskDetectorService:
                 recommended_actions=["OPEN_EXERCISES"],
             )
     
-    async def analyze_async(self, text: str) -> RiskDetectionResult:
-        """Async version of analyze."""
+    async def analyze_async(
+        self, 
+        text: str,
+        conversation_summary: str | None = None,
+        last_risk_level: str | None = None,
+        last_risk_type: str | None = None,
+    ) -> RiskDetectionResult:
+        """
+        Async version of analyze with full context support.
+        Use this for parallel processing to avoid blocking.
+        """
         try:
             format_instructions = self.output_parser.get_format_instructions()
+            
+            # Build context string (same as sync version)
+            context_parts = []
+            if conversation_summary:
+                context_parts.append(f"Tóm tắt cuộc trò chuyện trước: {conversation_summary}")
+            if last_risk_level and last_risk_level not in ["LOW", "OTHER"]:
+                context_parts.append(f"Mức rủi ro trước đó: {last_risk_level}")
+            if last_risk_type and last_risk_type not in ["OTHER"]:
+                context_parts.append(f"Loại rủi ro trước đó: {last_risk_type}")
+            
+            conversation_context = "\n".join(context_parts) if context_parts else "(Không có context trước đó)"
+            
             messages = self.prompt.format_messages(
                 message=text,
+                conversation_context=conversation_context,
                 format_instructions=format_instructions,
             )
             
@@ -212,7 +240,7 @@ class AIRiskDetectorService:
             )
             
         except Exception as e:
-            print(f"[AI RISK DETECTOR ERROR] {e}")
+            print(f"[AI RISK DETECTOR ASYNC ERROR] {e}")
             import traceback
             traceback.print_exc()
             return RiskDetectionResult(
