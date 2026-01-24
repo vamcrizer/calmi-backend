@@ -365,20 +365,24 @@ class ChatService:
         
         # 9. Update user message with actual risk (if different)
         if final_risk.risk_level != optimistic_risk.risk_level:
+            # Serialize signals to JSON string for asyncpg
+            import json
+            signals_json = json.dumps({"matched": final_risk.signals}) if final_risk.signals else None
+            
             await self.db.execute(
                 text("""
                     UPDATE chat_messages 
                     SET risk_level = :risk_level, 
                         risk_type = :risk_type,
                         is_sensitive = :is_sensitive,
-                        signals = :signals
+                        signals = :signals::jsonb
                     WHERE id = :msg_id
                 """),
                 {
                     "risk_level": final_risk.risk_level,
                     "risk_type": final_risk.risk_type,
                     "is_sensitive": final_risk.is_sensitive,
-                    "signals": {"matched": final_risk.signals} if final_risk.signals else None,
+                    "signals": signals_json,
                     "msg_id": user_message.id,
                 }
             )
