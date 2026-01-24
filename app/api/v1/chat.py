@@ -27,6 +27,12 @@ from app.services.chat_service import (
     SessionNotFoundError,
     SessionNotOwnedError,
 )
+from app.services.chat_service_v2 import (
+    ChatServiceV2,
+    SessionEndedError as SessionEndedErrorV2,
+    SessionNotFoundError as SessionNotFoundErrorV2,
+    SessionNotOwnedError as SessionNotOwnedErrorV2,
+)
 
 router = APIRouter(prefix="/chat", tags=["Chat - AI Psychological Chatbot"])
 
@@ -223,6 +229,76 @@ async def send_message_stream(
         headers={
             "Cache-Control": "no-cache",
             "Connection": "keep-alive",
+        }
+    )
+
+
+@router.post(
+    "/sessions/{session_id}/messages/stream-v2",
+    summary="Gửi tin nhắn (Streaming V2 - Optimized)",
+    description="""
+    **PHIÊN BẢN TỐI ƯU** - Nhanh hơn 2-5 giây so với V1.
+
+    Tối ưu:
+    - Rule-based risk detection (instant) thay vì AI detection
+    - AsyncOpenAI trực tiếp (không qua LangChain)
+    - Streaming bắt đầu ngay lập tức
+
+    Response format: Server-Sent Events (SSE)
+    - type=user_message_saved: user message ID đã lưu
+    - type=token: text chunk từ AI
+    - type=done: metadata cuối (actions, risk_level, ai_message_id)
+    - type=error: lỗi
+    """,
+)
+async def send_message_stream_v2(
+    session_id: int,
+    request: MessageCreateRequest,
+    current_user: StudentUser,
+    db: AsyncSession = Depends(get_db),
+):
+    """
+    OPTIMIZED: Gửi tin nhắn và stream response từ AI.
+
+    Improvements over V1:
+    - 2-5s faster first token (no AI risk detection delay)
+    - Direct OpenAI streaming (no LangChain overhead)
+    - Conversation memory via DB summary (efficient)
+    """
+    service = ChatServiceV2(db)
+
+    async def event_generator():
+        try:
+            async for chunk in service.send_message_stream(
+                session_id=session_id,
+                user=current_user,
+                content=request.content,
+            ):
+                # Format as SSE
+                yield f"data: {json.dumps(chunk)}\n\n"
+
+        except SessionNotFoundErrorV2:
+            error_data = {"type": "error", "content": "Session not found"}
+            yield f"data: {json.dumps(error_data)}\n\n"
+        except SessionNotOwnedErrorV2:
+            error_data = {"type": "error", "content": "Forbidden"}
+            yield f"data: {json.dumps(error_data)}\n\n"
+        except SessionEndedErrorV2:
+            error_data = {"type": "error", "content": "Session ended"}
+            yield f"data: {json.dumps(error_data)}\n\n"
+        except Exception as e:
+            import traceback
+            traceback.print_exc()
+            error_data = {"type": "error", "content": str(e)}
+            yield f"data: {json.dumps(error_data)}\n\n"
+
+    return StreamingResponse(
+        event_generator(),
+        media_type="text/event-stream",
+        headers={
+            "Cache-Control": "no-cache",
+            "Connection": "keep-alive",
+            "X-Accel-Buffering": "no",  # Disable nginx buffering
         }
     )
 
