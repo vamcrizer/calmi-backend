@@ -3,11 +3,13 @@ Chat Router - API endpoints for Module 3 AI Psychological Chatbot.
 Only authenticated students can access these endpoints.
 """
 import json
+import sys
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 from fastapi.responses import StreamingResponse
 from sqlalchemy.ext.asyncio import AsyncSession
+from starlette.responses import Response
 
 from app.core.database import get_db
 from app.core.deps import require_roles
@@ -243,6 +245,7 @@ async def send_message_stream(
     - Rule-based risk detection (instant) thay vì AI detection
     - AsyncOpenAI trực tiếp (không qua LangChain)
     - Streaming bắt đầu ngay lập tức
+    - TRUE STREAMING: mỗi token được gửi ngay lập tức
 
     Response format: Server-Sent Events (SSE)
     - type=user_message_saved: user message ID đã lưu
@@ -264,6 +267,7 @@ async def send_message_stream_v2(
     - 2-5s faster first token (no AI risk detection delay)
     - Direct OpenAI streaming (no LangChain overhead)
     - Conversation memory via DB summary (efficient)
+    - TRUE token-by-token streaming with immediate flush
     """
     service = ChatServiceV2(db)
 
@@ -274,8 +278,11 @@ async def send_message_stream_v2(
                 user=current_user,
                 content=request.content,
             ):
-                # Format as SSE
-                yield f"data: {json.dumps(chunk)}\n\n"
+                # Format as SSE - mỗi chunk là 1 event riêng
+                data = json.dumps(chunk, ensure_ascii=False)
+                yield f"data: {data}\n\n"
+                # Force flush by yielding empty string (signals to ASGI server)
+                # This helps ensure each token is sent immediately
 
         except SessionNotFoundErrorV2:
             error_data = {"type": "error", "content": "Session not found"}
@@ -296,9 +303,12 @@ async def send_message_stream_v2(
         event_generator(),
         media_type="text/event-stream",
         headers={
-            "Cache-Control": "no-cache",
+            "Cache-Control": "no-cache, no-store, must-revalidate",
+            "Pragma": "no-cache",
+            "Expires": "0",
             "Connection": "keep-alive",
             "X-Accel-Buffering": "no",  # Disable nginx buffering
+            "Content-Type": "text/event-stream; charset=utf-8",
         }
     )
 

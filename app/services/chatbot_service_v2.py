@@ -8,6 +8,7 @@ OPTIMIZATIONS:
 3. Conversation context: 5 messages gần nhất + summary của messages cũ hơn
 4. Prompt rút gọn để giảm tokens
 5. Summary được tạo async sau khi stream xong (không block user)
+6. HTTP/2 với connection pooling để giảm latency
 
 MEMORY STRATEGY:
 - Giữ 5 messages gần nhất trong context (đầy đủ)
@@ -17,6 +18,7 @@ MEMORY STRATEGY:
 from dataclasses import dataclass
 from typing import AsyncGenerator, Optional
 
+import httpx
 from openai import AsyncOpenAI
 
 from app.core.config import get_settings
@@ -30,6 +32,30 @@ RECENT_MESSAGES_LIMIT = 5
 
 # Threshold để tạo summary mới (khi có nhiều hơn N messages)
 SUMMARY_THRESHOLD = 8
+
+# Shared HTTP client với HTTP/2 và connection pooling
+_http_client: httpx.AsyncClient | None = None
+
+
+def _get_http_client() -> httpx.AsyncClient:
+    """Get shared httpx client with HTTP/2 support."""
+    global _http_client
+    if _http_client is None:
+        _http_client = httpx.AsyncClient(
+            http2=True,  # HTTP/2 multiplexing
+            limits=httpx.Limits(
+                max_keepalive_connections=20,
+                max_connections=50,
+                keepalive_expiry=60.0,
+            ),
+            timeout=httpx.Timeout(
+                connect=5.0,
+                read=60.0,  # Longer for streaming
+                write=10.0,
+                pool=10.0,
+            ),
+        )
+    return _http_client
 
 
 @dataclass
@@ -66,12 +92,13 @@ class ChatbotServiceV2:
 
     @property
     def client(self) -> AsyncOpenAI:
-        """Lazy init AsyncOpenAI client."""
+        """Lazy init AsyncOpenAI client với HTTP/2."""
         if self._client is None:
             self._client = AsyncOpenAI(
                 api_key=settings.OPENAI_API_KEY,
-                timeout=30.0,
-                max_retries=2,
+                http_client=_get_http_client(),  # HTTP/2 + connection pooling
+                timeout=60.0,
+                max_retries=1,  # Giảm retry để không chậm thêm
             )
         return self._client
 
@@ -360,6 +387,9 @@ class ChatbotServiceV2:
         Yields:
             dict with 'type' ('token', 'done', 'error') and 'content'
         """
+        import time
+        start_time = time.time()
+
         # Build messages với summary cũ
         messages = self._build_messages(
             user_message=user_message,
@@ -370,6 +400,7 @@ class ChatbotServiceV2:
         )
 
         full_response = ""
+        first_token_time = None
 
         try:
             # Stream trực tiếp từ OpenAI
@@ -381,11 +412,23 @@ class ChatbotServiceV2:
                 stream=True,
             )
 
+            print(f"[STREAM] OpenAI stream created in {time.time() - start_time:.2f}s")
+
+            token_count = 0
             async for chunk in stream:
                 if chunk.choices and chunk.choices[0].delta.content:
                     token = chunk.choices[0].delta.content
                     full_response += token
+                    token_count += 1
+
+                    if first_token_time is None:
+                        first_token_time = time.time()
+                        print(f"[STREAM] First token received in {first_token_time - start_time:.2f}s")
+
+                    # Yield NGAY LẬP TỨC mỗi token
                     yield {"type": "token", "content": token}
+
+            print(f"[STREAM] Total {token_count} tokens in {time.time() - start_time:.2f}s")
 
             # Tạo summary mới nếu cần (không block - chạy nhanh)
             new_summary = None
