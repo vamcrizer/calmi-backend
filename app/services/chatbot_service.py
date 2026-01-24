@@ -46,28 +46,18 @@ class ChatbotResponse:
     conversation_summary: Optional[str] = None  # Summary để lưu vào DB
 
 
-# System prompt for the AI chatbot
-CHATBOT_SYSTEM_PROMPT = """Bạn là Calmi, một trợ lý tâm lý thân thiện và hỗ trợ cho học sinh. 
+# OPTIMIZED: Rút gọn system prompt để giảm tokens (nhanh hơn trên mạng chậm)
+CHATBOT_SYSTEM_PROMPT = """Bạn là Calmi - trợ lý tâm lý cho học sinh.
 
-QUY TẮC QUAN TRỌNG:
-- Luôn đồng cảm và thấu hiểu
-- Không bao giờ phán xét
-- **Luôn trả lời câu hỏi của học sinh dựa trên lịch sử trò chuyện (nếu có)**
-- Không đưa ra lời khuyên y tế/chẩn đoán bệnh, NHƯNG có thể cung cấp thông tin chung (ví dụ: dấu hiệu phổ biến) nếu được hỏi.
-- Sử dụng ngôn ngữ nhẹ nhàng, phù hợp với học sinh
-- Trả lời ngắn gọn (2-4 câu)
+QUY TẮC:
+• Đồng cảm, không phán xét
+• Trả lời ngắn 2-3 câu
+• Dựa vào lịch sử chat nếu có
+• Ngôn ngữ nhẹ nhàng, phù hợp học sinh
 
-KHI PHÁT HIỆN RỦI RO CAO/KHẨN CẤP:
-- Vẫn trả lời câu hỏi của học sinh (nếu có) nhưng kèm lời khuyên tìm trợ giúp
-- Khuyến khích nói chuyện với người lớn tin tưởng
-- Đề nghị gọi đường dây hỗ trợ
-- KHÔNG hỏi thêm chi tiết về ý định tự hại
-- Giữ bình tĩnh, không hoảng loạn
+RỦI RO CAO: Khuyến khích tìm người lớn hỗ trợ, KHÔNG hỏi chi tiết tự hại.
 
-ĐIỀU CHỈNH TONE DỰA TRÊN NHẬT KÝ CẢM XÚC:
-- Nếu học sinh đang trải qua nhiều ngày buồn/stress: mềm mại hơn, đồng cảm hơn, nhẹ nhàng hơn
-- Nếu học sinh đang vui vẻ: tích cực, khuyến khích duy trì năng lượng tốt
-- Nếu cảm xúc lên xuống thất thường: hỏi về nguyên nhân một cách nhẹ nhàng"""
+TONE: Điều chỉnh theo nhật ký cảm xúc - buồn→nhẹ nhàng hơn, vui→khuyến khích."""
 
 
 class ChatbotService:
@@ -75,29 +65,29 @@ class ChatbotService:
     AI-powered chatbot với LangChain conversation memory.
     Sử dụng summary thay vì lưu toàn bộ messages.
     
-    OPTIMIZED: Added connection pooling and timeout settings.
+    OPTIMIZED: Reduced prompt size and max_tokens for faster response on slow networks.
     """
     
     def __init__(self):
-        # OPTIMIZED: ChatOpenAI with connection settings for faster response
+        # OPTIMIZED: Reduced max_tokens for faster streaming on slow networks
         self.llm = ChatOpenAI(
             model="gpt-4.1-nano",
             temperature=0.7,
             openai_api_key=settings.OPENAI_API_KEY,
-            max_retries=2,  # Retry on transient failures
-            timeout=30.0,  # 30s timeout
-            max_tokens=500,  # Limit response length for speed
-            streaming=True,  # Enable streaming by default
+            max_retries=2,
+            timeout=25.0,  # Reduced timeout
+            max_tokens=300,  # Shorter responses = faster delivery
+            streaming=True,
         )
         
-        # Summary LLM - lighter settings for faster summarization
+        # Summary LLM - minimal settings
         self.summary_llm = ChatOpenAI(
             model="gpt-4.1-nano",
-            temperature=0.5,  # Lower temp for more consistent summaries
+            temperature=0.5,
             openai_api_key=settings.OPENAI_API_KEY,
             max_retries=1,
-            timeout=15.0,  # Faster timeout for summaries
-            max_tokens=150,  # Summaries should be short
+            timeout=10.0,  # Faster timeout
+            max_tokens=100,  # Very short summaries
         )
         
         # Cache của memory theo session_id

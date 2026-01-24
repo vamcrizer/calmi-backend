@@ -1,8 +1,8 @@
 """
-Shared OpenAI client with connection pooling.
-Reuses connections across requests for better performance.
+Shared OpenAI client with connection pooling and HTTP/2 support.
+Reuses connections across requests for better performance on slow networks.
 
-OPTIMIZED: Single client instance with httpx connection pool.
+OPTIMIZED: HTTP/2 multiplexing, aggressive keepalive, reduced timeouts.
 """
 from functools import lru_cache
 
@@ -13,18 +13,19 @@ from app.core.config import get_settings
 
 settings = get_settings()
 
-# Shared httpx client with connection pooling
+# OPTIMIZED: Shared httpx client with HTTP/2 support
 _http_client = httpx.AsyncClient(
+    http2=True,  # Enable HTTP/2 for multiplexed connections
     limits=httpx.Limits(
-        max_keepalive_connections=20,  # Keep 20 connections alive
-        max_connections=50,  # Max 50 concurrent connections
-        keepalive_expiry=30.0,  # Keep connections for 30s
+        max_keepalive_connections=30,  # More keepalive connections
+        max_connections=100,  # More concurrent connections
+        keepalive_expiry=60.0,  # Keep connections longer (60s)
     ),
     timeout=httpx.Timeout(
-        connect=5.0,  # 5s to connect
-        read=60.0,  # 60s to read (for streaming)
-        write=10.0,  # 10s to write
-        pool=10.0,  # 10s to get connection from pool
+        connect=3.0,  # Faster connect timeout (3s)
+        read=45.0,  # Read timeout for streaming
+        write=5.0,  # Faster write timeout
+        pool=5.0,  # Faster pool timeout
     ),
 )
 
@@ -34,26 +35,28 @@ def get_async_openai_client() -> AsyncOpenAI:
     """
     Get shared AsyncOpenAI client (cached singleton).
     
-    Uses connection pooling for faster subsequent requests.
+    Uses HTTP/2 and connection pooling for faster subsequent requests.
     """
     return AsyncOpenAI(
         api_key=settings.OPENAI_API_KEY,
         http_client=_http_client,
         max_retries=2,
-        timeout=30.0,
+        timeout=25.0,  # Reduced timeout
     )
 
 
-# Convenience function for chat completions
 async def quick_chat_completion(
     messages: list[dict],
     model: str = None,
-    max_tokens: int = 500,
+    max_tokens: int = 300,  # Reduced default
     response_format: dict = None,
+    stream: bool = False,
 ) -> str:
     """
     Quick helper for simple chat completions.
     Uses shared client for connection reuse.
+    
+    For streaming, set stream=True and iterate over result.
     """
     client = get_async_openai_client()
     
@@ -61,10 +64,16 @@ async def quick_chat_completion(
         "model": model or settings.OPENAI_MODEL,
         "messages": messages,
         "max_tokens": max_tokens,
+        "stream": stream,
     }
     
     if response_format:
         kwargs["response_format"] = response_format
     
-    response = await client.chat.completions.create(**kwargs)
-    return response.choices[0].message.content or ""
+    if stream:
+        # Return async generator for streaming
+        return await client.chat.completions.create(**kwargs)
+    else:
+        response = await client.chat.completions.create(**kwargs)
+        return response.choices[0].message.content or ""
+

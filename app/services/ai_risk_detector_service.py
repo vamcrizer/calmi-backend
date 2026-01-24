@@ -28,75 +28,40 @@ class RiskDetectionResult:
 
 # Pydantic model for structured output
 class RiskAnalysis(BaseModel):
-    risk_level: str = Field(description="Mức độ rủi ro: LOW, MEDIUM, HIGH, hoặc CRITICAL")
-    risk_type: str = Field(description="Loại rủi ro: SELF_HARM, VIOLENCE, BULLYING, CYBER_BULLYING, EMOTIONAL, hoặc OTHER")
-    signals: list[str] = Field(description="Danh sách các dấu hiệu phát hiện được")
-    is_sensitive: bool = Field(description="true nếu nội dung nhạy cảm, false nếu không")
-    recommended_actions: list[str] = Field(description="Danh sách hành động đề xuất")
-    reasoning: str = Field(description="Giải thích ngắn gọn lý do đánh giá")
+    risk_level: str = Field(description="LOW, MEDIUM, HIGH, CRITICAL")
+    risk_type: str = Field(description="SELF_HARM, VIOLENCE, BULLYING, CYBER_BULLYING, EMOTIONAL, OTHER")
+    signals: list[str] = Field(description="Detected risk signals")
+    is_sensitive: bool = Field(description="true if sensitive content")
+    recommended_actions: list[str] = Field(description="Actions to recommend")
+    reasoning: str = Field(description="Brief explanation")
 
 
-# Prompt for AI to analyze risk WITH conversation context
-RISK_ANALYSIS_PROMPT = """Bạn là hệ thống phân tích rủi ro cho học sinh. Phân tích tin nhắn và xác định mức độ rủi ro.
+# OPTIMIZED: Condensed prompt for faster processing
+RISK_ANALYSIS_PROMPT = """Phân tích tin nhắn học sinh và xác định rủi ro.
 
-TIN NHẮN HIỆN TẠI:
-"{message}"
+TIN NHẮN: "{message}"
 
-CONTEXT CUỘC TRÒ CHUYỆN (nếu có):
-{conversation_context}
+CONTEXT: {conversation_context}
 
-ĐẶC BIỆT QUAN TRỌNG:
-- Nếu có conversation context cho thấy học sinh đang gặp vấn đề nghiêm trọng (bị đánh, bị bắt nạt, trầm cảm...), 
-  thì PHẢI giữ nguyên mức rủi ro và recommended actions tương ứng, NGAY CẢ KHI tin nhắn hiện tại không chứa keywords.
-- Ví dụ: Nếu context là "học sinh nói bị đánh" và tin nhắn hiện tại là "vậy mình phải làm gì", 
-  vẫn phải đề xuất OPEN_REPORT_MODULE vì context vẫn liên quan đến violence/bullying.
+LƯU Ý QUAN TRỌNG: Nếu context có vấn đề nghiêm trọng (bị đánh, bắt nạt, trầm cảm), GIỮ NGUYÊN mức rủi ro cao và actions tương ứng.
 
-QUY TẮC ĐÁNH GIÁ:
+MỨC ĐỘ:
+• CRITICAL: Tự tử, tự hại, xâm hại tình dục, bạo hành nghiêm trọng → OPEN_SOS_MODULE
+• HIGH: Bị đánh, đe dọa, trầm cảm, cyberbullying nặng → OPEN_SOS_MODULE + OPEN_REPORT_MODULE
+• MEDIUM: Bắt nạt, cô lập, xung đột, quấy rối → OPEN_REPORT_MODULE
+• LOW: Buồn, stress, lo lắng → OPEN_EXERCISES hoặc OPEN_EMOTION_DIARY
 
-**CRITICAL** (Khẩn cấp - Cần can thiệp ngay):
-- Ý định tự tử, tự làm đau bản thân
-- Bị xâm hại tình dục
-- Đang bị bạo hành nghiêm trọng
+LOẠI RỦI RO: SELF_HARM, VIOLENCE, BULLYING, CYBER_BULLYING, EMOTIONAL, OTHER
 
-**HIGH** (Nghiêm trọng):
-- Đe dọa bạo lực trực tiếp (online hoặc offline)
-- Bị đánh, bị thương
-- Sợ hãi về an toàn bản thân
-- Bị quấy rối tình dục
-- Cyberbullying nghiêm trọng (đe dọa, lan truyền ảnh/video, tống tiền)
-- **Trầm cảm**, rối loạn lo âu nặng, các vấn đề tâm lý nghiêm trọng
-- Cảm giác vô vọng kéo dài
+HÀNH ĐỘNG (chọn 1-2 phù hợp):
+• OPEN_SOS_MODULE: Khẩn cấp, cần người lớn can thiệp (CRITICAL/HIGH)
+• OPEN_REPORT_MODULE: Cần báo cáo sự việc (bị đánh, bắt nạt, quấy rối, đe dọa)
+• OPEN_EXERCISES: Thư giãn, giảm stress
+• OPEN_EMOTION_DIARY: Ghi chép cảm xúc
 
-**MEDIUM** (Cần hỗ trợ):
-- Bị bắt nạt (trực tiếp hoặc online)
-- Bị cô lập, tẩy chay
-- Bị nói xấu, chửi bới
-- Bị quấy rối online (nhắn tin liên tục, theo dõi)
-- Xung đột nghiêm trọng với bạn bè/gia đình
-- Thay đổi tính nết, thu mình lại
+VÍ DỤ: "bị đánh" → HIGH, VIOLENCE, [OPEN_SOS_MODULE, OPEN_REPORT_MODULE]
 
-**LOW** (Hỗ trợ cảm xúc):
-- Buồn, chán, mệt mỏi
-- Lo lắng về học tập
-- Cảm thấy cô đơn
-- Stress bình thường
-
-LOẠI RỦI RO:
-- SELF_HARM: Tự làm hại bản thân (bao gồm cả ý nghĩ tự tử tiềm ẩn)
-- VIOLENCE: Bạo lực thể chất
-- BULLYING: Bắt nạt trực tiếp
-- CYBER_BULLYING: Bắt nạt qua mạng, đe dọa online
-- EMOTIONAL: Vấn đề cảm xúc, trầm cảm, lo âu
-- OTHER: Khác
-
-HÀNH ĐỘNG ĐỀ XUẤT (chọn 1-3 phù hợp nhất dựa trên CONTEXT + tin nhắn hiện tại):
-- OPEN_SOS_MODULE: Khi cần gọi trợ giúp khẩn cấp hoặc hỗ trợ chuyên sâu (CRITICAL/HIGH/Trầm cảm)
-- OPEN_REPORT_MODULE: Khi cần báo cáo sự việc (bắt nạt, quấy rối, đe dọa, bị đánh)
-- OPEN_EXERCISES: Gợi ý bài tập thư giãn (stress, lo lắng)
-- OPEN_EMOTION_DIARY: Gợi ý viết nhật ký cảm xúc (buồn, cô đơn)
-
-{format_instructions}
-"""
+{format_instructions}"""
 
 
 class AIRiskDetectorService:
