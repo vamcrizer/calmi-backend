@@ -24,17 +24,7 @@ async def get_current_user(
     """
     Dependency de lay user hien tai tu access token.
     
-    Quy trinh:
-    1. Doc Bearer token tu header Authorization
-    2. Decode JWT
-    3. Load user tu database
-    4. Kiem tra user active
-    
-    Raises:
-        HTTPException 401: Neu token khong hop le hoac user khong ton tai
-        
-    Returns:
-        User instance
+    OPTIMIZED: Cache user object for 5 min to avoid DB query per request.
     """
     # Kiem tra co token khong
     if not credentials:
@@ -62,7 +52,14 @@ async def get_current_user(
             headers={"WWW-Authenticate": "Bearer"},
         )
     
-    # Load user tu database
+    # OPTIMIZED: Check user cache first (saves ~2s DB roundtrip)
+    from app.core.cache import cache
+    cache_key = f"auth:user:{user_id}"
+    cached_user = cache.get(cache_key)
+    if cached_user is not None:
+        return cached_user
+    
+    # Load user tu database (only on cache miss)
     user_repo = UserRepository(db)
     user = await user_repo.get_active_user_by_id(int(user_id))
     
@@ -72,6 +69,9 @@ async def get_current_user(
             detail="Nguoi dung khong ton tai hoac da bi vo hieu hoa",
             headers={"WWW-Authenticate": "Bearer"},
         )
+    
+    # Cache user for 5 minutes
+    cache.set(cache_key, user, ttl=300)
     
     return user
 

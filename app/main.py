@@ -32,9 +32,9 @@ async def lifespan(app: FastAPI):
     try:
         from app.core.openai_client import get_async_openai_client
         client = get_async_openai_client()
-        print("[Calmi] ✓ OpenAI client initialized with connection pool")
+        print("[Calmi] [OK] OpenAI client initialized with connection pool")
     except Exception as e:
-        print(f"[Calmi] ⚠ OpenAI client warmup failed: {e}")
+        print(f"[Calmi] [WARN] OpenAI client warmup failed: {e}")
     
     yield
     
@@ -61,10 +61,14 @@ def create_app() -> FastAPI:
     # OPTIMIZED: GZip compression for smaller payload sizes
     app.add_middleware(GZipMiddleware, minimum_size=500)
     
-    # Cau hinh CORS
+    # Timing middleware - đo thời gian xử lý request
+    from app.middleware.timing import TimingMiddleware
+    app.add_middleware(TimingMiddleware)
+    
+    # Cau hinh CORS - cho phep moi origin
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=settings.cors_origins_list,
+        allow_origins=["*"],
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],
@@ -85,6 +89,19 @@ def create_app() -> FastAPI:
             },
             message="He thong hoat dong binh thuong",
         )
+    
+    @app.get("/cache-stats", tags=["Health"])
+    async def cache_stats():
+        """Xem thong ke cache (hit rate, size, etc)."""
+        from app.core.cache import cache
+        return api_response(data=cache.stats())
+    
+    @app.delete("/cache-clear", tags=["Health"])
+    async def cache_clear():
+        """Xoa toan bo cache (dung khi debug)."""
+        from app.core.cache import cache
+        cache.clear()
+        return api_response(data={"cleared": True})
     
     return app
 

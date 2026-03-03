@@ -89,12 +89,13 @@ async def list_sessions(
     offset: int = Query(default=0, ge=0),
     db: AsyncSession = Depends(get_db),
 ):
-    """
-    Lấy danh sách phiên chat của học sinh.
+    """Lấy danh sách phiên chat của học sinh. (Cached 2 min)"""
+    from app.core.cache import cache
+    cache_key = f"chat:{current_user.id}:sessions:{limit}:{offset}"
+    cached = cache.get(cache_key)
+    if cached is not None:
+        return cached
     
-    - Có phân trang
-    - Sắp xếp theo thời gian bắt đầu mới nhất
-    """
     service = ChatService(db)
     result = await service.list_sessions(current_user, limit, offset)
     
@@ -109,12 +110,14 @@ async def list_sessions(
         for s in result.sessions
     ]
     
-    return api_response(
+    response = api_response(
         data={
             "sessions": sessions_data,
             "total": result.total,
         },
     )
+    cache.set(cache_key, response, ttl=120)
+    return response
 
 
 # ==========================================

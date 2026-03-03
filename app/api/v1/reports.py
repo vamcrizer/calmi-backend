@@ -166,16 +166,20 @@ async def list_my_reports(
     current_user: User = Depends(require_roles("STUDENT")),
     service: ReportService = Depends(get_report_service),
 ):
-    """
-    List reports submitted by current student.
+    """List reports submitted by current student. (Cached 2 min)"""
+    from app.core.cache import cache
+    cache_key = f"reports:{current_user.id}:my:{skip}:{limit}"
+    cached = cache.get(cache_key)
+    if cached is not None:
+        return cached
     
-    Only shows reports where reporter_user_id matches.
-    """
     reports = await service.list_student_reports(current_user, skip, limit)
-    return api_list_response(
+    response = api_list_response(
         data=[ReportStudentRead.model_validate(r) for r in reports],
         message="Lay danh sach bao cao thanh cong",
     )
+    cache.set(cache_key, response, ttl=120)
+    return response
 
 
 @router.get("/{report_id}")

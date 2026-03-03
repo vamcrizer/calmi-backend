@@ -51,12 +51,13 @@ async def list_contents(
     offset: int = Query(default=0, ge=0),
     db: AsyncSession = Depends(get_db),
 ):
-    """
-    Lấy danh sách nội dung giáo dục.
+    """Lấy danh sách nội dung giáo dục. (Cached 5 min)"""
+    from app.core.cache import cache
+    cache_key = f"edu:contents:{content_type}:{topic}:{limit}:{offset}"
+    cached = cache.get(cache_key)
+    if cached is not None:
+        return cached
     
-    - Có thể lọc theo loại nội dung (content_type) và chủ đề (topic)
-    - Chỉ trả về nội dung đang active
-    """
     service = EducationService(db)
     result = await service.list_contents(
         content_type=content_type,
@@ -77,12 +78,14 @@ async def list_contents(
         for c in result.contents
     ]
     
-    return api_response(
+    response = api_response(
         data={
             "contents": contents_data,
             "total": result.total,
         },
     )
+    cache.set(cache_key, response, ttl=300)
+    return response
 
 
 @router.get(
@@ -314,18 +317,19 @@ async def get_daily_message(
     current_user: StudentUser,
     db: AsyncSession = Depends(get_db),
 ):
-    """
-    Lấy lời nhắn tích cực của ngày hôm nay.
+    """Lấy lời nhắn tích cực hôm nay. (Cached 5 min)"""
+    from app.core.cache import cache
+    cache_key = f"edu:daily:{current_user.id}"
+    cached = cache.get(cache_key)
+    if cached is not None:
+        return cached
     
-    - Mỗi ngày có một lời nhắn khác nhau
-    - Kiểm tra xem học sinh đã phản hồi chưa
-    """
     service = EducationService(db)
     
     try:
         result = await service.get_daily_message(current_user)
         
-        return api_response(
+        response = api_response(
             data={
                 "id": result.id,
                 "message_text": result.message_text,
@@ -334,6 +338,8 @@ async def get_daily_message(
                 "my_response": result.my_response,
             },
         )
+        cache.set(cache_key, response, ttl=300)
+        return response
     
     except NoMessageTodayError:
         raise HTTPException(
@@ -400,18 +406,17 @@ async def get_learning_history(
     current_user: StudentUser,
     db: AsyncSession = Depends(get_db),
 ):
-    """
-    Lấy lịch sử học tập.
+    """Lấy lịch sử học tập. (Cached 2 min)"""
+    from app.core.cache import cache
+    cache_key = f"edu:history:{current_user.id}"
+    cached = cache.get(cache_key)
+    if cached is not None:
+        return cached
     
-    - Bài tập đã làm
-    - Sách đã đọc
-    - Game đã chơi
-    - Tổng điểm thưởng
-    """
     service = EducationService(db)
     result = await service.get_learning_history(current_user)
     
-    return api_response(
+    response = api_response(
         data={
             "exercises": [
                 {
@@ -451,3 +456,5 @@ async def get_learning_history(
             "total_points": result.total_points,
         },
     )
+    cache.set(cache_key, response, ttl=120)
+    return response

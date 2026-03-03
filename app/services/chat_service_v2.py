@@ -11,6 +11,7 @@ Flow mới:
 User gửi tin → Rule-based risk (instant) → Stream từ OpenAI ngay
 """
 import asyncio
+import logging
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -41,6 +42,8 @@ from app.services.risk_detector_service import (
     get_risk_detector,
 )
 from app.services.chatbot_service_v2 import get_chatbot_service_v2
+
+logger = logging.getLogger(__name__)
 
 
 class ChatServiceError(Exception):
@@ -155,7 +158,7 @@ class ChatServiceV2:
         if chat_session.status == "ENDED":
             raise SessionEndedError("Cannot send message to ended session")
 
-        print(f"[V2] Session validated in {time.time() - start_time:.3f}s")
+        logger.debug(f"[ChatV2] Session validated in {time.time() - start_time:.3f}s")
 
         # 2. INSTANT: Rule-based risk detection (regex patterns, <1ms)
         risk_result = self.risk_detector.analyze(content)
@@ -166,7 +169,7 @@ class ChatServiceV2:
                 risk_result.risk_type
             )
 
-        print(f"[V2] Risk detection done in {time.time() - start_time:.3f}s")
+        logger.debug(f"[ChatV2] Risk detection done in {time.time() - start_time:.3f}s")
 
         # 3. PARALLEL: Fetch history and mood WHILE preparing stream
         # Không await ngay - để chạy song song
@@ -180,7 +183,7 @@ class ChatServiceV2:
         # 4. Await history/mood (should be fast - simple queries)
         history, mood_entries = await asyncio.gather(history_task, mood_task)
 
-        print(f"[V2] DB queries done in {time.time() - start_time:.3f}s")
+        logger.debug(f"[ChatV2] DB queries done in {time.time() - start_time:.3f}s")
 
         mood_history = [
             {
@@ -201,7 +204,7 @@ class ChatServiceV2:
         new_summary = None
         actions = []
 
-        print(f"[V2] Starting OpenAI stream at {time.time() - start_time:.3f}s")
+        logger.debug(f"[ChatV2] Starting OpenAI stream at {time.time() - start_time:.3f}s")
 
         async for chunk in self.chatbot.generate_reply_stream_with_memory(
             session=chat_session,
@@ -223,7 +226,7 @@ class ChatServiceV2:
                 yield chunk
                 return
 
-        print(f"[V2] Stream completed in {time.time() - start_time:.3f}s")
+        logger.debug(f"[ChatV2] Stream completed in {time.time() - start_time:.3f}s")
 
         # 6. SAU KHI STREAM XONG: Save messages (background-ish)
         # User đã thấy response rồi, giờ mới save
@@ -270,7 +273,7 @@ class ChatServiceV2:
 
         await self.db.commit()
 
-        print(f"[V2] All done in {time.time() - start_time:.3f}s")
+        logger.debug(f"[ChatV2] All done in {time.time() - start_time:.3f}s")
 
         # 8. Send final response
         yield {

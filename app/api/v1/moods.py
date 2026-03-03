@@ -1,5 +1,7 @@
 """
 Router for Mood Tracking - Student emotion diary.
+
+OPTIMIZED: In-memory caching for all GET endpoints.
 """
 from datetime import date, datetime, timedelta, timezone
 
@@ -8,6 +10,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.database import get_db
 from app.core.deps import get_current_user
+from app.core.cache import cache
 from app.models.user import User
 from app.schemas.common import api_list_response, api_response
 from app.schemas.mood import (
@@ -20,6 +23,10 @@ from app.schemas.mood import (
 from app.services.mood_service import MoodService
 
 router = APIRouter(prefix="/moods", tags=["Moods - Emotion Diary"])
+
+# Cache TTLs
+MOOD_CACHE_TTL = 120       # 2 phút cho mood data
+AI_SUMMARY_CACHE_TTL = 600  # 10 phút cho AI summary (tốn tiền OpenAI)
 
 
 def get_mood_service(db: AsyncSession = Depends(get_db)) -> MoodService:
@@ -35,11 +42,12 @@ async def create_mood_entry(
 ):
     """
     Create or update mood entry for current user.
-    
-    If entry exists for the date, updates it.
-    Student can check-in once per day.
+    Invalidates cache after write.
     """
     entry = await service.create_or_update_mood(current_user, data)
+    
+    # Invalidate tất cả mood cache của user này
+    cache.delete_pattern(f"moods:{current_user.id}:*")
     
     return api_response(
         data=MoodEntryRead.model_validate(entry).model_dump(),
@@ -56,7 +64,12 @@ async def get_my_moods(
     current_user: User = Depends(get_current_user),
     service: MoodService = Depends(get_mood_service),
 ):
-    """Get mood history for current user."""
+    """Get mood history for current user. (Cached 2 min)"""
+    cache_key = f"moods:{current_user.id}:my:{from_date}:{to_date}:{limit}"
+    cached_data = cache.get(cache_key)
+    if cached_data is not None:
+        return cached_data
+    
     entries = await service.get_mood_history(
         current_user,
         from_date=from_date,
@@ -64,10 +77,12 @@ async def get_my_moods(
         limit=limit
     )
     
-    return api_list_response(
+    result = api_list_response(
         data=[MoodEntryRead.model_validate(e).model_dump() for e in entries],
         message="Lay lich su cam xuc thanh cong",
     )
+    cache.set(cache_key, result, ttl=MOOD_CACHE_TTL)
+    return result
 
 
 @router.get("/stats")
@@ -76,23 +91,25 @@ async def get_mood_stats(
     current_user: User = Depends(get_current_user),
     service: MoodService = Depends(get_mood_service),
 ):
-    """
-    Get mood statistics for last N days.
+    """Get mood statistics for last N days. (Cached 2 min)"""
+    cache_key = f"moods:{current_user.id}:stats:{days}"
+    cached_data = cache.get(cache_key)
+    if cached_data is not None:
+        return cached_data
     
-    Returns daily mood values and average.
-    """
     stats_data = await service.get_stats(current_user, days)
     
-    # Convert to response model
     response = MoodStatsResponse(
         stats=[MoodStatsDay(**s) for s in stats_data["stats"]],
         average=stats_data["average"]
     )
     
-    return api_response(
+    result = api_response(
         data=response.model_dump(),
         message="Lay thong ke cam xuc thanh cong",
     )
+    cache.set(cache_key, result, ttl=MOOD_CACHE_TTL)
+    return result
 
 
 @router.get("/streak")
@@ -100,19 +117,21 @@ async def get_mood_streak(
     current_user: User = Depends(get_current_user),
     service: MoodService = Depends(get_mood_service),
 ):
-    """
-    Get consecutive days streak.
+    """Get consecutive days streak. (Cached 2 min)"""
+    cache_key = f"moods:{current_user.id}:streak"
+    cached_data = cache.get(cache_key)
+    if cached_data is not None:
+        return cached_data
     
-    Returns count and whether streak is active.
-    """
     streak_data = await service.get_streak(current_user)
-    
     response = MoodStreakResponse(**streak_data)
     
-    return api_response(
+    result = api_response(
         data=response.model_dump(),
         message="Lay chuoi ngay lien tuc thanh cong",
     )
+    cache.set(cache_key, result, ttl=MOOD_CACHE_TTL)
+    return result
 
 
 @router.get("/ai-summary")
@@ -121,23 +140,23 @@ async def get_ai_mood_summary(
     service: MoodService = Depends(get_mood_service),
     db: AsyncSession = Depends(get_db),
 ):
-    """
-    AI-generated weekly mood summary.
+    """AI-generated weekly mood summary. (Cached 10 min — tốn OpenAI credit)"""
+    cache_key = f"moods:{current_user.id}:ai_summary"
+    cached_data = cache.get(cache_key)
+    if cached_data is not None:
+        return cached_data
     
-    Analyzes last 7 days of mood data and provides personalized feedback.
-    """
     try:
         # Get mood data
         stats = await service.get_stats(current_user, days=7)
         streak = await service.get_streak(current_user)
         
-        # Prepare data for AI
         mood_data = stats.get("stats", [])
         average = stats.get("average", 0)
         streak_count = streak.get("count", 0)
         
         if not mood_data or average == 0:
-            return api_response(
+            result = api_response(
                 data={
                     "summary": "Chào bạn! Calmi chưa có đủ dữ liệu cảm xúc của bạn. Hãy check-in mỗi ngày để Calmi có thể hiểu bạn hơn nhé! 💚",
                     "emoji": "🤗",
@@ -146,6 +165,8 @@ async def get_ai_mood_summary(
                 },
                 message="AI summary generated",
             )
+            cache.set(cache_key, result, ttl=AI_SUMMARY_CACHE_TTL)
+            return result
         
         # Generate AI summary
         from app.core.openai_client import quick_chat_completion
@@ -184,7 +205,7 @@ Yêu cầu:
                 emoji = "📈"
             elif recent_avg < older_avg - 0.3:
                 trend = "down"
-                emoji = "💚"  # Still positive, supportive
+                emoji = "💚"
             else:
                 trend = "stable"
                 emoji = "✨"
@@ -192,7 +213,7 @@ Yêu cầu:
             trend = "neutral"
             emoji = "🌟"
         
-        return api_response(
+        result = api_response(
             data={
                 "summary": ai_summary.strip(),
                 "emoji": emoji,
@@ -203,6 +224,8 @@ Yêu cầu:
             },
             message="AI summary generated",
         )
+        cache.set(cache_key, result, ttl=AI_SUMMARY_CACHE_TTL)
+        return result
         
     except Exception as e:
         print(f"AI Summary error: {e}")
@@ -215,4 +238,3 @@ Yêu cầu:
             },
             message="Default summary",
         )
-

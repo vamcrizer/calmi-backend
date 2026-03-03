@@ -2,7 +2,7 @@
 Cau hinh ket noi database PostgreSQL voi async SQLAlchemy.
 Cung cap session maker va dependency injection cho FastAPI.
 
-OPTIMIZED: Connection pooling for better performance.
+OPTIMIZED: Connection pooling + keep direct connection (port 5432 faster than pooler).
 """
 from typing import AsyncGenerator
 
@@ -12,21 +12,20 @@ from app.core.config import get_settings
 
 settings = get_settings()
 
-# OPTIMIZED: Async engine với connection pool settings
+# Direct connection (port 5432) - faster than Supabase pooler for our use case
 engine = create_async_engine(
     settings.DATABASE_URL,
-    echo=settings.DEBUG,
+    echo=False,  # Disable SQL echo even in debug (reduces log noise)
     future=True,
     # Connection pool optimization
-    pool_size=10,  # Base pool size
-    max_overflow=20,  # Extra connections when pool is full
-    pool_pre_ping=True,  # Check connection health before use
-    pool_recycle=3600,  # Recycle connections after 1 hour
-    pool_timeout=30,  # Wait max 30s for connection
+    pool_size=10,
+    max_overflow=20,
+    pool_pre_ping=True,  # Keep for connection reliability
+    pool_recycle=3600,
+    pool_timeout=30,
 )
 
-# Tao session factory
-# expire_on_commit=False de tranh loi khi truy cap attribute sau commit
+# Session factory
 async_session_maker = async_sessionmaker(
     engine,
     class_=AsyncSession,
@@ -37,16 +36,7 @@ async_session_maker = async_sessionmaker(
 
 
 async def get_db() -> AsyncGenerator[AsyncSession, None]:
-    """
-    Dependency injection cho FastAPI.
-    Cung cap mot async session cho moi request.
-    Tu dong dong session sau khi request hoan thanh.
-    
-    Su dung:
-        @router.get("/")
-        async def get_items(db: AsyncSession = Depends(get_db)):
-            ...
-    """
+    """Dependency injection - async session per request."""
     async with async_session_maker() as session:
         try:
             yield session

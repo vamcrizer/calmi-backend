@@ -17,6 +17,7 @@ from app.api.v1.schools import router as schools_router
 from app.api.v1.system_settings import router as system_settings_router
 from app.api.v1.users import router as users_router
 from app.api.v1.voice_chat import router as voice_chat_router
+from app.api.v1.quiz import router as quiz_router
 
 # Router chinh cho API v1
 api_router = APIRouter()
@@ -36,3 +37,4 @@ api_router.include_router(chat_router)
 api_router.include_router(education_router)
 api_router.include_router(voice_chat_router)
 api_router.include_router(moods_router)
+api_router.include_router(quiz_router)

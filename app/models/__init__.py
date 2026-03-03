@@ -26,6 +26,12 @@ from app.models.reports import (
     ReportDestination,
     ReportStatusHistory,
 )
+from app.models.quiz import (
+    QuizAttempt,
+    QuizLevel,
+    QuizLevelProgress,
+    QuizQuestion,
+)
 from app.models.role import Role
 from app.models.school import School
 from app.models.support_organization import SupportOrganization
@@ -70,4 +76,9 @@ __all__ = [
     "MinigameResult",
     "DailyKindMessage",
     "DailyKindResponse",
+    # Quiz (Candy Crush)
+    "QuizLevel",
+    "QuizQuestion",
+    "QuizLevelProgress",
+    "QuizAttempt",
 ]
