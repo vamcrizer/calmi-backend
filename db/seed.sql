@@ -88,8 +88,8 @@ ON CONFLICT (username) DO NOTHING;
 -- ============================================================
 -- 4. CLASSES
 -- ============================================================
-INSERT INTO classes (school_id, name, grade, teacher_id, academic_year, is_active)
-VALUES (v_school1_id, '10A1', '10', v_teacher1_id, '2024-2025', true)
+INSERT INTO classes (school_id, name, grade, homeroom_teacher_id)
+VALUES (v_school1_id, '10A1', '10', v_teacher1_id)
 ON CONFLICT DO NOTHING
 RETURNING id INTO v_class1_id;
 
@@ -97,8 +97,8 @@ IF v_class1_id IS NULL THEN
     SELECT id INTO v_class1_id FROM classes WHERE school_id = v_school1_id AND name = '10A1';
 END IF;
 
-INSERT INTO classes (school_id, name, grade, teacher_id, academic_year, is_active)
-VALUES (v_school1_id, '11B2', '11', v_teacher1_id, '2024-2025', true)
+INSERT INTO classes (school_id, name, grade, homeroom_teacher_id)
+VALUES (v_school1_id, '11B2', '11', v_teacher1_id)
 ON CONFLICT DO NOTHING
 RETURNING id INTO v_class2_id;
 

@@ -81,7 +81,7 @@ CREATE TABLE IF NOT EXISTS teacher_profiles (
     id              BIGSERIAL PRIMARY KEY,
     user_id         BIGINT NOT NULL UNIQUE REFERENCES users(id) ON DELETE CASCADE,
     position        VARCHAR(100),
-    specialization  VARCHAR(100),
+    specialization  VARCHAR(255),
     created_at      TIMESTAMPTZ NOT NULL DEFAULT now(),
     updated_at      TIMESTAMPTZ NOT NULL DEFAULT now()
 );
@@ -124,15 +124,13 @@ CREATE INDEX IF NOT EXISTS idx_password_reset_user  ON password_reset_tokens (us
 -- =============================================================
 
 CREATE TABLE IF NOT EXISTS classes (
-    id          BIGSERIAL PRIMARY KEY,
-    school_id   BIGINT NOT NULL REFERENCES schools(id) ON DELETE CASCADE,
-    name        VARCHAR(100) NOT NULL,
-    grade       VARCHAR(10),
-    teacher_id  BIGINT REFERENCES users(id) ON DELETE SET NULL,
-    academic_year VARCHAR(20),
-    is_active   BOOLEAN NOT NULL DEFAULT TRUE,
-    created_at  TIMESTAMPTZ NOT NULL DEFAULT now(),
-    updated_at  TIMESTAMPTZ NOT NULL DEFAULT now()
+    id                   BIGSERIAL PRIMARY KEY,
+    school_id            BIGINT NOT NULL REFERENCES schools(id) ON DELETE CASCADE,
+    name                 VARCHAR(100) NOT NULL,
+    grade                VARCHAR(20),
+    homeroom_teacher_id  BIGINT REFERENCES users(id) ON DELETE SET NULL,
+    created_at           TIMESTAMPTZ NOT NULL DEFAULT now(),
+    updated_at           TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
 -- FK from student_profiles -> classes (added after classes is created)
@@ -187,12 +185,13 @@ CREATE TABLE IF NOT EXISTS booklet_reads (
 );
 
 CREATE TABLE IF NOT EXISTS daily_kind_messages (
-    id          BIGSERIAL PRIMARY KEY,
-    content     TEXT NOT NULL,
-    category    VARCHAR(50),
-    is_active   BOOLEAN NOT NULL DEFAULT TRUE,
-    created_at  TIMESTAMPTZ NOT NULL DEFAULT now()
+    id            BIGSERIAL PRIMARY KEY,
+    message_text  TEXT NOT NULL,
+    active_date   DATE NOT NULL UNIQUE,
+    created_at    TIMESTAMPTZ NOT NULL DEFAULT now()
 );
+
+CREATE INDEX IF NOT EXISTS idx_daily_kind_messages_date ON daily_kind_messages (active_date);
 
 -- =============================================================
 -- MODULE 4: MOOD DIARY
@@ -257,7 +256,9 @@ CREATE TABLE IF NOT EXISTS incident_types (
     code        VARCHAR(50) NOT NULL UNIQUE,
     name        VARCHAR(100) NOT NULL,
     description TEXT,
-    is_active   BOOLEAN NOT NULL DEFAULT TRUE
+    is_active   BOOLEAN NOT NULL DEFAULT TRUE,
+    created_at  TIMESTAMPTZ NOT NULL DEFAULT now(),
+    updated_at  TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
 INSERT INTO incident_types (code, name) VALUES
@@ -269,17 +270,19 @@ INSERT INTO incident_types (code, name) VALUES
 ON CONFLICT (code) DO NOTHING;
 
 CREATE TABLE IF NOT EXISTS support_organizations (
-    id          BIGSERIAL PRIMARY KEY,
-    name        VARCHAR(255) NOT NULL,
-    code        VARCHAR(50) UNIQUE,
-    description TEXT,
-    phone       VARCHAR(50),
-    email       VARCHAR(255),
-    website     VARCHAR(500),
-    address     TEXT,
-    is_active   BOOLEAN NOT NULL DEFAULT TRUE,
-    created_at  TIMESTAMPTZ NOT NULL DEFAULT now(),
-    updated_at  TIMESTAMPTZ NOT NULL DEFAULT now()
+    id           BIGSERIAL PRIMARY KEY,
+    name         VARCHAR(255) NOT NULL,
+    type         VARCHAR(50)  NOT NULL,  -- HOTLINE, NGO, GOV, CHILD_PROTECTION
+    description  TEXT,
+    province     VARCHAR(100),
+    district     VARCHAR(100),
+    address      TEXT,
+    email        VARCHAR(255),
+    phone        VARCHAR(50),
+    website      VARCHAR(255),
+    is_active    BOOLEAN NOT NULL DEFAULT TRUE,
+    created_at   TIMESTAMPTZ NOT NULL DEFAULT now(),
+    updated_at   TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
 CREATE TABLE IF NOT EXISTS reports (
@@ -308,10 +311,13 @@ CREATE INDEX IF NOT EXISTS idx_reports_school_status ON reports (school_id, stat
 CREATE TABLE IF NOT EXISTS report_attachments (
     id              BIGSERIAL PRIMARY KEY,
     report_id       BIGINT NOT NULL REFERENCES reports(id) ON DELETE CASCADE,
-    file_id         BIGINT NOT NULL,
-    attachment_type VARCHAR(50) NOT NULL DEFAULT 'OTHER',
+    file_id         BIGINT NOT NULL REFERENCES files(id) ON DELETE RESTRICT,
+    attachment_type VARCHAR(20) NOT NULL DEFAULT 'OTHER',
     created_at      TIMESTAMPTZ NOT NULL DEFAULT now()
 );
+
+CREATE INDEX IF NOT EXISTS idx_report_attachments_report ON report_attachments (report_id);
+CREATE INDEX IF NOT EXISTS idx_report_attachments_file  ON report_attachments (file_id);
 
 CREATE TABLE IF NOT EXISTS report_status_history (
     id                  BIGSERIAL PRIMARY KEY,
@@ -416,23 +422,29 @@ CREATE INDEX IF NOT EXISTS idx_quiz_attempts_user_level ON quiz_attempts (user_i
 -- =============================================================
 
 CREATE TABLE IF NOT EXISTS files (
-    id           BIGSERIAL PRIMARY KEY,
-    uploader_id  BIGINT REFERENCES users(id) ON DELETE SET NULL,
-    filename     VARCHAR(255) NOT NULL,
-    file_path    VARCHAR(500) NOT NULL,
-    file_size    BIGINT,
-    mime_type    VARCHAR(100),
-    created_at   TIMESTAMPTZ NOT NULL DEFAULT now()
+    id               BIGSERIAL PRIMARY KEY,
+    owner_user_id    BIGINT REFERENCES users(id) ON DELETE SET NULL,
+    storage_path     VARCHAR(500) NOT NULL,
+    original_filename VARCHAR(255),
+    mime_type        VARCHAR(100),
+    size_bytes       BIGINT,
+    is_anonymized    BOOLEAN NOT NULL DEFAULT FALSE,
+    anonymized_path  VARCHAR(500),
+    checksum         VARCHAR(100),
+    created_at       TIMESTAMPTZ NOT NULL DEFAULT now(),
+    updated_at       TIMESTAMPTZ NOT NULL DEFAULT now()
 );
+
+CREATE INDEX IF NOT EXISTS idx_files_owner ON files (owner_user_id);
 
 CREATE TABLE IF NOT EXISTS notifications (
     id          BIGSERIAL PRIMARY KEY,
     user_id     BIGINT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-    title       VARCHAR(255) NOT NULL,
-    body        TEXT,
-    type        VARCHAR(50),
+    type        VARCHAR(50) NOT NULL,
+    title       VARCHAR(255),
+    content     TEXT,
     is_read     BOOLEAN NOT NULL DEFAULT FALSE,
-    data        JSONB,
+    read_at     TIMESTAMPTZ,
     created_at  TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
@@ -441,10 +453,59 @@ CREATE INDEX IF NOT EXISTS idx_notifications_user_unread ON notifications (user_
 CREATE TABLE IF NOT EXISTS system_settings (
     id          BIGSERIAL PRIMARY KEY,
     key         VARCHAR(100) NOT NULL UNIQUE,
-    value       TEXT,
+    value       TEXT NOT NULL,
     description TEXT,
     created_at  TIMESTAMPTZ NOT NULL DEFAULT now(),
     updated_at  TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+CREATE TABLE IF NOT EXISTS minigame_results (
+    id               BIGSERIAL PRIMARY KEY,
+    user_id          BIGINT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    content_id       BIGINT NOT NULL REFERENCES education_contents(id) ON DELETE CASCADE,
+    score            INT NOT NULL DEFAULT 0,
+    reward_points    INT NOT NULL DEFAULT 0,
+    played_at        TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+CREATE TABLE IF NOT EXISTS daily_kind_responses (
+    id               BIGSERIAL PRIMARY KEY,
+    user_id          BIGINT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    message_id       BIGINT NOT NULL REFERENCES daily_kind_messages(id) ON DELETE CASCADE,
+    response_text    TEXT NOT NULL,
+    responded_at     TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+CREATE TABLE IF NOT EXISTS report_destinations (
+    id                          BIGSERIAL PRIMARY KEY,
+    report_id                   BIGINT NOT NULL REFERENCES reports(id) ON DELETE CASCADE,
+    destination_type            VARCHAR(30) NOT NULL,
+    destination_user_id         BIGINT REFERENCES users(id) ON DELETE SET NULL,
+    destination_support_org_id  BIGINT REFERENCES support_organizations(id) ON DELETE SET NULL,
+    destination_email           VARCHAR(255),
+    delivery_channel            VARCHAR(20) NOT NULL,
+    status                      VARCHAR(20) NOT NULL DEFAULT 'PENDING',
+    last_error                  TEXT,
+    sent_at                     TIMESTAMPTZ,
+    created_at                  TIMESTAMPTZ NOT NULL DEFAULT now(),
+    updated_at                  TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+CREATE TABLE IF NOT EXISTS emergency_contacts (
+    id               BIGSERIAL PRIMARY KEY,
+    support_org_id   BIGINT REFERENCES support_organizations(id) ON DELETE SET NULL,
+    school_id        BIGINT REFERENCES schools(id) ON DELETE SET NULL,
+    contact_type     VARCHAR(50) NOT NULL,
+    name             VARCHAR(255) NOT NULL,
+    phone            VARCHAR(50) NOT NULL,
+    province         VARCHAR(100),
+    district         VARCHAR(100),
+    latitude         NUMERIC(10, 6),
+    longitude        NUMERIC(10, 6),
+    priority         SMALLINT NOT NULL DEFAULT 1,
+    is_active        BOOLEAN NOT NULL DEFAULT TRUE,
+    created_at       TIMESTAMPTZ NOT NULL DEFAULT now(),
+    updated_at       TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
 -- =============================================================

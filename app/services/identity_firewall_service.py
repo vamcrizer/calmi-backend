@@ -124,7 +124,7 @@ class IdentityFirewallService:
         
         # Save file
         content = await upload_file.read()
-        file_size = len(content)
+        size_bytes = len(content)
         
         with open(storage_path, "wb") as f:
             f.write(content)
@@ -140,7 +140,7 @@ class IdentityFirewallService:
             "storage_path": str(storage_path),
             "anonymized_path": str(storage_path),  # Same path after processing
             "mime_type": content_type,
-            "file_size": file_size,
+            "size_bytes": size_bytes,
             "is_anonymized": True,
             "owner_user_id": None,  # Anonymous - no owner
         })
