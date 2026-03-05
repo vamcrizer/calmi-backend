@@ -15,6 +15,7 @@ from app.models.education import (
     ExerciseQuestion,
     MinigameResult,
 )
+from app.models.mood import MoodEntry
 from app.models.emergency_contact import EmergencyContact
 from app.models.file import File
 from app.models.notification import Notification
@@ -81,4 +82,6 @@ __all__ = [
     "QuizQuestion",
     "QuizLevelProgress",
     "QuizAttempt",
+    # Mood
+    "MoodEntry",
 ]

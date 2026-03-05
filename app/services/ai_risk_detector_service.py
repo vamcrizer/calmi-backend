@@ -75,7 +75,7 @@ class AIRiskDetectorService:
     def __init__(self):
         # OPTIMIZED: Fast settings for classification task
         self.llm = ChatOpenAI(
-            model="gpt-4.1-nano",
+            model=settings.OPENAI_MODEL,
             temperature=0.3,  # Low temp for consistent classification
             openai_api_key=settings.OPENAI_API_KEY,
             max_retries=1,  # Quick fail on error

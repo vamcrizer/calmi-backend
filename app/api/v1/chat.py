@@ -242,10 +242,10 @@ async def send_message_stream(
     "/sessions/{session_id}/messages/stream-v2",
     summary="Gửi tin nhắn (Streaming V2 - Optimized)",
     description="""
-    **PHIÊN BẢN TỐI ƯU** - Nhanh hơn 2-5 giây so với V1.
+    **PHIÊN BẢN TỐI ƯU** - AI risk detection thông minh + streaming nhanh.
 
     Tối ưu:
-    - Rule-based risk detection (instant) thay vì AI detection
+    - AI risk detection (gpt-4.1-nano) - phân tích context thay vì keyword matching
     - AsyncOpenAI trực tiếp (không qua LangChain)
     - Streaming bắt đầu ngay lập tức
     - TRUE STREAMING: mỗi token được gửi ngay lập tức
@@ -267,7 +267,7 @@ async def send_message_stream_v2(
     OPTIMIZED: Gửi tin nhắn và stream response từ AI.
 
     Improvements over V1:
-    - 2-5s faster first token (no AI risk detection delay)
+    - AI risk detection với gpt-4.1-nano (context-aware, không dùng keyword)
     - Direct OpenAI streaming (no LangChain overhead)
     - Conversation memory via DB summary (efficient)
     - TRUE token-by-token streaming with immediate flush

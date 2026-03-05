@@ -82,12 +82,13 @@ async def import_quiz(json_file: str = "file1.json", dry_run: bool = False):
             print("\n[OK] Da xoa data cu")
 
         # 4. Insert moi
-        for file_data in files:
+        for file_index, file_data in enumerate(files):
             file_id = file_data["file_id"]
             set_number = file_data["set_number"]
             set_title = file_data["set_title"]
             tags = json.dumps(file_data.get("tags", []), ensure_ascii=False)
             questions = file_data.get("questions", [])
+            unlock_order = file_index + 1  # Sequential, unique
 
             print(f"\n  [{file_id}] {set_title} ({len(questions)} cau)")
 
@@ -104,7 +105,7 @@ async def import_quiz(json_file: str = "file1.json", dry_run: bool = False):
                         "set_number": set_number,
                         "set_title": set_title,
                         "tags": tags,
-                        "unlock_order": set_number,
+                        "unlock_order": unlock_order,
                     }
                 )
                 level_id = result.scalar()

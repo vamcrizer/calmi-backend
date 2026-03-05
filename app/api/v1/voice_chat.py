@@ -36,8 +36,8 @@ settings = get_settings()
 
 # OpenAI Realtime API configuration
 OPENAI_REALTIME_URL = "wss://api.openai.com/v1/realtime"
-OPENAI_REALTIME_HTTP_URL = "https://api.openai.com/v1/realtime"
-OPENAI_MODEL = "gpt-realtime-mini"  # Required mini model for voice chat
+OPENAI_REALTIME_SESSIONS_URL = "https://api.openai.com/v1/realtime/sessions"
+OPENAI_MODEL = "gpt-realtime-mini"  # Custom model
 
 
 async def get_chat_session(session_id: int, user: User, db: AsyncSession) -> ChatSession:
@@ -234,32 +234,38 @@ NẾU phát hiện dấu hiệu nguy hiểm (tự tử, bạo lực, tự hại)
 
 
 # =============================================================================
-# WebRTC SDP Proxy Endpoint - For browser WebRTC connections
+# WebRTC Ephemeral Token Endpoint - Correct OpenAI Realtime WebRTC flow
 # =============================================================================
+# Flow:
+# 1. Frontend calls POST /rtc/session → Backend creates ephemeral token from OpenAI
+# 2. Frontend uses ephemeral token to connect WebRTC directly to OpenAI
+#    (browser ↔ OpenAI directly via WebRTC, backend only provides the token)
+#
+# Old approach (proxying SDP via /rtc/offer) does NOT work because:
+# - OpenAI Realtime API does not accept SDP offers via a simple REST endpoint
+# - The correct flow is POST /v1/realtime/sessions to get a short-lived token
 
 @router.post(
-    "/rtc/offer",
-    response_class=PlainTextResponse,
-    summary="Proxy WebRTC SDP offer to OpenAI",
+    "/rtc/session",
+    summary="Create ephemeral token for WebRTC connection to OpenAI Realtime API",
     description="""
-    Securely proxy WebRTC SDP negotiation to OpenAI Realtime API.
+    Create a short-lived ephemeral token for WebRTC voice chat.
     
-    Frontend sends SDP offer -> Backend forwards to OpenAI -> Returns SDP answer.
+    **Correct WebRTC flow:**
+    1. Frontend calls this endpoint to get an ephemeral token (valid ~60s)
+    2. Frontend uses RTCPeerConnection + the ephemeral token to connect directly to OpenAI
+    3. Real-time voice flows browser ↔ OpenAI directly via WebRTC
     
-    This prevents:
-    - CORS issues (OpenAI doesn't allow direct browser calls)
-    - API key exposure in frontend
+    This keeps the OpenAI API key secret (never sent to browser).
     """,
 )
-async def proxy_webrtc_offer(
-    request: Request,
+async def create_rtc_session(
     current_user: User = Depends(get_current_user),
 ):
     """
-    Proxy WebRTC SDP offer to OpenAI and return SDP answer.
-    
-    Request body: Raw SDP offer text
-    Response: Raw SDP answer text
+    Create an ephemeral session token for OpenAI Realtime WebRTC.
+    Returns ephemeral_token which the frontend uses as bearer token
+    when performing WebRTC SDP negotiation directly with OpenAI.
     """
     # Verify student role
     if not current_user.role or current_user.role.code != "STUDENT":
@@ -267,49 +273,73 @@ async def proxy_webrtc_offer(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Only students can use voice chat"
         )
-    
-    # Get raw SDP offer from request body
-    sdp_offer = await request.body()
-    sdp_offer_text = sdp_offer.decode("utf-8")
-    
-    if not sdp_offer_text or not sdp_offer_text.startswith("v="):
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Invalid SDP offer format"
-        )
-    
-    print(f"[VoiceChat RTC] User {current_user.id} sending SDP offer to OpenAI...")
-    
-    # Forward to OpenAI Realtime API
-    openai_url = f"{OPENAI_REALTIME_HTTP_URL}?model={OPENAI_MODEL}"
-    
+
+    print(f"[VoiceChat RTC] Creating ephemeral session for user {current_user.id}...")
+
     try:
-        async with httpx.AsyncClient(timeout=30.0) as client:
+        async with httpx.AsyncClient(timeout=15.0) as client:
             response = await client.post(
-                openai_url,
-                content=sdp_offer_text,
+                OPENAI_REALTIME_SESSIONS_URL,
+                json={
+                    "model": OPENAI_MODEL,
+                    "voice": "alloy",
+                    "instructions": """# Role & Objective
+Bạn là Calmi, trợ lý tâm lý AI cho học sinh Việt Nam.
+Mục tiêu: Lắng nghe, thấu hiểu, và hỗ trợ sức khỏe tinh thần học sinh một cách an toàn và chuyên nghiệp.
+
+# Personality & Tone
+- Thân thiện, ấm áp, dễ gần
+- Tôn trọng, không phán xét
+- Tích cực nhưng thực tế
+- Nói chuyện tự nhiên như người bạn đáng tin cậy
+
+# Language
+- LUÔN trả lời bằng tiếng Việt
+- Dùng ngôn ngữ đơn giản, dễ hiểu
+- Giọng điệu phù hợp với học sinh (12-18 tuổi)
+
+# Conversation Rules
+- Luôn xác nhận đã hiểu trước khi đưa lời khuyên
+- Đặt câu hỏi mở để học sinh chia sẻ sâu hơn
+- Thừa nhận cảm xúc: "Anh/chị hiểu em đang cảm thấy..."
+
+# Safety & Escalation
+NẾU phát hiện dấu hiệu nguy hiểm (tự tử, bạo lực, tự hại):
+- NGAY LẬP TỨC đề xuất liên hệ người lớn tin cậy
+- Cung cấp số hotline khẩn cấp: 18001567
+- GIỮ học sinh trong cuộc trò chuyện, KHÔNG kết thúc đột ngột
+""",
+                },
                 headers={
                     "Authorization": f"Bearer {settings.OPENAI_API_KEY}",
-                    "Content-Type": "application/sdp",
+                    "Content-Type": "application/json",
                 },
             )
-            
-            if response.status_code != 200 and response.status_code != 201:
+
+            if response.status_code not in (200, 201):
                 error_text = response.text
                 print(f"[VoiceChat RTC] OpenAI error: {response.status_code} - {error_text}")
                 raise HTTPException(
                     status_code=status.HTTP_502_BAD_GATEWAY,
-                    detail=f"OpenAI API error: {response.status_code}"
+                    detail=f"Failed to create OpenAI session: {response.status_code}"
                 )
-            
-            sdp_answer = response.text
-            print(f"[VoiceChat RTC] ✅ Got SDP answer from OpenAI")
-            
-            return PlainTextResponse(
-                content=sdp_answer,
-                media_type="application/sdp"
-            )
-            
+
+            session_data = response.json()
+            ephemeral_token = session_data.get("client_secret", {}).get("value")
+
+            if not ephemeral_token:
+                print(f"[VoiceChat RTC] Unexpected OpenAI response: {session_data}")
+                raise HTTPException(
+                    status_code=status.HTTP_502_BAD_GATEWAY,
+                    detail="Invalid response from OpenAI: missing client_secret"
+                )
+
+            print(f"[VoiceChat RTC] ✅ Ephemeral session created for user {current_user.id}")
+            return {
+                "ephemeral_token": ephemeral_token,
+                "model": OPENAI_MODEL,
+            }
+
     except httpx.TimeoutException:
         print("[VoiceChat RTC] ❌ OpenAI request timeout")
         raise HTTPException(
@@ -324,6 +354,27 @@ async def proxy_webrtc_offer(
         )
 
 
+@router.post(
+    "/rtc/offer",
+    response_class=PlainTextResponse,
+    summary="[DEPRECATED] Use /rtc/session instead",
+    deprecated=True,
+)
+async def proxy_webrtc_offer_deprecated(
+    request: Request,
+    current_user: User = Depends(get_current_user),
+):
+    """DEPRECATED - kept for backward compatibility."""
+    raise HTTPException(
+        status_code=status.HTTP_410_GONE,
+        detail=(
+            "This endpoint is deprecated. "
+            "Use POST /api/v1/voice-chat/rtc/session to get an ephemeral token, "
+            "then connect WebRTC directly to OpenAI Realtime API."
+        )
+    )
+
+
 @router.get("/rtc/health")
 async def rtc_health_check():
     """Health check for WebRTC proxy."""
@@ -331,4 +382,6 @@ async def rtc_health_check():
         "status": "ok",
         "model": OPENAI_MODEL,
         "api_configured": bool(settings.OPENAI_API_KEY),
+        "webrtc_endpoint": "POST /api/v1/voice-chat/rtc/session",
     }
+

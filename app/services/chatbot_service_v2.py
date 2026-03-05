@@ -206,7 +206,7 @@ class ChatbotServiceV2:
         try:
             # Stream trực tiếp từ OpenAI
             stream = await self.client.chat.completions.create(
-                model="gpt-4.1-nano",  # Fastest model
+                model=settings.OPENAI_MODEL,
                 messages=messages,
                 max_tokens=300,  # Giới hạn response ngắn
                 temperature=0.7,
@@ -219,10 +219,11 @@ class ChatbotServiceV2:
                     full_response += token
                     yield {"type": "token", "content": token}
 
-            # Done - gửi metadata
-            actions = self._get_recommended_actions(
-                risk_result.risk_level,
-                risk_result.risk_type,
+            # Done - dùng actions từ AI risk detector
+            actions = (
+                risk_result.recommended_actions
+                if hasattr(risk_result, 'recommended_actions') and risk_result.recommended_actions
+                else self._get_recommended_actions(risk_result.risk_level, risk_result.risk_type)
             )
 
             yield {
@@ -269,16 +270,17 @@ class ChatbotServiceV2:
 
         try:
             response = await self.client.chat.completions.create(
-                model="gpt-4.1-nano",
+                model=settings.OPENAI_MODEL,
                 messages=messages,
                 max_tokens=300,
                 temperature=0.7,
             )
 
             ai_message = response.choices[0].message.content or ""
-            actions = self._get_recommended_actions(
-                risk_result.risk_level,
-                risk_result.risk_type,
+            actions = (
+                risk_result.recommended_actions
+                if hasattr(risk_result, 'recommended_actions') and risk_result.recommended_actions
+                else self._get_recommended_actions(risk_result.risk_level, risk_result.risk_type)
             )
 
             return ChatbotResponse(
@@ -347,7 +349,7 @@ class ChatbotServiceV2:
 
         try:
             response = await self.client.chat.completions.create(
-                model="gpt-4.1-nano",
+                model=settings.OPENAI_MODEL,
                 messages=[
                     {
                         "role": "system",
@@ -405,7 +407,7 @@ class ChatbotServiceV2:
         try:
             # Stream trực tiếp từ OpenAI
             stream = await self.client.chat.completions.create(
-                model="gpt-4.1-nano",
+                model=settings.OPENAI_MODEL,
                 messages=messages,
                 max_tokens=300,
                 temperature=0.7,
@@ -438,10 +440,11 @@ class ChatbotServiceV2:
                     existing_summary=session.conversation_summary,
                 )
 
-            # Done - gửi metadata với summary
-            actions = self._get_recommended_actions(
-                risk_result.risk_level,
-                risk_result.risk_type,
+            # Done - dùng actions từ AI risk detector
+            actions = (
+                risk_result.recommended_actions
+                if hasattr(risk_result, 'recommended_actions') and risk_result.recommended_actions
+                else self._get_recommended_actions(risk_result.risk_level, risk_result.risk_type)
             )
 
             yield {

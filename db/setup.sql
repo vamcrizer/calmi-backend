@@ -235,7 +235,7 @@ CREATE INDEX IF NOT EXISTS idx_chat_sessions_user ON chat_sessions (user_id, sta
 CREATE TABLE IF NOT EXISTS chat_messages (
     id              BIGSERIAL PRIMARY KEY,
     session_id      BIGINT NOT NULL REFERENCES chat_sessions(id) ON DELETE CASCADE,
-    sender_type     VARCHAR(10) NOT NULL,  -- USER, AI
+    sender_type     VARCHAR(20) NOT NULL,  -- USER, AI
     sender_user_id  BIGINT REFERENCES users(id) ON DELETE SET NULL,
     content         TEXT NOT NULL,
     risk_level      VARCHAR(20),
@@ -248,7 +248,47 @@ CREATE TABLE IF NOT EXISTS chat_messages (
 CREATE INDEX IF NOT EXISTS idx_chat_messages_session ON chat_messages (session_id, created_at);
 
 -- =============================================================
--- MODULE 6: REPORTS — incident reports
+-- MODULE 6A: FILES (moved before reports — reports depend on files)
+-- =============================================================
+
+CREATE TABLE IF NOT EXISTS files (
+    id               BIGSERIAL PRIMARY KEY,
+    owner_user_id    BIGINT REFERENCES users(id) ON DELETE SET NULL,
+    storage_path     VARCHAR(500) NOT NULL,
+    original_filename VARCHAR(255),
+    mime_type        VARCHAR(100),
+    size_bytes       BIGINT,
+    is_anonymized    BOOLEAN NOT NULL DEFAULT FALSE,
+    anonymized_path  VARCHAR(500),
+    checksum         VARCHAR(100),
+    created_at       TIMESTAMPTZ NOT NULL DEFAULT now(),
+    updated_at       TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+CREATE INDEX IF NOT EXISTS idx_files_owner ON files (owner_user_id);
+
+-- =============================================================
+-- MODULE 6B: SUPPORT ORGANIZATIONS (moved before reports — report_destinations depends on it)
+-- =============================================================
+
+CREATE TABLE IF NOT EXISTS support_organizations (
+    id           BIGSERIAL PRIMARY KEY,
+    name         VARCHAR(255) NOT NULL,
+    type         VARCHAR(50)  NOT NULL,  -- HOTLINE, NGO, GOV, CHILD_PROTECTION
+    description  TEXT,
+    province     VARCHAR(100),
+    district     VARCHAR(100),
+    address      TEXT,
+    email        VARCHAR(255),
+    phone        VARCHAR(50),
+    website      VARCHAR(255),
+    is_active    BOOLEAN NOT NULL DEFAULT TRUE,
+    created_at   TIMESTAMPTZ NOT NULL DEFAULT now(),
+    updated_at   TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+-- =============================================================
+-- MODULE 7: REPORTS — incident reports
 -- =============================================================
 
 CREATE TABLE IF NOT EXISTS incident_types (
@@ -269,22 +309,6 @@ INSERT INTO incident_types (code, name) VALUES
     ('OTHER',            'Khác')
 ON CONFLICT (code) DO NOTHING;
 
-CREATE TABLE IF NOT EXISTS support_organizations (
-    id           BIGSERIAL PRIMARY KEY,
-    name         VARCHAR(255) NOT NULL,
-    type         VARCHAR(50)  NOT NULL,  -- HOTLINE, NGO, GOV, CHILD_PROTECTION
-    description  TEXT,
-    province     VARCHAR(100),
-    district     VARCHAR(100),
-    address      TEXT,
-    email        VARCHAR(255),
-    phone        VARCHAR(50),
-    website      VARCHAR(255),
-    is_active    BOOLEAN NOT NULL DEFAULT TRUE,
-    created_at   TIMESTAMPTZ NOT NULL DEFAULT now(),
-    updated_at   TIMESTAMPTZ NOT NULL DEFAULT now()
-);
-
 CREATE TABLE IF NOT EXISTS reports (
     id                BIGSERIAL PRIMARY KEY,
     school_id         BIGINT REFERENCES schools(id) ON DELETE SET NULL,
@@ -293,12 +317,12 @@ CREATE TABLE IF NOT EXISTS reports (
     incident_type_id  BIGINT NOT NULL REFERENCES incident_types(id),
     title             VARCHAR(255),
     content           TEXT NOT NULL,
-    location_text     VARCHAR(255),
-    location_lat      NUMERIC(10, 7),
-    location_lng      NUMERIC(10, 7),
+    location_text     VARCHAR(500),
+    location_lat      NUMERIC(10, 8),
+    location_lng      NUMERIC(11, 8),
     severity_level    VARCHAR(20) DEFAULT 'LOW',  -- LOW, MEDIUM, HIGH, CRITICAL
     ai_guidance       TEXT,
-    status            VARCHAR(30) NOT NULL DEFAULT 'NEW',
+    status            VARCHAR(20) NOT NULL DEFAULT 'NEW',
     -- NEW, UNDER_REVIEW, IN_PROGRESS, RESOLVED, CLOSED
     submitted_at      TIMESTAMPTZ NOT NULL DEFAULT now(),
     created_at        TIMESTAMPTZ NOT NULL DEFAULT now(),
@@ -322,8 +346,8 @@ CREATE INDEX IF NOT EXISTS idx_report_attachments_file  ON report_attachments (f
 CREATE TABLE IF NOT EXISTS report_status_history (
     id                  BIGSERIAL PRIMARY KEY,
     report_id           BIGINT NOT NULL REFERENCES reports(id) ON DELETE CASCADE,
-    from_status         VARCHAR(30),
-    to_status           VARCHAR(30) NOT NULL,
+    from_status         VARCHAR(20),
+    to_status           VARCHAR(20) NOT NULL,
     changed_by_user_id  BIGINT REFERENCES users(id) ON DELETE SET NULL,
     note                TEXT,
     changed_at          TIMESTAMPTZ NOT NULL DEFAULT now()
@@ -340,8 +364,23 @@ CREATE TABLE IF NOT EXISTS report_ai_analyses (
     created_at      TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
+CREATE TABLE IF NOT EXISTS report_destinations (
+    id                          BIGSERIAL PRIMARY KEY,
+    report_id                   BIGINT NOT NULL REFERENCES reports(id) ON DELETE CASCADE,
+    destination_type            VARCHAR(30) NOT NULL,
+    destination_user_id         BIGINT REFERENCES users(id) ON DELETE SET NULL,
+    destination_support_org_id  BIGINT REFERENCES support_organizations(id) ON DELETE SET NULL,
+    destination_email           VARCHAR(255),
+    delivery_channel            VARCHAR(20) NOT NULL,
+    status                      VARCHAR(20) NOT NULL DEFAULT 'PENDING',
+    last_error                  TEXT,
+    sent_at                     TIMESTAMPTZ,
+    created_at                  TIMESTAMPTZ NOT NULL DEFAULT now(),
+    updated_at                  TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
 -- =============================================================
--- MODULE 7: QUIZ — Candy Crush style quiz system
+-- MODULE 8: QUIZ — Candy Crush style quiz system
 -- =============================================================
 
 CREATE TABLE IF NOT EXISTS quiz_levels (
@@ -418,24 +457,8 @@ CREATE TABLE IF NOT EXISTS quiz_attempts (
 CREATE INDEX IF NOT EXISTS idx_quiz_attempts_user_level ON quiz_attempts (user_id, level_id);
 
 -- =============================================================
--- MODULE 8: MISC — files, notifications, system settings
+-- MODULE 9: MISC — notifications, system settings, etc.
 -- =============================================================
-
-CREATE TABLE IF NOT EXISTS files (
-    id               BIGSERIAL PRIMARY KEY,
-    owner_user_id    BIGINT REFERENCES users(id) ON DELETE SET NULL,
-    storage_path     VARCHAR(500) NOT NULL,
-    original_filename VARCHAR(255),
-    mime_type        VARCHAR(100),
-    size_bytes       BIGINT,
-    is_anonymized    BOOLEAN NOT NULL DEFAULT FALSE,
-    anonymized_path  VARCHAR(500),
-    checksum         VARCHAR(100),
-    created_at       TIMESTAMPTZ NOT NULL DEFAULT now(),
-    updated_at       TIMESTAMPTZ NOT NULL DEFAULT now()
-);
-
-CREATE INDEX IF NOT EXISTS idx_files_owner ON files (owner_user_id);
 
 CREATE TABLE IF NOT EXISTS notifications (
     id          BIGSERIAL PRIMARY KEY,
@@ -474,21 +497,6 @@ CREATE TABLE IF NOT EXISTS daily_kind_responses (
     message_id       BIGINT NOT NULL REFERENCES daily_kind_messages(id) ON DELETE CASCADE,
     response_text    TEXT NOT NULL,
     responded_at     TIMESTAMPTZ NOT NULL DEFAULT now()
-);
-
-CREATE TABLE IF NOT EXISTS report_destinations (
-    id                          BIGSERIAL PRIMARY KEY,
-    report_id                   BIGINT NOT NULL REFERENCES reports(id) ON DELETE CASCADE,
-    destination_type            VARCHAR(30) NOT NULL,
-    destination_user_id         BIGINT REFERENCES users(id) ON DELETE SET NULL,
-    destination_support_org_id  BIGINT REFERENCES support_organizations(id) ON DELETE SET NULL,
-    destination_email           VARCHAR(255),
-    delivery_channel            VARCHAR(20) NOT NULL,
-    status                      VARCHAR(20) NOT NULL DEFAULT 'PENDING',
-    last_error                  TEXT,
-    sent_at                     TIMESTAMPTZ,
-    created_at                  TIMESTAMPTZ NOT NULL DEFAULT now(),
-    updated_at                  TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
 CREATE TABLE IF NOT EXISTS emergency_contacts (

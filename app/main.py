@@ -58,20 +58,42 @@ def create_app() -> FastAPI:
         lifespan=lifespan,
     )
     
-    # OPTIMIZED: GZip compression for smaller payload sizes
+    # NOTE: FastAPI applies middleware in REVERSE order of add_middleware calls.
+    # So the LAST middleware added runs FIRST on incoming requests.
+    # CORS must be added LAST to ensure it runs FIRST and always sets CORS headers,
+    # even when other middleware or endpoints raise 500 errors.
+
+    # 1. GZip - runs last (innermost)
     app.add_middleware(GZipMiddleware, minimum_size=500)
     
-    # Timing middleware - đo thời gian xử lý request
+    # 2. Timing middleware - runs second
     from app.middleware.timing import TimingMiddleware
     app.add_middleware(TimingMiddleware)
     
-    # Cau hinh CORS - cho phep moi origin
+    # 3. CORS - runs first (outermost), always sets Access-Control-Allow-Origin
+    cors_origins = [
+        "http://localhost:3000",
+        "http://localhost:5173",
+        "http://localhost:8080",
+        "http://127.0.0.1:3000",
+        "http://127.0.0.1:5173",
+    ]
+    # Them origins tu .env neu co
+    if hasattr(settings, 'CORS_ORIGINS') and settings.CORS_ORIGINS:
+        import json
+        try:
+            env_origins = json.loads(settings.CORS_ORIGINS) if isinstance(settings.CORS_ORIGINS, str) else settings.CORS_ORIGINS
+            cors_origins.extend([o for o in env_origins if o not in cors_origins])
+        except Exception:
+            pass
+    
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=["*"],
+        allow_origins=cors_origins,
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],
+        expose_headers=["*"],
     )
     
     # Dang ky API routers

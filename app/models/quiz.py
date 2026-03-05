@@ -64,7 +64,7 @@ class QuizQuestion(Base, TimestampMixin):
     correct_option_id: Mapped[str | None] = mapped_column(String(10), nullable=True)
     correct_option_text: Mapped[str | None] = mapped_column(Text, nullable=True)
     interaction: Mapped[dict | None] = mapped_column(JSONB, default={})
-    order_index: Mapped[int] = mapped_column(Integer, nullable=False, default=1)
+    order_index: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
     
     # Relationships
     level: Mapped["QuizLevel"] = relationship(

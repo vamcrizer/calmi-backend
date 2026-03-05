@@ -36,10 +36,10 @@ from app.schemas.chat import (
     SessionStatus,
 )
 
-# Dùng Rule-based detector (FAST) thay vì AI detector (SLOW)
-from app.services.risk_detector_service import (
+# Dùng AI detector (gpt-4.1-nano) - nhanh và thông minh hơn rule-based
+from app.services.ai_risk_detector_service import (
     RiskDetectionResult,
-    get_risk_detector,
+    get_ai_risk_detector,
 )
 from app.services.chatbot_service_v2 import get_chatbot_service_v2
 
@@ -82,8 +82,8 @@ class ChatServiceV2:
         self.message_repo = ChatMessageRepository(session)
         self.mood_repo = MoodRepository(session)
 
-        # FAST: Rule-based risk detector (regex patterns)
-        self.risk_detector = get_risk_detector()
+        # AI risk detector (gpt-4.1-nano - nhanh + thông minh)
+        self.risk_detector = get_ai_risk_detector()
 
         # FAST: Direct OpenAI client (no LangChain)
         self.chatbot = get_chatbot_service_v2()
@@ -160,16 +160,15 @@ class ChatServiceV2:
 
         logger.debug(f"[ChatV2] Session validated in {time.time() - start_time:.3f}s")
 
-        # 2. INSTANT: Rule-based risk detection (regex patterns, <1ms)
-        risk_result = self.risk_detector.analyze(content)
+        # 2. AI risk detection (gpt-4.1-nano, ~1s) - chạy song song với fetch DB
+        risk_result = await self.risk_detector.analyze_async(
+            text=content,
+            conversation_summary=chat_session.conversation_summary,
+            last_risk_level=chat_session.last_risk_level,
+            last_risk_type=chat_session.last_risk_type,
+        )
 
-        if not hasattr(risk_result, 'recommended_actions'):
-            risk_result.recommended_actions = self._get_actions_for_risk(
-                risk_result.risk_level,
-                risk_result.risk_type
-            )
-
-        logger.debug(f"[ChatV2] Risk detection done in {time.time() - start_time:.3f}s")
+        logger.debug(f"[ChatV2] AI risk detection done in {time.time() - start_time:.3f}s")
 
         # 3. PARALLEL: Fetch history and mood WHILE preparing stream
         # Không await ngay - để chạy song song
@@ -297,8 +296,10 @@ class ChatServiceV2:
             if risk_type == "BULLYING":
                 return ["OPEN_REPORT_MODULE", "OPEN_EXERCISES"]
             return ["OPEN_EXERCISES", "OPEN_EMOTION_DIARY"]
-        else:
+        elif risk_level == "LOW" and risk_type == "EMOTIONAL":
             return ["OPEN_EXERCISES", "OPEN_EMOTION_DIARY"]
+        else:
+            return []
 
     async def send_message(
         self,
@@ -319,14 +320,13 @@ class ChatServiceV2:
         if chat_session.status == "ENDED":
             raise SessionEndedError("Cannot send message to ended session")
 
-        # Rule-based risk detection (instant)
-        risk_result = self.risk_detector.analyze(content)
-
-        if not hasattr(risk_result, 'recommended_actions'):
-            risk_result.recommended_actions = self._get_actions_for_risk(
-                risk_result.risk_level,
-                risk_result.risk_type
-            )
+        # AI risk detection (gpt-4.1-nano)
+        risk_result = await self.risk_detector.analyze_async(
+            text=content,
+            conversation_summary=chat_session.conversation_summary,
+            last_risk_level=chat_session.last_risk_level,
+            last_risk_type=chat_session.last_risk_type,
+        )
 
         # Save user message
         user_message = await self.message_repo.create_message(
