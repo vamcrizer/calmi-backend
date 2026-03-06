@@ -1,0 +1,3367 @@
+{
+  "files": [
+    {
+      "file_id": "FILE_1",
+      "set_number": 1,
+      "set_title": "Nhận diện \"Dấu hiệu đỏ\"",
+      "tags": [
+        "Trách nhiệm"
+      ],
+      "questions": [
+        {
+          "question_id": "F1_Q1",
+          "question_type": "multiple_choice",
+          "prompt": "Bạn thấy một người bạn thường xuyên bị gạch tên khỏi danh sách nhóm làm bài tập. Đây là gì?",
+          "options": [
+            {
+              "id": "A",
+              "text": "Sự nhầm lẫn vô ý"
+            },
+            {
+              "id": "B",
+              "text": "Bạo lực tinh thần (cô lập)"
+            },
+            {
+              "id": "C",
+              "text": "Một cách phân chia công việc mới"
+            }
+          ],
+          "correct_option_id": "B",
+          "correct_option_text": "Bạo lực tinh thần (cô lập)",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F1_Q2",
+          "question_type": "multiple_choice",
+          "prompt": "\"Bạn béo thế này mặc áo này không hợp đâu\" – nói câu này liên tục với bạn mình có phải bạo lực không?",
+          "options": [
+            {
+              "id": "A",
+              "text": "Có, đó là bạo lực ngôn từ (shaming)"
+            },
+            {
+              "id": "B",
+              "text": "Không, đó chỉ là lời khuyên thật lòng"
+            }
+          ],
+          "correct_option_id": "A",
+          "correct_option_text": "Có, đó là bạo lực ngôn từ (shaming)",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F1_Q3",
+          "question_type": "multiple_choice",
+          "prompt": "Dấu hiệu nào cho thấy một bạn đang bị bắt nạt?",
+          "options": [
+            {
+              "id": "A",
+              "text": "Bạn ấy đột nhiên học giỏi hơn"
+            },
+            {
+              "id": "B",
+              "text": "Bạn ấy lo sợ, ngại đến trường và hay mất đồ dùng"
+            },
+            {
+              "id": "C",
+              "text": "Bạn ấy tham gia nhiều câu lạc bộ hơn"
+            }
+          ],
+          "correct_option_id": "B",
+          "correct_option_text": "Bạn ấy lo sợ, ngại đến trường và hay mất đồ dùng",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F1_Q4",
+          "question_type": "multiple_choice",
+          "prompt": "\"Bạo lực học đường\" chỉ xảy ra trong khuôn viên trường học, đúng hay sai?",
+          "options": [
+            {
+              "id": "A",
+              "text": "Đúng"
+            },
+            {
+              "id": "B",
+              "text": "Sai, có thể xảy ra trên mạng hoặc đường đi học"
+            }
+          ],
+          "correct_option_id": "B",
+          "correct_option_text": "Sai, có thể xảy ra trên mạng hoặc đường đi học",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F1_Q5",
+          "question_type": "multiple_choice",
+          "prompt": "Hành động tự ý đăng ảnh \"dìm\" của bạn lên mạng khi bạn không cho phép là:",
+          "options": [
+            {
+              "id": "A",
+              "text": "Trêu đùa vui vẻ"
+            },
+            {
+              "id": "B",
+              "text": "Xâm phạm quyền riêng tư và bạo lực mạng"
+            }
+          ],
+          "correct_option_id": "B",
+          "correct_option_text": "Xâm phạm quyền riêng tư và bạo lực mạng",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F1_Q6",
+          "question_type": "fill_blank",
+          "prompt": "Kéo các từ vào đúng vị trí: \"Bạo lực không chỉ là [tác động vật lý] mà còn là tổn thương về [tinh thần].\" (Từ để chọn: vật lý, tinh thần)",
+          "options": [],
+          "correct_option_id": null,
+          "correct_option_text": null,
+          "explanation": null,
+          "interaction": {
+            "blanks": [
+              "blank1",
+              "blank2"
+            ],
+            "bank": [
+              "vật lý",
+              "tinh thần"
+            ],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": "Bạo lực không chỉ là [tác động vật lý] mà còn là tổn thương về [tinh thần].",
+            "sentence_answers": [
+              "tác động vật lý",
+              "tinh thần"
+            ]
+          }
+        },
+        {
+          "question_id": "F1_Q7",
+          "question_type": "matching",
+          "prompt": "Ghép đôi:",
+          "options": [],
+          "correct_option_id": null,
+          "correct_option_text": null,
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [
+              {
+                "left": "Đánh, đấm",
+                "right": "Bạo lực thể xác"
+              },
+              {
+                "left": "Đồn thổi sai sự thật",
+                "right": "Bạo lực ngôn từ"
+              }
+            ],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        }
+      ]
+    },
+    {
+      "file_id": "FILE_2",
+      "set_number": 2,
+      "set_title": "Kỹ năng \"Người chứng kiến\"",
+      "tags": [],
+      "questions": [
+        {
+          "question_id": "F2_Q1",
+          "question_type": "multiple_choice",
+          "prompt": "Bạn thấy một đám đông đang vây quanh xem hai bạn đánh nhau, bạn nên:",
+          "options": [
+            {
+              "id": "A",
+              "text": "Đứng lại xem để biết ai thắng"
+            },
+            {
+              "id": "B",
+              "text": "Đi tìm bảo vệ hoặc thầy cô ngay lập tức"
+            }
+          ],
+          "correct_option_id": "B",
+          "correct_option_text": "Đi tìm bảo vệ hoặc thầy cô ngay lập tức",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F2_Q2",
+          "question_type": "multiple_choice",
+          "prompt": "\"Im lặng là vàng\" trong trường hợp chứng kiến bắt nạt là đúng hay sai?",
+          "options": [
+            {
+              "id": "A",
+              "text": "Đúng, để giữ an toàn cho mình"
+            },
+            {
+              "id": "B",
+              "text": "Sai, im lặng là tiếp tay cho kẻ bắt nạt"
+            }
+          ],
+          "correct_option_id": "B",
+          "correct_option_text": "Sai, im lặng là tiếp tay cho kẻ bắt nạt",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F2_Q3",
+          "question_type": "multiple_choice",
+          "prompt": "Bạn có nên quay phim cảnh bắt nạt để đăng lên Facebook \"câu like\" không?",
+          "options": [
+            {
+              "id": "A",
+              "text": "Có, để mọi người cùng biết"
+            },
+            {
+              "id": "B",
+              "text": "Không, hãy gửi clip đó cho nhà trường làm bằng chứng"
+            }
+          ],
+          "correct_option_id": "B",
+          "correct_option_text": "Không, hãy gửi clip đó cho nhà trường làm bằng chứng",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F2_Q4",
+          "question_type": "multiple_choice",
+          "prompt": "Cách an toàn nhất để giúp nạn nhân lúc đang bị bắt nạt là gì?",
+          "options": [
+            {
+              "id": "A",
+              "text": "Tạo sự chú ý khác hoặc rủ bạn ấy đi chỗ khác cùng mình"
+            },
+            {
+              "id": "B",
+              "text": "Xông vào đánh lại kẻ bắt nạt"
+            }
+          ],
+          "correct_option_id": "A",
+          "correct_option_text": "Tạo sự chú ý khác hoặc rủ bạn ấy đi chỗ khác cùng mình",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F2_Q5",
+          "question_type": "multiple_choice",
+          "prompt": "Sau khi sự việc kết thúc, bạn nên làm gì với nạn nhân?",
+          "options": [
+            {
+              "id": "A",
+              "text": "Đến an ủi và hỏi bạn ấy có cần giúp đỡ gì không"
+            },
+            {
+              "id": "B",
+              "text": "Tránh xa bạn ấy để không bị liên lụy lần sau"
+            }
+          ],
+          "correct_option_id": "A",
+          "correct_option_text": "Đến an ủi và hỏi bạn ấy có cần giúp đỡ gì không",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F2_Q6",
+          "question_type": "ordering",
+          "prompt": "Sắp xếp thứ tự hành động:",
+          "options": [],
+          "correct_option_id": null,
+          "correct_option_text": null,
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [
+              "1. Quan sát an toàn",
+              "2. Tìm sự trợ giúp từ người lớn",
+              "3. An ủi nạn nhân"
+            ],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F2_Q7",
+          "question_type": "fill_blank",
+          "prompt": "Kéo từ vào chỗ trống: \"Một người chứng kiến [tích cực] sẽ giúp ngăn chặn bạo lực thay vì [thờ ơ].\" (Từ để chọn: tích cực, thờ ơ)",
+          "options": [],
+          "correct_option_id": null,
+          "correct_option_text": null,
+          "explanation": null,
+          "interaction": {
+            "blanks": [
+              "blank1",
+              "blank2"
+            ],
+            "bank": [
+              "tích cực",
+              "thờ ơ"
+            ],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": "Một người chứng kiến [tích cực] sẽ giúp ngăn chặn bạo lực thay vì [thờ ơ].",
+            "sentence_answers": [
+              "tích cực",
+              "thờ ơ"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "file_id": "FILE_3",
+      "set_number": 3,
+      "set_title": "Làm chủ cảm xúc",
+      "tags": [],
+      "questions": [
+        {
+          "question_id": "F3_Q1",
+          "question_type": "multiple_choice",
+          "prompt": "Khi bạn đang rất tức giận vì bị ai đó xúc phạm, bước đầu tiên nên làm là gì?",
+          "options": [
+            {
+              "id": "A",
+              "text": "Hít thở sâu và đếm từ 1 đến 10"
+            },
+            {
+              "id": "B",
+              "text": "Mắng lại ngay lập tức cho bõ tức"
+            }
+          ],
+          "correct_option_id": "A",
+          "correct_option_text": "Hít thở sâu và đếm từ 1 đến 10",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F3_Q2",
+          "question_type": "multiple_choice",
+          "prompt": "Kỹ năng \"Giao tiếp bằng thông điệp TÔI\" giúp ích gì?",
+          "options": [
+            {
+              "id": "A",
+              "text": "Để khoe khoang bản thân"
+            },
+            {
+              "id": "B",
+              "text": "Để bày tỏ cảm xúc mà không tấn công người khác"
+            }
+          ],
+          "correct_option_id": "B",
+          "correct_option_text": "Để bày tỏ cảm xúc mà không tấn công người khác",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F3_Q3",
+          "question_type": "multiple_choice",
+          "prompt": "Nếu bạn cảm thấy muốn dùng bạo lực để giải quyết vấn đề, đó là do:",
+          "options": [
+            {
+              "id": "A",
+              "text": "Bạn là người mạnh mẽ"
+            },
+            {
+              "id": "B",
+              "text": "Bạn chưa kiểm soát được cơn giận của mình"
+            }
+          ],
+          "correct_option_id": "B",
+          "correct_option_text": "Bạn chưa kiểm soát được cơn giận của mình",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F3_Q4",
+          "question_type": "multiple_choice",
+          "prompt": "Tập thể dục hoặc chơi thể thao có giúp giảm xu hướng bạo lực không?",
+          "options": [
+            {
+              "id": "A",
+              "text": "Có, giúp giải tỏa năng lượng tiêu cực"
+            },
+            {
+              "id": "B",
+              "text": "Không, chỉ làm mệt thêm"
+            }
+          ],
+          "correct_option_id": "A",
+          "correct_option_text": "Có, giúp giải tỏa năng lượng tiêu cực",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F3_Q5",
+          "question_type": "multiple_choice",
+          "prompt": "Khi có mâu thuẫn, việc \"đặt mình vào vị trí người khác\" gọi là gì?",
+          "options": [
+            {
+              "id": "A",
+              "text": "Sự thấu cảm"
+            },
+            {
+              "id": "B",
+              "text": "Sự nhu nhược"
+            }
+          ],
+          "correct_option_id": "A",
+          "correct_option_text": "Sự thấu cảm",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        }
+      ]
+    },
+    {
+      "file_id": "FILE_4",
+      "set_number": 4,
+      "set_title": "An toàn mạng",
+      "tags": [],
+      "questions": [
+        {
+          "question_id": "F4_Q1",
+          "question_type": "multiple_choice",
+          "prompt": "Bạn nhận được tin nhắn đe dọa từ một tài khoản lạ, bạn nên:",
+          "options": [
+            {
+              "id": "A",
+              "text": "Chửi lại họ thật nặng nề."
+            },
+            {
+              "id": "B",
+              "text": "Chụp màn hình và chặn tài khoản đó."
+            }
+          ],
+          "correct_option_id": "B",
+          "correct_option_text": "Chụp màn hình và chặn tài khoản đó.",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F4_Q2",
+          "question_type": "multiple_choice",
+          "prompt": "Có nên chia sẻ mật khẩu mạng xã hội cho \"bạn thân\" không?",
+          "options": [
+            {
+              "id": "A",
+              "text": "Có, vì đã là bạn thân thì không giấu gì."
+            },
+            {
+              "id": "B",
+              "text": "Không, mật khẩu là riêng tư để bảo vệ bản thân."
+            }
+          ],
+          "correct_option_id": "B",
+          "correct_option_text": "Không, mật khẩu là riêng tư để bảo vệ bản thân.",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F4_Q3",
+          "question_type": "multiple_choice",
+          "prompt": "\"Bình luận dạo\" xúc phạm ngoại hình người khác là bạo lực gì?",
+          "options": [
+            {
+              "id": "A",
+              "text": "Bạo lực mạng."
+            },
+            {
+              "id": "B",
+              "text": "Chỉ là giải trí mạng thôi."
+            }
+          ],
+          "correct_option_id": "A",
+          "correct_option_text": "Bạo lực mạng.",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F4_Q4",
+          "question_type": "multiple_choice",
+          "prompt": "Khi thấy một bài viết sai sự thật về mình, bạn nên:",
+          "options": [
+            {
+              "id": "A",
+              "text": "Báo cáo bài viết và nhờ người lớn can thiệp."
+            },
+            {
+              "id": "B",
+              "text": "Thuê người \"hack\" tài khoản đó."
+            }
+          ],
+          "correct_option_id": "A",
+          "correct_option_text": "Báo cáo bài viết và nhờ người lớn can thiệp.",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F4_Q5",
+          "question_type": "multiple_choice",
+          "prompt": "Những gì bạn đăng lên mạng sẽ:",
+          "options": [
+            {
+              "id": "A",
+              "text": "Biến mất sau khi xóa."
+            },
+            {
+              "id": "B",
+              "text": "Có thể để lại dấu vết vĩnh viễn."
+            }
+          ],
+          "correct_option_id": "B",
+          "correct_option_text": "Có thể để lại dấu vết vĩnh viễn.",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F4_Q6",
+          "question_type": "multiple_choice",
+          "prompt": "Kéo các bước bảo vệ mình trên mạng: [Chặn người lạ] -> [Bảo mật mật khẩu] -> [Suy nghĩ trước khi đăng].",
+          "options": [],
+          "correct_option_id": null,
+          "correct_option_text": null,
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F4_Q7",
+          "question_type": "matching",
+          "prompt": "Ghép đôi:",
+          "options": [],
+          "correct_option_id": null,
+          "correct_option_text": null,
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [
+              {
+                "left": "Công khai địa chỉ nhà",
+                "right": "Nguy hiểm"
+              },
+              {
+                "left": "Đặt tài khoản riêng tư",
+                "right": "An toàn"
+              }
+            ],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        }
+      ]
+    },
+    {
+      "file_id": "FILE_5",
+      "set_number": 5,
+      "set_title": "Xây dựng tình bạn đẹp",
+      "tags": [],
+      "questions": [
+        {
+          "question_id": "F5_Q1",
+          "question_type": "multiple_choice",
+          "prompt": "Một người bạn tốt là người:",
+          "options": [
+            {
+              "id": "A",
+              "text": "Luôn làm bài hộ bạn."
+            },
+            {
+              "id": "B",
+              "text": "Tôn trọng sở thích và ranh giới cá nhân của bạn."
+            }
+          ],
+          "correct_option_id": "B",
+          "correct_option_text": "Tôn trọng sở thích và ranh giới cá nhân của bạn.",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F5_Q2",
+          "question_type": "multiple_choice",
+          "prompt": "Nếu bạn và bạn thân cãi nhau, cách tốt nhất là:",
+          "options": [
+            {
+              "id": "A",
+              "text": "Ngồi lại nói chuyện thẳng thắn khi cả hai đã bình tĩnh."
+            },
+            {
+              "id": "B",
+              "text": "Nghỉ chơi và đi nói xấu bạn đó với người khác."
+            }
+          ],
+          "correct_option_id": "A",
+          "correct_option_text": "Ngồi lại nói chuyện thẳng thắn khi cả hai đã bình tĩnh.",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F5_Q3",
+          "question_type": "multiple_choice",
+          "prompt": "Tôn trọng \"sự khác biệt\" nghĩa là gì?",
+          "options": [
+            {
+              "id": "A",
+              "text": "Không phán xét bạn dù bạn có ngoại hình, sở thích khác mình."
+            },
+            {
+              "id": "B",
+              "text": "Ép bạn phải giống mình để chơi thân hơn."
+            }
+          ],
+          "correct_option_id": "A",
+          "correct_option_text": "Không phán xét bạn dù bạn có ngoại hình, sở thích khác mình.",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F5_Q4",
+          "question_type": "multiple_choice",
+          "prompt": "Bạn nên làm gì nếu bạn mình đang có ý định đi bắt nạt người khác?",
+          "options": [
+            {
+              "id": "A",
+              "text": "Khuyên ngăn và giải thích hậu quả cho bạn hiểu."
+            },
+            {
+              "id": "B",
+              "text": "Đi theo để ủng hộ bạn."
+            }
+          ],
+          "correct_option_id": "A",
+          "correct_option_text": "Khuyên ngăn và giải thích hậu quả cho bạn hiểu.",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F5_Q5",
+          "question_type": "multiple_choice",
+          "prompt": "Một môi trường học đường hạnh phúc là nơi:",
+          "options": [
+            {
+              "id": "A",
+              "text": "Ai cũng giống hệt nhau."
+            },
+            {
+              "id": "B",
+              "text": "Mọi sự khác biệt đều được tôn trọng và yêu thương."
+            }
+          ],
+          "correct_option_id": "B",
+          "correct_option_text": "Mọi sự khác biệt đều được tôn trọng và yêu thương.",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F5_Q6",
+          "question_type": "fill_blank",
+          "prompt": "Kéo từ: \"Tình bạn dựa trên sự [thấu hiểu] và [tôn trọng].\" (Từ để chọn: thấu hiểu, tôn trọng)",
+          "options": [],
+          "correct_option_id": null,
+          "correct_option_text": null,
+          "explanation": null,
+          "interaction": {
+            "blanks": [
+              "blank1",
+              "blank2"
+            ],
+            "bank": [
+              "thấu hiểu",
+              "tôn trọng"
+            ],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": "Tình bạn dựa trên sự [thấu hiểu] và [tôn trọng].",
+            "sentence_answers": [
+              "thấu hiểu",
+              "tôn trọng"
+            ]
+          }
+        },
+        {
+          "question_id": "F5_Q7",
+          "question_type": "ordering",
+          "prompt": "Sắp xếp để có một câu nói hay: [Tôn trọng] [người khác] [là] [tôn trọng] [chính mình].",
+          "options": [],
+          "correct_option_id": null,
+          "correct_option_text": null,
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [
+              "Tôn trọng",
+              "người khác",
+              "là",
+              "tôn trọng",
+              "chính mình"
+            ],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        }
+      ]
+    },
+    {
+      "file_id": "FILE_6",
+      "set_number": 6,
+      "set_title": "Nhận thức về Tự vệ An toàn",
+      "tags": [],
+      "questions": [
+        {
+          "question_id": "F6_Q1",
+          "question_type": "multiple_choice",
+          "prompt": "Mục đích chính của kỹ năng tự vệ là gì?",
+          "options": [
+            {
+              "id": "A",
+              "text": "Để đánh thắng kẻ bắt nạt."
+            },
+            {
+              "id": "B",
+              "text": "Để thoát khỏi nguy hiểm và bảo vệ bản thân."
+            },
+            {
+              "id": "C",
+              "text": "Để trả thù những gì họ đã làm với mình."
+            }
+          ],
+          "correct_option_id": "B",
+          "correct_option_text": "Để thoát khỏi nguy hiểm và bảo vệ bản thân.",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F6_Q2",
+          "question_type": "multiple_choice",
+          "prompt": "Khoảng cách an toàn tối thiểu khi đối mặt với một người đang hung hăng là bao nhiêu?",
+          "options": [
+            {
+              "id": "A",
+              "text": "10 cm (sát mặt)."
+            },
+            {
+              "id": "B",
+              "text": "Khoảng 2 cánh tay (ngoài tầm với của họ)."
+            },
+            {
+              "id": "C",
+              "text": "Không cần giữ khoảng cách."
+            }
+          ],
+          "correct_option_id": "B",
+          "correct_option_text": "Khoảng 2 cánh tay (ngoài tầm với của họ).",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F6_Q3",
+          "question_type": "multiple_choice",
+          "prompt": "\"Tự vệ bằng lời nói\" (Verbal Self-defense) nghĩa là gì?",
+          "options": [
+            {
+              "id": "A",
+              "text": "Dùng lời nói dứt khoát để yêu cầu đối phương dừng lại."
+            },
+            {
+              "id": "B",
+              "text": "Dùng những lời lẽ thâm độc để làm đối phương sợ."
+            }
+          ],
+          "correct_option_id": "A",
+          "correct_option_text": "Dùng lời nói dứt khoát để yêu cầu đối phương dừng lại.",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F6_Q4",
+          "question_type": "multiple_choice",
+          "prompt": "Nếu ai đó chặn đường bạn, hành động đầu tiên nên làm là:",
+          "options": [
+            {
+              "id": "A",
+              "text": "Tìm đường thoát nhanh nhất và chạy đến chỗ đông người."
+            },
+            {
+              "id": "B",
+              "text": "Đứng lại thách thức họ."
+            }
+          ],
+          "correct_option_id": "A",
+          "correct_option_text": "Tìm đường thoát nhanh nhất và chạy đến chỗ đông người.",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F6_Q5",
+          "question_type": "multiple_choice",
+          "prompt": "Bạn có nên mang theo vũ khí (dao, gậy...) đến trường để tự vệ không?",
+          "options": [
+            {
+              "id": "A",
+              "text": "Có, nếu mình hay bị bắt nạt."
+            },
+            {
+              "id": "B",
+              "text": "Không, vì vi phạm pháp luật và làm tình hình nguy hiểm hơn."
+            }
+          ],
+          "correct_option_id": "B",
+          "correct_option_text": "Không, vì vi phạm pháp luật và làm tình hình nguy hiểm hơn.",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F6_Q6",
+          "question_type": "fill_blank",
+          "prompt": "Kéo các từ vào đúng vị trí: \"Tự vệ thông minh ưu tiên việc [chạy thoát] hơn là việc [đối đầu] trực tiếp.\" (Từ chọn: chạy thoát, đối đầu)",
+          "options": [],
+          "correct_option_id": null,
+          "correct_option_text": null,
+          "explanation": null,
+          "interaction": {
+            "blanks": [
+              "blank1",
+              "blank2"
+            ],
+            "bank": [
+              "chạy thoát",
+              "đối đầu"
+            ],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": "Tự vệ thông minh ưu tiên việc [chạy thoát] hơn là việc [đối đầu] trực tiếp.",
+            "sentence_answers": [
+              "chạy thoát",
+              "đối đầu"
+            ]
+          }
+        },
+        {
+          "question_id": "F6_Q7",
+          "question_type": "matching",
+          "prompt": "Ghép đôi:",
+          "options": [],
+          "correct_option_id": null,
+          "correct_option_text": null,
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [
+              {
+                "left": "Giọng nói dứt khoát",
+                "right": "Tự vệ bằng lời nói"
+              },
+              {
+                "left": "Chạy đến văn phòng thầy cô",
+                "right": "Tự vệ bằng hành động"
+              }
+            ],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        }
+      ]
+    },
+    {
+      "file_id": "FILE_7",
+      "set_number": 7,
+      "set_title": "Thoát khỏi sự khống chế",
+      "tags": [],
+      "questions": [
+        {
+          "question_id": "F7_Q1",
+          "question_type": "multiple_choice",
+          "prompt": "Nếu bị ai đó nắm chặt cổ tay, bạn nên làm gì?",
+          "options": [
+            {
+              "id": "A",
+              "text": "Kéo mạnh về phía sau theo hướng ngược lại."
+            },
+            {
+              "id": "B",
+              "text": "Xoay cổ tay về phía khe hở giữa ngón cái và các ngón tay của họ."
+            }
+          ],
+          "correct_option_id": "B",
+          "correct_option_text": "Xoay cổ tay về phía khe hở giữa ngón cái và các ngón tay của họ.",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F7_Q2",
+          "question_type": "multiple_choice",
+          "prompt": "Khi bị dồn vào góc tường, vị trí nào là mục tiêu để bạn thoát thân?",
+          "options": [
+            {
+              "id": "A",
+              "text": "Hai bên sườn hoặc khoảng trống dưới cánh tay đối phương."
+            },
+            {
+              "id": "B",
+              "text": "Đứng yên chịu trận."
+            }
+          ],
+          "correct_option_id": "A",
+          "correct_option_text": "Hai bên sườn hoặc khoảng trống dưới cánh tay đối phương.",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F7_Q3",
+          "question_type": "multiple_choice",
+          "prompt": "Nếu bị bắt nạt theo nhóm, bạn nên tập trung vào điều gì?",
+          "options": [
+            {
+              "id": "A",
+              "text": "Cố gắng đánh lại tất cả mọi người."
+            },
+            {
+              "id": "B",
+              "text": "Tìm kẽ hở yếu nhất trong vòng vây để chạy thoát."
+            }
+          ],
+          "correct_option_id": "B",
+          "correct_option_text": "Tìm kẽ hở yếu nhất trong vòng vây để chạy thoát.",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F7_Q4",
+          "question_type": "multiple_choice",
+          "prompt": "\"Ngôn ngữ cơ thể\" tự vệ tốt nhất khi bị đe dọa là:",
+          "options": [
+            {
+              "id": "A",
+              "text": "Đứng thẳng, mắt nhìn thẳng, tay để trước ngực làm rào chắn."
+            },
+            {
+              "id": "B",
+              "text": "Cúi gầm mặt và run rẩy."
+            }
+          ],
+          "correct_option_id": "A",
+          "correct_option_text": "Đứng thẳng, mắt nhìn thẳng, tay để trước ngực làm rào chắn.",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F7_Q5",
+          "question_type": "multiple_choice",
+          "prompt": "Tại sao không nên nằm cuộn tròn ngay khi vừa bị xô ngã?",
+          "options": [
+            {
+              "id": "A",
+              "text": "Vì sẽ làm bẩn quần áo."
+            },
+            {
+              "id": "B",
+              "text": "Vì bạn cần dùng chân để đạp ngăn đối phương tiếp cận và đứng dậy ngay."
+            }
+          ],
+          "correct_option_id": "B",
+          "correct_option_text": "Vì bạn cần dùng chân để đạp ngăn đối phương tiếp cận và đứng dậy ngay.",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F7_Q6",
+          "question_type": "ordering",
+          "prompt": "Sắp xếp quy tắc thoát hiểm: [1. Bình tĩnh quan sát] -> [2. Tìm khe hở] -> [3. Chạy thật nhanh].",
+          "options": [],
+          "correct_option_id": null,
+          "correct_option_text": null,
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [
+              "1. Bình tĩnh quan sát",
+              "2. Tìm khe hở",
+              "3. Chạy thật nhanh"
+            ],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F7_Q7",
+          "question_type": "matching",
+          "prompt": "Ghép hành động:",
+          "options": [],
+          "correct_option_id": null,
+          "correct_option_text": null,
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [
+              {
+                "left": "Bị túm tóc",
+                "right": "Gập đầu về phía tay đối phương để giảm đau và thoát"
+              },
+              {
+                "left": "Bị ôm từ phía sau",
+                "right": "Dùng gót chân giậm mạnh vào mu bàn chân đối phương"
+              }
+            ],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        }
+      ]
+    },
+    {
+      "file_id": "FILE_8",
+      "set_number": 8,
+      "set_title": "",
+      "tags": [],
+      "questions": []
+    },
+    {
+      "file_id": "FILE_9",
+      "set_number": 16,
+      "set_title": "Nhận thức về Tự vệ An toàn",
+      "tags": [],
+      "questions": [
+        {
+          "question_id": "F9_Q1",
+          "question_type": "multiple_choice",
+          "prompt": "Mục đích chính của kỹ năng tự vệ là gì?",
+          "options": [
+            {
+              "id": "A",
+              "text": "Để đánh thắng kẻ bắt nạt."
+            },
+            {
+              "id": "B",
+              "text": "Để thoát khỏi nguy hiểm và bảo vệ bản thân."
+            },
+            {
+              "id": "C",
+              "text": "Để trả thù những gì họ đã làm với mình."
+            }
+          ],
+          "correct_option_id": "B",
+          "correct_option_text": "Để thoát khỏi nguy hiểm và bảo vệ bản thân.",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F9_Q2",
+          "question_type": "multiple_choice",
+          "prompt": "Khoảng cách an toàn tối thiểu khi đối mặt với một người đang hung hăng là bao nhiêu?",
+          "options": [
+            {
+              "id": "A",
+              "text": "10 cm (sát mặt)."
+            },
+            {
+              "id": "B",
+              "text": "Khoảng 2 cánh tay (ngoài tầm với của họ)."
+            },
+            {
+              "id": "C",
+              "text": "Không cần giữ khoảng cách."
+            }
+          ],
+          "correct_option_id": "B",
+          "correct_option_text": "Khoảng 2 cánh tay (ngoài tầm với của họ).",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F9_Q3",
+          "question_type": "multiple_choice",
+          "prompt": "\"Tự vệ bằng lời nói\" (Verbal Self-defense) nghĩa là gì?",
+          "options": [
+            {
+              "id": "A",
+              "text": "Dùng lời nói dứt khoát để yêu cầu đối phương dừng lại."
+            },
+            {
+              "id": "B",
+              "text": "Dùng những lời lẽ thâm độc để làm đối phương sợ."
+            }
+          ],
+          "correct_option_id": "A",
+          "correct_option_text": "Dùng lời nói dứt khoát để yêu cầu đối phương dừng lại.",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F9_Q4",
+          "question_type": "multiple_choice",
+          "prompt": "Nếu ai đó chặn đường bạn, hành động đầu tiên nên làm là:",
+          "options": [
+            {
+              "id": "A",
+              "text": "Tìm đường thoát nhanh nhất và chạy đến chỗ đông người."
+            },
+            {
+              "id": "B",
+              "text": "Đứng lại thách thức họ."
+            }
+          ],
+          "correct_option_id": "A",
+          "correct_option_text": "Tìm đường thoát nhanh nhất và chạy đến chỗ đông người.",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F9_Q5",
+          "question_type": "multiple_choice",
+          "prompt": "Bạn có nên mang theo vũ khí (dao, gậy...) đến trường để tự vệ không?",
+          "options": [
+            {
+              "id": "A",
+              "text": "Có, nếu mình hay bị bắt nạt."
+            },
+            {
+              "id": "B",
+              "text": "Không, vì vi phạm pháp luật và làm tình hình nguy hiểm hơn."
+            }
+          ],
+          "correct_option_id": "B",
+          "correct_option_text": "Không, vì vi phạm pháp luật và làm tình hình nguy hiểm hơn.",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F9_Q6",
+          "question_type": "fill_blank",
+          "prompt": "Kéo các từ vào đúng vị trí: \"Tự vệ thông minh ưu tiên việc [chạy thoát] hơn là việc [đối đầu] trực tiếp.\" (Từ chọn: chạy thoát, đối đầu)",
+          "options": [],
+          "correct_option_id": null,
+          "correct_option_text": null,
+          "explanation": null,
+          "interaction": {
+            "blanks": [
+              "blank1",
+              "blank2"
+            ],
+            "bank": [
+              "chạy thoát",
+              "đối đầu"
+            ],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": "Tự vệ thông minh ưu tiên việc [chạy thoát] hơn là việc [đối đầu] trực tiếp.",
+            "sentence_answers": [
+              "chạy thoát",
+              "đối đầu"
+            ]
+          }
+        },
+        {
+          "question_id": "F9_Q7",
+          "question_type": "matching",
+          "prompt": "Ghép đôi:",
+          "options": [],
+          "correct_option_id": null,
+          "correct_option_text": null,
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [
+              {
+                "left": "Giọng nói dứt khoát",
+                "right": "Tự vệ bằng lời nói"
+              },
+              {
+                "left": "Chạy đến văn phòng thầy cô",
+                "right": "Tự vệ bằng hành động"
+              }
+            ],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        }
+      ]
+    },
+    {
+      "file_id": "FILE_10",
+      "set_number": 8,
+      "set_title": "Thoát khỏi sự khống chế",
+      "tags": [],
+      "questions": [
+        {
+          "question_id": "F10_Q1",
+          "question_type": "multiple_choice",
+          "prompt": "Nếu bị ai đó nắm chặt cổ tay, bạn nên làm gì?",
+          "options": [
+            {
+              "id": "A",
+              "text": "Kéo mạnh về phía sau theo hướng ngược lại."
+            },
+            {
+              "id": "B",
+              "text": "Xoay cổ tay về phía khe hở giữa ngón cái và các ngón tay của họ."
+            }
+          ],
+          "correct_option_id": "B",
+          "correct_option_text": "Xoay cổ tay về phía khe hở giữa ngón cái và các ngón tay của họ.",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F10_Q2",
+          "question_type": "multiple_choice",
+          "prompt": "Khi bị dồn vào góc tường, vị trí nào là mục tiêu để bạn thoát thân?",
+          "options": [
+            {
+              "id": "A",
+              "text": "Hai bên sườn hoặc khoảng trống dưới cánh tay đối phương."
+            },
+            {
+              "id": "B",
+              "text": "Đứng yên chịu trận."
+            }
+          ],
+          "correct_option_id": "A",
+          "correct_option_text": "Hai bên sườn hoặc khoảng trống dưới cánh tay đối phương.",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F10_Q3",
+          "question_type": "multiple_choice",
+          "prompt": "Nếu bị bắt nạt theo nhóm, bạn nên tập trung vào điều gì?",
+          "options": [
+            {
+              "id": "A",
+              "text": "Cố gắng đánh lại tất cả mọi người."
+            },
+            {
+              "id": "B",
+              "text": "Tìm kẽ hở yếu nhất trong vòng vây để chạy thoát."
+            }
+          ],
+          "correct_option_id": "B",
+          "correct_option_text": "Tìm kẽ hở yếu nhất trong vòng vây để chạy thoát.",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F10_Q4",
+          "question_type": "multiple_choice",
+          "prompt": "\"Ngôn ngữ cơ thể\" tự vệ tốt nhất khi bị đe dọa là:",
+          "options": [
+            {
+              "id": "A",
+              "text": "Đứng thẳng, mắt nhìn thẳng, tay để trước ngực làm rào chắn."
+            },
+            {
+              "id": "B",
+              "text": "Cúi gầm mặt và run rẩy."
+            }
+          ],
+          "correct_option_id": "A",
+          "correct_option_text": "Đứng thẳng, mắt nhìn thẳng, tay để trước ngực làm rào chắn.",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F10_Q5",
+          "question_type": "multiple_choice",
+          "prompt": "Tại sao không nên nằm cuộn tròn ngay khi vừa bị xô ngã?",
+          "options": [
+            {
+              "id": "A",
+              "text": "Vì sẽ làm bẩn quần áo."
+            },
+            {
+              "id": "B",
+              "text": "Vì bạn cần dùng chân để đạp ngăn đối phương tiếp cận và đứng dậy ngay."
+            }
+          ],
+          "correct_option_id": "B",
+          "correct_option_text": "Vì bạn cần dùng chân để đạp ngăn đối phương tiếp cận và đứng dậy ngay.",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F10_Q6",
+          "question_type": "ordering",
+          "prompt": "Sắp xếp quy tắc thoát hiểm: [1. Bình tĩnh quan sát] -> [2. Tìm khe hở] -> [3. Chạy thật nhanh].",
+          "options": [],
+          "correct_option_id": null,
+          "correct_option_text": null,
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [
+              "1. Bình tĩnh quan sát",
+              "2. Tìm khe hở",
+              "3. Chạy thật nhanh"
+            ],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F10_Q7",
+          "question_type": "matching",
+          "prompt": "Ghép hành động:",
+          "options": [],
+          "correct_option_id": null,
+          "correct_option_text": null,
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [
+              {
+                "left": "Bị túm tóc",
+                "right": "Gập đầu về phía tay đối phương để giảm đau và thoát"
+              },
+              {
+                "left": "Bị ôm từ phía sau",
+                "right": "Dùng gót chân giậm mạnh vào mu bàn chân đối phương"
+              }
+            ],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        }
+      ]
+    },
+    {
+      "file_id": "FILE_11",
+      "set_number": 18,
+      "set_title": "Sử dụng âm thanh và sự trợ giúp",
+      "tags": [],
+      "questions": [
+        {
+          "question_id": "F11_Q1",
+          "question_type": "multiple_choice",
+          "prompt": "Khi cần sự giúp đỡ khẩn cấp ở nơi vắng người, bạn nên hét từ gì hiệu quả nhất?",
+          "options": [
+            {
+              "id": "A",
+              "text": "\"Cứu tôi với!\""
+            },
+            {
+              "id": "B",
+              "text": "\"CHÁY! CHÁY VỚI!\" (Từ này dễ thu hút sự chú ý hơn)."
+            }
+          ],
+          "correct_option_id": "B",
+          "correct_option_text": "\"CHÁY! CHÁY VỚI!\" (Từ này dễ thu hút sự chú ý hơn).",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F11_Q2",
+          "question_type": "multiple_choice",
+          "prompt": "Tiếng hét của bạn trong tự vệ có tác dụng gì?",
+          "options": [
+            {
+              "id": "A",
+              "text": "Chỉ để người khác đến cứu."
+            },
+            {
+              "id": "B",
+              "text": "Vừa gọi cứu viện, vừa làm kẻ tấn công giật mình, phân tâm."
+            }
+          ],
+          "correct_option_id": "B",
+          "correct_option_text": "Vừa gọi cứu viện, vừa làm kẻ tấn công giật mình, phân tâm.",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F11_Q3",
+          "question_type": "multiple_choice",
+          "prompt": "Nếu thấy bạn mình đang bị bắt nạt, cách can thiệp an toàn là:",
+          "options": [
+            {
+              "id": "A",
+              "text": "Hét lớn: \"Thầy Hiệu trưởng đang đến kìa!\" để giải tán đám đông."
+            },
+            {
+              "id": "B",
+              "text": "Im lặng đi chỗ khác."
+            }
+          ],
+          "correct_option_id": "A",
+          "correct_option_text": "Hét lớn: \"Thầy Hiệu trưởng đang đến kìa!\" để giải tán đám đông.",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F11_Q4",
+          "question_type": "multiple_choice",
+          "prompt": "Một chiếc còi cứu hộ nhỏ đeo ở cặp có tác dụng gì?",
+          "options": [
+            {
+              "id": "A",
+              "text": "Phát tín hiệu khẩn cấp mà không cần tốn quá nhiều sức hét."
+            },
+            {
+              "id": "B",
+              "text": "Để làm đồ chơi."
+            }
+          ],
+          "correct_option_id": "A",
+          "correct_option_text": "Phát tín hiệu khẩn cấp mà không cần tốn quá nhiều sức hét.",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F11_Q5",
+          "question_type": "multiple_choice",
+          "prompt": "Số điện thoại khẩn cấp bảo vệ trẻ em tại Việt Nam là:",
+          "options": [
+            {
+              "id": "A",
+              "text": "113."
+            },
+            {
+              "id": "B",
+              "text": "111."
+            }
+          ],
+          "correct_option_id": "B",
+          "correct_option_text": "111.",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F11_Q6",
+          "question_type": "fill_blank",
+          "prompt": "Điền vào chỗ trống: \"Âm thanh là một loại [vũ khí] tự vệ giúp [cảnh báo] mọi người xung quanh.\" (Từ chọn: vũ khí, cảnh báo)",
+          "options": [],
+          "correct_option_id": null,
+          "correct_option_text": null,
+          "explanation": null,
+          "interaction": {
+            "blanks": [
+              "blank1",
+              "blank2"
+            ],
+            "bank": [
+              "vũ khí",
+              "cảnh báo"
+            ],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": "Âm thanh là một loại [vũ khí] tự vệ giúp [cảnh báo] mọi người xung quanh.",
+            "sentence_answers": [
+              "vũ khí",
+              "cảnh báo"
+            ]
+          }
+        },
+        {
+          "question_id": "F11_Q7",
+          "question_type": "matching",
+          "prompt": "Ghép đôi số điện thoại:",
+          "options": [],
+          "correct_option_id": null,
+          "correct_option_text": null,
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [
+              {
+                "left": "111",
+                "right": "Tổng đài Quốc gia Bảo vệ Trẻ em"
+              },
+              {
+                "left": "113",
+                "right": "Công an phản ứng nhanh"
+              }
+            ],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        }
+      ]
+    },
+    {
+      "file_id": "FILE_12",
+      "set_number": 9,
+      "set_title": "Nhận thức về Tự vệ An toàn",
+      "tags": [],
+      "questions": [
+        {
+          "question_id": "F12_Q1",
+          "question_type": "multiple_choice",
+          "prompt": "Mục đích chính của kỹ năng tự vệ là gì?",
+          "options": [
+            {
+              "id": "A",
+              "text": "Để đánh thắng kẻ bắt nạt."
+            },
+            {
+              "id": "B",
+              "text": "Để thoát khỏi nguy hiểm và bảo vệ bản thân."
+            },
+            {
+              "id": "C",
+              "text": "Để trả thù những gì họ đã làm với mình."
+            }
+          ],
+          "correct_option_id": "B",
+          "correct_option_text": "Để thoát khỏi nguy hiểm và bảo vệ bản thân.",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F12_Q2",
+          "question_type": "multiple_choice",
+          "prompt": "Khoảng cách an toàn tối thiểu khi đối mặt với một người đang hung hăng là bao nhiêu?",
+          "options": [
+            {
+              "id": "A",
+              "text": "10 cm (sát mặt)."
+            },
+            {
+              "id": "B",
+              "text": "Khoảng 2 cánh tay (ngoài tầm với của họ)."
+            },
+            {
+              "id": "C",
+              "text": "Không cần giữ khoảng cách."
+            }
+          ],
+          "correct_option_id": "B",
+          "correct_option_text": "Khoảng 2 cánh tay (ngoài tầm với của họ).",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F12_Q3",
+          "question_type": "multiple_choice",
+          "prompt": "\"Tự vệ bằng lời nói\" (Verbal Self-defense) nghĩa là gì?",
+          "options": [
+            {
+              "id": "A",
+              "text": "Dùng lời nói dứt khoát để yêu cầu đối phương dừng lại."
+            },
+            {
+              "id": "B",
+              "text": "Dùng những lời lẽ thâm độc để làm đối phương sợ."
+            }
+          ],
+          "correct_option_id": "A",
+          "correct_option_text": "Dùng lời nói dứt khoát để yêu cầu đối phương dừng lại.",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F12_Q4",
+          "question_type": "multiple_choice",
+          "prompt": "Nếu ai đó chặn đường bạn, hành động đầu tiên nên làm là:",
+          "options": [
+            {
+              "id": "A",
+              "text": "Tìm đường thoát nhanh nhất và chạy đến chỗ đông người."
+            },
+            {
+              "id": "B",
+              "text": "Đứng lại thách thức họ."
+            }
+          ],
+          "correct_option_id": "A",
+          "correct_option_text": "Tìm đường thoát nhanh nhất và chạy đến chỗ đông người.",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F12_Q5",
+          "question_type": "multiple_choice",
+          "prompt": "Bạn có nên mang theo vũ khí (dao, gậy...) đến trường để tự vệ không?",
+          "options": [
+            {
+              "id": "A",
+              "text": "Có, nếu mình hay bị bắt nạt."
+            },
+            {
+              "id": "B",
+              "text": "Không, vì vi phạm pháp luật và làm tình hình nguy hiểm hơn."
+            }
+          ],
+          "correct_option_id": "B",
+          "correct_option_text": "Không, vì vi phạm pháp luật và làm tình hình nguy hiểm hơn.",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F12_Q6",
+          "question_type": "fill_blank",
+          "prompt": "Kéo các từ vào đúng vị trí: \"Tự vệ thông minh ưu tiên việc [chạy thoát] hơn là việc [đối đầu] trực tiếp.\" (Từ chọn: chạy thoát, đối đầu)",
+          "options": [],
+          "correct_option_id": null,
+          "correct_option_text": null,
+          "explanation": null,
+          "interaction": {
+            "blanks": [
+              "blank1",
+              "blank2"
+            ],
+            "bank": [
+              "chạy thoát",
+              "đối đầu"
+            ],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": "Tự vệ thông minh ưu tiên việc [chạy thoát] hơn là việc [đối đầu] trực tiếp.",
+            "sentence_answers": [
+              "chạy thoát",
+              "đối đầu"
+            ]
+          }
+        },
+        {
+          "question_id": "F12_Q7",
+          "question_type": "matching",
+          "prompt": "Ghép đôi:",
+          "options": [],
+          "correct_option_id": null,
+          "correct_option_text": null,
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [
+              {
+                "left": "Giọng nói dứt khoát",
+                "right": "Tự vệ bằng lời nói"
+              },
+              {
+                "left": "Chạy đến văn phòng thầy cô",
+                "right": "Tự vệ bằng hành động"
+              }
+            ],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        }
+      ]
+    },
+    {
+      "file_id": "FILE_13",
+      "set_number": 10,
+      "set_title": "Tổng kết Kỹ năng thoát hiểm",
+      "tags": [],
+      "questions": [
+        {
+          "question_id": "F13_Q1",
+          "question_type": "multiple_choice",
+          "prompt": "Nguyên tắc vàng trong tự vệ là gì?",
+          "options": [
+            {
+              "id": "A",
+              "text": "Tránh né > Thoát hiểm > Đối đầu."
+            },
+            {
+              "id": "B",
+              "text": "Đối đầu > Thoát hiểm > Tránh né."
+            }
+          ],
+          "correct_option_id": "A",
+          "correct_option_text": "Tránh né > Thoát hiểm > Đối đầu.",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F13_Q2",
+          "question_type": "multiple_choice",
+          "prompt": "Khi bị bắt nạt, việc giữ bình tĩnh giúp bạn:",
+          "options": [
+            {
+              "id": "A",
+              "text": "Nghĩ ra cách thoát thân và không làm kẻ bắt nạt phấn khích hơn."
+            },
+            {
+              "id": "B",
+              "text": "Trông bạn ngầu hơn."
+            }
+          ],
+          "correct_option_id": "A",
+          "correct_option_text": "Nghĩ ra cách thoát thân và không làm kẻ bắt nạt phấn khích hơn.",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F13_Q3",
+          "question_type": "multiple_choice",
+          "prompt": "\"Ranh giới cá nhân\" của bạn là gì?",
+          "options": [
+            {
+              "id": "A",
+              "text": "Khoảng cách xung quanh cơ thể mà không ai được phép xâm phạm nếu bạn không muốn."
+            },
+            {
+              "id": "B",
+              "text": "Là phòng riêng của bạn."
+            }
+          ],
+          "correct_option_id": "A",
+          "correct_option_text": "Khoảng cách xung quanh cơ thể mà không ai được phép xâm phạm nếu bạn không muốn.",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F13_Q4",
+          "question_type": "multiple_choice",
+          "prompt": "Nếu kẻ bắt nạt yêu cầu bạn đưa tiền/điện thoại và đe dọa dùng vũ lực:",
+          "options": [
+            {
+              "id": "A",
+              "text": "Đưa tài sản cho họ để bảo vệ an toàn tính mạng, sau đó báo công an."
+            },
+            {
+              "id": "B",
+              "text": "Liều mạng để giữ đồ."
+            }
+          ],
+          "correct_option_id": "A",
+          "correct_option_text": "Đưa tài sản cho họ để bảo vệ an toàn tính mạng, sau đó báo công an.",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F13_Q5",
+          "question_type": "multiple_choice",
+          "prompt": "Tự vệ thành công nhất là khi:",
+          "options": [
+            {
+              "id": "A",
+              "text": "Bạn không để xảy ra một cuộc đánh nhau nào."
+            },
+            {
+              "id": "B",
+              "text": "Bạn đánh cho đối phương sợ chạy mất."
+            }
+          ],
+          "correct_option_id": "A",
+          "correct_option_text": "Bạn không để xảy ra một cuộc đánh nhau nào.",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F13_Q6",
+          "question_type": "fill_blank",
+          "prompt": "Hoàn thiện câu: \"Tính mạng con người là [quý giá nhất], tài sản có thể [tìm lại được].\" (Từ chọn: quý giá nhất, tìm lại được)",
+          "options": [],
+          "correct_option_id": null,
+          "correct_option_text": null,
+          "explanation": null,
+          "interaction": {
+            "blanks": [
+              "blank1",
+              "blank2"
+            ],
+            "bank": [
+              "quý giá nhất",
+              "tìm lại được"
+            ],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": "Tính mạng con người là [quý giá nhất], tài sản có thể [tìm lại được].",
+            "sentence_answers": [
+              "quý giá nhất",
+              "tìm lại được"
+            ]
+          }
+        },
+        {
+          "question_id": "F13_Q7",
+          "question_type": "ordering",
+          "prompt": "Sắp xếp mức độ ưu tiên: [1. Tránh xa nguy hiểm] -> [2. Lên tiếng cảnh báo] -> [3. Chạy thoát thân].",
+          "options": [],
+          "correct_option_id": null,
+          "correct_option_text": null,
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [
+              "1. Tránh xa nguy hiểm",
+              "2. Lên tiếng cảnh báo",
+              "3. Chạy thoát thân"
+            ],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        }
+      ]
+    },
+    {
+      "file_id": "FILE_14",
+      "set_number": 11,
+      "set_title": "Quyền được bảo vệ (Quyền trẻ em cơ bản)",
+      "tags": [],
+      "questions": [
+        {
+          "question_id": "F14_Q1",
+          "question_type": "multiple_choice",
+          "prompt": "Trẻ em có quyền được bảo vệ khỏi mọi hình thức bạo lực, bỏ mặc và xâm hại đúng hay sai?",
+          "options": [
+            {
+              "id": "A",
+              "text": "Đúng, đây là quyền cơ bản trong Luật Trẻ em."
+            },
+            {
+              "id": "B",
+              "text": "Sai, chỉ khi ở nhà mới được bảo vệ."
+            }
+          ],
+          "correct_option_id": "A",
+          "correct_option_text": "Đúng, đây là quyền cơ bản trong Luật Trẻ em.",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F14_Q2",
+          "question_type": "multiple_choice",
+          "prompt": "Khi bị bắt nạt ở trường, quyền lợi nào của bạn đang bị xâm phạm nghiêm trọng nhất?",
+          "options": [
+            {
+              "id": "A",
+              "text": "Quyền được vui chơi."
+            },
+            {
+              "id": "B",
+              "text": "Quyền được sống trong môi trường an toàn và được tôn trọng nhân phẩm."
+            }
+          ],
+          "correct_option_id": "B",
+          "correct_option_text": "Quyền được sống trong môi trường an toàn và được tôn trọng nhân phẩm.",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F14_Q3",
+          "question_type": "multiple_choice",
+          "prompt": "Luật Trẻ em Việt Nam hiện nay quy định đối tượng nào là trẻ em?",
+          "options": [
+            {
+              "id": "A",
+              "text": "Người dưới 16 tuổi."
+            },
+            {
+              "id": "B",
+              "text": "Người dưới 18 tuổi."
+            }
+          ],
+          "correct_option_id": "A",
+          "correct_option_text": "Người dưới 16 tuổi.",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F14_Q4",
+          "question_type": "multiple_choice",
+          "prompt": "Ai là người có trách nhiệm đầu tiên trong việc bảo vệ trẻ em khỏi bạo lực học đường?",
+          "options": [
+            {
+              "id": "A",
+              "text": "Chỉ có công an."
+            },
+            {
+              "id": "B",
+              "text": "Gia đình, nhà trường và toàn xã hội."
+            }
+          ],
+          "correct_option_id": "B",
+          "correct_option_text": "Gia đình, nhà trường và toàn xã hội.",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F14_Q5",
+          "question_type": "multiple_choice",
+          "prompt": "Việc giáo viên hoặc bạn bè dùng những lời lẽ nhục mạ học sinh có vi phạm pháp luật không?",
+          "options": [
+            {
+              "id": "A",
+              "text": "Có, đó là hành vi xúc phạm danh dự, nhân phẩm."
+            },
+            {
+              "id": "B",
+              "text": "Không, đó chỉ là cách giáo dục nghiêm khắc."
+            }
+          ],
+          "correct_option_id": "A",
+          "correct_option_text": "Có, đó là hành vi xúc phạm danh dự, nhân phẩm.",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F14_Q6",
+          "question_type": "fill_blank",
+          "prompt": "Kéo từ vào vị trí: \"Trẻ em có quyền được [bày tỏ] ý kiến và được người lớn [lắng nghe].\" (Từ chọn: bày tỏ, lắng nghe)",
+          "options": [],
+          "correct_option_id": null,
+          "correct_option_text": null,
+          "explanation": null,
+          "interaction": {
+            "blanks": [
+              "blank1",
+              "blank2"
+            ],
+            "bank": [
+              "bày tỏ",
+              "lắng nghe"
+            ],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": "Trẻ em có quyền được [bày tỏ] ý kiến và được người lớn [lắng nghe].",
+            "sentence_answers": [
+              "bày tỏ",
+              "lắng nghe"
+            ]
+          }
+        },
+        {
+          "question_id": "F14_Q7",
+          "question_type": "matching",
+          "prompt": "Ghép đôi:",
+          "options": [],
+          "correct_option_id": null,
+          "correct_option_text": null,
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [
+              {
+                "left": "Quyền sống còn",
+                "right": "Được chăm sóc sức khỏe"
+              }
+            ],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        }
+      ]
+    },
+    {
+      "file_id": "FILE_15",
+      "set_number": 12,
+      "set_title": "Quyền được bảo vệ (Quyền trẻ em cơ bản)",
+      "tags": [],
+      "questions": [
+        {
+          "question_id": "F15_Q1",
+          "question_type": "multiple_choice",
+          "prompt": "Trẻ em có quyền được bảo vệ khỏi mọi hình thức bạo lực, bỏ mặc và xâm hại đúng hay sai?",
+          "options": [
+            {
+              "id": "A",
+              "text": "Đúng, đây là quyền cơ bản trong Luật Trẻ em."
+            },
+            {
+              "id": "B",
+              "text": "Sai, chỉ khi ở nhà mới được bảo vệ."
+            }
+          ],
+          "correct_option_id": "A",
+          "correct_option_text": "Đúng, đây là quyền cơ bản trong Luật Trẻ em.",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F15_Q2",
+          "question_type": "multiple_choice",
+          "prompt": "Khi bị bắt nạt ở trường, quyền lợi nào của bạn đang bị xâm phạm nghiêm trọng nhất?",
+          "options": [
+            {
+              "id": "A",
+              "text": "Quyền được vui chơi."
+            },
+            {
+              "id": "B",
+              "text": "Quyền được sống trong môi trường an toàn và được tôn trọng nhân phẩm."
+            }
+          ],
+          "correct_option_id": "B",
+          "correct_option_text": "Quyền được sống trong môi trường an toàn và được tôn trọng nhân phẩm.",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F15_Q3",
+          "question_type": "multiple_choice",
+          "prompt": "Luật Trẻ em Việt Nam hiện nay quy định đối tượng nào là trẻ em?",
+          "options": [
+            {
+              "id": "A",
+              "text": "Người dưới 16 tuổi."
+            },
+            {
+              "id": "B",
+              "text": "Người dưới 18 tuổi."
+            }
+          ],
+          "correct_option_id": "A",
+          "correct_option_text": "Người dưới 16 tuổi.",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F15_Q4",
+          "question_type": "multiple_choice",
+          "prompt": "Ai là người có trách nhiệm đầu tiên trong việc bảo vệ trẻ em khỏi bạo lực học đường?",
+          "options": [
+            {
+              "id": "A",
+              "text": "Chỉ có công an."
+            },
+            {
+              "id": "B",
+              "text": "Gia đình, nhà trường và toàn xã hội."
+            }
+          ],
+          "correct_option_id": "B",
+          "correct_option_text": "Gia đình, nhà trường và toàn xã hội.",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F15_Q5",
+          "question_type": "multiple_choice",
+          "prompt": "Việc giáo viên hoặc bạn bè dùng những lời lẽ nhục mạ học sinh có vi phạm pháp luật không?",
+          "options": [
+            {
+              "id": "A",
+              "text": "Có, đó là hành vi xúc phạm danh dự, nhân phẩm."
+            },
+            {
+              "id": "B",
+              "text": "Không, đó chỉ là cách giáo dục nghiêm khắc."
+            }
+          ],
+          "correct_option_id": "A",
+          "correct_option_text": "Có, đó là hành vi xúc phạm danh dự, nhân phẩm.",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F15_Q6",
+          "question_type": "fill_blank",
+          "prompt": "Kéo từ vào vị trí: \"Trẻ em có quyền được [bày tỏ] ý kiến và được người lớn [lắng nghe].\" (Từ chọn: bày tỏ, lắng nghe)",
+          "options": [],
+          "correct_option_id": null,
+          "correct_option_text": null,
+          "explanation": null,
+          "interaction": {
+            "blanks": [
+              "blank1",
+              "blank2"
+            ],
+            "bank": [
+              "bày tỏ",
+              "lắng nghe"
+            ],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": "Trẻ em có quyền được [bày tỏ] ý kiến và được người lớn [lắng nghe].",
+            "sentence_answers": [
+              "bày tỏ",
+              "lắng nghe"
+            ]
+          }
+        },
+        {
+          "question_id": "F15_Q7",
+          "question_type": "matching",
+          "prompt": "Ghép đôi:",
+          "options": [],
+          "correct_option_id": null,
+          "correct_option_text": null,
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [
+              {
+                "left": "Quyền sống còn",
+                "right": "Được chăm sóc sức khỏe"
+              },
+              {
+                "left": "Quyền bảo vệ",
+                "right": "Được an toàn trước bạo lực"
+              }
+            ],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        }
+      ]
+    },
+    {
+      "file_id": "FILE_16",
+      "set_number": 22,
+      "set_title": "Hình phạt và Trách nhiệm dân sự",
+      "tags": [],
+      "questions": [
+        {
+          "question_id": "F16_Q1",
+          "question_type": "multiple_choice",
+          "prompt": "Học sinh dưới 14 tuổi gây ra bạo lực học đường nghiêm trọng có phải chịu trách nhiệm không?",
+          "options": [
+            {
+              "id": "A",
+              "text": "Có, nhưng chủ yếu là các biện pháp giáo dục và bồi thường dân sự từ gia đình."
+            },
+            {
+              "id": "B",
+              "text": "Không, hoàn toàn miễn trách nhiệm."
+            }
+          ],
+          "correct_option_id": "A",
+          "correct_option_text": "Có, nhưng chủ yếu là các biện pháp giáo dục và bồi thường dân sự từ gia đình.",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F16_Q2",
+          "question_type": "multiple_choice",
+          "prompt": "Hình phạt cao nhất đối với hành vi bắt nạt, gây thương tích nghiêm trọng tại trường học có thể là gì?",
+          "options": [
+            {
+              "id": "A",
+              "text": "Chỉ bị phê bình trước lớp."
+            },
+            {
+              "id": "B",
+              "text": "Buộc thôi học có thời hạn hoặc đưa vào trường giáo dưỡng."
+            }
+          ],
+          "correct_option_id": "B",
+          "correct_option_text": "Buộc thôi học có thời hạn hoặc đưa vào trường giáo dưỡng.",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F16_Q3",
+          "question_type": "multiple_choice",
+          "prompt": "Nếu một bạn làm hỏng điện thoại của bạn trong lúc bắt nạt, ai phải bồi thường?",
+          "options": [
+            {
+              "id": "A",
+              "text": "Bạn đó hoặc cha mẹ của bạn đó (nếu bạn đó chưa đủ tuổi chịu trách nhiệm)."
+            },
+            {
+              "id": "B",
+              "text": "Nhà trường phải trả tiền."
+            }
+          ],
+          "correct_option_id": "A",
+          "correct_option_text": "Bạn đó hoặc cha mẹ của bạn đó (nếu bạn đó chưa đủ tuổi chịu trách nhiệm).",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F16_Q4",
+          "question_type": "multiple_choice",
+          "prompt": "Việc đe dọa người khác qua tin nhắn để tống tiền là hành vi:",
+          "options": [
+            {
+              "id": "A",
+              "text": "Đùa nghịch tuổi học trò."
+            },
+            {
+              "id": "B",
+              "text": "Vi phạm pháp luật hình sự (Cưỡng đoạt tài sản)."
+            }
+          ],
+          "correct_option_id": "B",
+          "correct_option_text": "Vi phạm pháp luật hình sự (Cưỡng đoạt tài sản).",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F16_Q5",
+          "question_type": "multiple_choice",
+          "prompt": "Hành vi \"Làm nhục người khác\" trên mạng có thể bị phạt hành chính không?",
+          "options": [
+            {
+              "id": "A",
+              "text": "Có, và mức phạt có thể lên đến hàng triệu đồng."
+            },
+            {
+              "id": "B",
+              "text": "Không, mạng xã hội là ảo nên không phạt được."
+            }
+          ],
+          "correct_option_id": "A",
+          "correct_option_text": "Có, và mức phạt có thể lên đến hàng triệu đồng.",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F16_Q6",
+          "question_type": "ordering",
+          "prompt": "Sắp xếp mức độ vi phạm: [Nhắc nhở] -> [Kỷ luật trường học] -> [Trường giáo dưỡng].",
+          "options": [],
+          "correct_option_id": null,
+          "correct_option_text": null,
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [
+              "Nhắc nhở",
+              "Kỷ luật trường học",
+              "Trường giáo dưỡng"
+            ],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F16_Q7",
+          "question_type": "matching",
+          "prompt": "Ghép đôi:",
+          "options": [],
+          "correct_option_id": null,
+          "correct_option_text": null,
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [
+              {
+                "left": "Gây thương tích nhẹ",
+                "right": "Bồi thường chi phí y tế"
+              },
+              {
+                "left": "Xúc phạm nhân phẩm",
+                "right": "Xin lỗi công khai"
+              }
+            ],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        }
+      ]
+    },
+    {
+      "file_id": "FILE_17",
+      "set_number": 13,
+      "set_title": "Luật An ninh mạng và Bạo lực mạng",
+      "tags": [],
+      "questions": [
+        {
+          "question_id": "F17_Q1",
+          "question_type": "multiple_choice",
+          "prompt": "Luật An ninh mạng nghiêm cấm hành vi nào sau đây?",
+          "options": [
+            {
+              "id": "A",
+              "text": "Đưa thông tin sai sự thật xâm phạm quyền và lợi ích hợp pháp của người khác."
+            },
+            {
+              "id": "B",
+              "text": "Kết bạn với người lạ trên mạng."
+            }
+          ],
+          "correct_option_id": "A",
+          "correct_option_text": "Đưa thông tin sai sự thật xâm phạm quyền và lợi ích hợp pháp của người khác.",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F17_Q2",
+          "question_type": "multiple_choice",
+          "prompt": "Khi thấy một nhóm chat lập ra để \"tế\" (nói xấu) một bạn trong lớp, bạn tham gia bình luận hùa theo thì có vi phạm không?",
+          "options": [
+            {
+              "id": "A",
+              "text": "Có, bạn đang tham gia vào hành vi bạo lực mạng theo nhóm."
+            },
+            {
+              "id": "B",
+              "text": "Không, vì mình không phải người lập nhóm."
+            }
+          ],
+          "correct_option_id": "A",
+          "correct_option_text": "Có, bạn đang tham gia vào hành vi bạo lực mạng theo nhóm.",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F17_Q3",
+          "question_type": "multiple_choice",
+          "prompt": "Việc tự ý lấy ảnh của bạn khác chế ảnh nhạy cảm rồi phát tán bị coi là:",
+          "options": [
+            {
+              "id": "A",
+              "text": "Hành vi truyền bá văn hóa phẩm độc hại hoặc làm nhục người khác."
+            },
+            {
+              "id": "B",
+              "text": "Sự sáng tạo hài hước."
+            }
+          ],
+          "correct_option_id": "A",
+          "correct_option_text": "Hành vi truyền bá văn hóa phẩm độc hại hoặc làm nhục người khác.",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F17_Q4",
+          "question_type": "multiple_choice",
+          "prompt": "Bạn có quyền yêu cầu quản trị viên mạng xã hội gỡ bỏ thông tin sai sự thật về mình không?",
+          "options": [
+            {
+              "id": "A",
+              "text": "Có, đó là quyền bảo vệ hình ảnh cá nhân."
+            },
+            {
+              "id": "B",
+              "text": "Không, khi đã đăng lên mạng thì là của chung."
+            }
+          ],
+          "correct_option_id": "A",
+          "correct_option_text": "Có, đó là quyền bảo vệ hình ảnh cá nhân.",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F17_Q5",
+          "question_type": "multiple_choice",
+          "prompt": "Cơ quan nào có thẩm quyền xử lý các vi phạm về bạo lực trên không gian mạng?",
+          "options": [
+            {
+              "id": "A",
+              "text": "Bộ Công an (Cục An ninh mạng) và Thanh tra Bộ Thông tin & Truyền thông."
+            },
+            {
+              "id": "B",
+              "text": "Chỉ có ban cán sự lớp."
+            }
+          ],
+          "correct_option_id": "A",
+          "correct_option_text": "Bộ Công an (Cục An ninh mạng) và Thanh tra Bộ Thông tin & Truyền thông.",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F17_Q6",
+          "question_type": "fill_blank",
+          "prompt": "Điền vào chỗ trống: \"Hãy là người dùng mạng [văn minh] và tuân thủ [pháp luật].\" (Từ chọn: văn minh, pháp luật)",
+          "options": [],
+          "correct_option_id": null,
+          "correct_option_text": null,
+          "explanation": null,
+          "interaction": {
+            "blanks": [
+              "blank1",
+              "blank2"
+            ],
+            "bank": [
+              "văn minh",
+              "pháp luật"
+            ],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": "Hãy là người dùng mạng [văn minh] và tuân thủ [pháp luật].",
+            "sentence_answers": [
+              "văn minh",
+              "pháp luật"
+            ]
+          }
+        },
+        {
+          "question_id": "F17_Q7",
+          "question_type": "matching",
+          "prompt": "Ghép đôi hành vi:",
+          "options": [],
+          "correct_option_id": null,
+          "correct_option_text": null,
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [
+              {
+                "left": "Hack tài khoản bạn",
+                "right": "Xâm nhập trái phép"
+              },
+              {
+                "left": "Đăng tin đồn thất thiệt",
+                "right": "Vu khống"
+              }
+            ],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        }
+      ]
+    },
+    {
+      "file_id": "FILE_18",
+      "set_number": 14,
+      "set_title": "Trách nhiệm của Nhà trường và Xã hội",
+      "tags": [],
+      "questions": [
+        {
+          "question_id": "F18_Q1",
+          "question_type": "multiple_choice",
+          "prompt": "Nhà trường có trách nhiệm gì khi xảy ra bạo lực học đường?",
+          "options": [
+            {
+              "id": "A",
+              "text": "Phải có biện pháp can thiệp, hỗ trợ nạn nhân và xử lý người vi phạm kịp thời."
+            },
+            {
+              "id": "B",
+              "text": "Chỉ cần thông báo cho phụ huynh là xong."
+            }
+          ],
+          "correct_option_id": "A",
+          "correct_option_text": "Phải có biện pháp can thiệp, hỗ trợ nạn nhân và xử lý người vi phạm kịp thời.",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F18_Q2",
+          "question_type": "multiple_choice",
+          "prompt": "\"Hộp thư góp ý\" hoặc \"Đường dây nóng\" của trường dùng để làm gì?",
+          "options": [
+            {
+              "id": "A",
+              "text": "Tiếp nhận thông tin tố giác bạo lực một cách bảo mật."
+            },
+            {
+              "id": "B",
+              "text": "Để học sinh gửi thư kết bạn."
+            }
+          ],
+          "correct_option_id": "A",
+          "correct_option_text": "Tiếp nhận thông tin tố giác bạo lực một cách bảo mật.",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F18_Q3",
+          "question_type": "multiple_choice",
+          "prompt": "Nếu nhà trường biết có bạo lực mà cố tình bao che, không xử lý thì sao?",
+          "options": [
+            {
+              "id": "A",
+              "text": "Nhà trường và những người có trách nhiệm sẽ bị xử lý kỷ luật theo quy định."
+            },
+            {
+              "id": "B",
+              "text": "Không sao cả, đó là quyền của trường."
+            }
+          ],
+          "correct_option_id": "A",
+          "correct_option_text": "Nhà trường và những người có trách nhiệm sẽ bị xử lý kỷ luật theo quy định.",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F18_Q4",
+          "question_type": "multiple_choice",
+          "prompt": "Cộng đồng xung quanh trường học (hàng quán, người dân) có trách nhiệm gì?",
+          "options": [
+            {
+              "id": "A",
+              "text": "Phối hợp với nhà trường để ngăn chặn các vụ việc đánh nhau bên ngoài cổng trường."
+            },
+            {
+              "id": "B",
+              "text": "Không có trách nhiệm vì không phải giáo viên."
+            }
+          ],
+          "correct_option_id": "A",
+          "correct_option_text": "Phối hợp với nhà trường để ngăn chặn các vụ việc đánh nhau bên ngoài cổng trường.",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F18_Q5",
+          "question_type": "multiple_choice",
+          "prompt": "Các tổ chức như Đoàn Thanh niên, Đội Thiếu niên có vai trò gì?",
+          "options": [
+            {
+              "id": "A",
+              "text": "Tuyên truyền, giáo dục và tạo sân chơi lành mạnh để ngăn ngừa bạo lực."
+            },
+            {
+              "id": "B",
+              "text": "Chỉ để tổ chức văn nghệ."
+            }
+          ],
+          "correct_option_id": "A",
+          "correct_option_text": "Tuyên truyền, giáo dục và tạo sân chơi lành mạnh để ngăn ngừa bạo lực.",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F18_Q6",
+          "question_type": "ordering",
+          "prompt": "Sắp xếp quy trình xử lý của trường: [Tiếp nhận tin báo] -> [Xác minh sự việc] -> [Hỗ trợ nạn nhân & Xử lý vi phạm].",
+          "options": [],
+          "correct_option_id": null,
+          "correct_option_text": null,
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [
+              "Tiếp nhận tin báo",
+              "Xác minh sự việc",
+              "Hỗ trợ nạn nhân & Xử lý vi phạm"
+            ],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F18_Q7",
+          "question_type": "fill_blank",
+          "prompt": "Kéo từ: \"Môi trường học đường [an toàn] là nơi học sinh được [phát triển] toàn diện.\" (Từ chọn: an toàn, phát triển)",
+          "options": [],
+          "correct_option_id": null,
+          "correct_option_text": null,
+          "explanation": null,
+          "interaction": {
+            "blanks": [
+              "blank1",
+              "blank2"
+            ],
+            "bank": [
+              "an toàn",
+              "phát triển"
+            ],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": "Môi trường học đường [an toàn] là nơi học sinh được [phát triển] toàn diện.",
+            "sentence_answers": [
+              "an toàn",
+              "phát triển"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "file_id": "FILE_19",
+      "set_number": 15,
+      "set_title": "Tổng kết về Công lý và Sự tử tế",
+      "tags": [],
+      "questions": [
+        {
+          "question_id": "F19_Q1",
+          "question_type": "multiple_choice",
+          "prompt": "\"Công lý\" trong phòng chống bạo lực học đường nghĩa là gì?",
+          "options": [
+            {
+              "id": "A",
+              "text": "Mọi sai phạm đều được xử lý công bằng và nạn nhân được bảo vệ, đền bù."
+            },
+            {
+              "id": "B",
+              "text": "Kẻ mạnh luôn thắng."
+            }
+          ],
+          "correct_option_id": "A",
+          "correct_option_text": "Mọi sai phạm đều được xử lý công bằng và nạn nhân được bảo vệ, đền bù.",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F19_Q2",
+          "question_type": "multiple_choice",
+          "prompt": "Việc tha thứ cho người đã nhận lỗi và sửa đổi giúp gì cho cộng đồng?",
+          "options": [
+            {
+              "id": "A",
+              "text": "Giúp hòa giải và xây dựng lại các mối quan hệ tích cực."
+            },
+            {
+              "id": "B",
+              "text": "Làm cho người đó coi thường mình."
+            }
+          ],
+          "correct_option_id": "A",
+          "correct_option_text": "Giúp hòa giải và xây dựng lại các mối quan hệ tích cực.",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F19_Q3",
+          "question_type": "multiple_choice",
+          "prompt": "Bạn nên làm gì để trở thành một \"Đại sứ hòa bình\" tại trường?",
+          "options": [
+            {
+              "id": "A",
+              "text": "Luôn tôn trọng luật lệ và sẵn sàng giúp đỡ bạn bè gặp khó khăn."
+            },
+            {
+              "id": "B",
+              "text": "Đi nhắc nhở lỗi sai của mọi người một cách gay gắt."
+            }
+          ],
+          "correct_option_id": "A",
+          "correct_option_text": "Luôn tôn trọng luật lệ và sẵn sàng giúp đỡ bạn bè gặp khó khăn.",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F19_Q4",
+          "question_type": "multiple_choice",
+          "prompt": "Luật pháp có thể ngăn chặn hoàn toàn bạo lực không nếu chúng ta không có sự thấu cảm?",
+          "options": [
+            {
+              "id": "A",
+              "text": "Không, luật pháp là khung hình phạt, còn sự tử tế là gốc rễ ngăn chặn hành vi."
+            },
+            {
+              "id": "B",
+              "text": "Có, chỉ cần luật thật nặng là đủ."
+            }
+          ],
+          "correct_option_id": "A",
+          "correct_option_text": "Không, luật pháp là khung hình phạt, còn sự tử tế là gốc rễ ngăn chặn hành vi.",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F19_Q5",
+          "question_type": "multiple_choice",
+          "prompt": "Khi bạn hiểu luật, bạn cảm thấy thế nào?",
+          "options": [
+            {
+              "id": "A",
+              "text": "Tự tin hơn vì biết mình có quyền và được pháp luật bảo vệ."
+            },
+            {
+              "id": "B",
+              "text": "Cảm thấy sợ hãi vì nhiều quy định."
+            }
+          ],
+          "correct_option_id": "A",
+          "correct_option_text": "Tự tin hơn vì biết mình có quyền và được pháp luật bảo vệ.",
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        },
+        {
+          "question_id": "F19_Q6",
+          "question_type": "fill_blank",
+          "prompt": "Điền từ: \"Sống và làm việc theo [Hiến pháp] và [Pháp luật].\" (Từ chọn: Hiến pháp, Pháp luật)",
+          "options": [],
+          "correct_option_id": null,
+          "correct_option_text": null,
+          "explanation": null,
+          "interaction": {
+            "blanks": [
+              "blank1",
+              "blank2"
+            ],
+            "bank": [
+              "Hiến pháp",
+              "Pháp luật"
+            ],
+            "pairs": [],
+            "sequence": [],
+            "sentence_template": "Sống và làm việc theo [Hiến pháp] và [Pháp luật].",
+            "sentence_answers": [
+              "Hiến pháp",
+              "Pháp luật"
+            ]
+          }
+        },
+        {
+          "question_id": "F19_Q7",
+          "question_type": "matching",
+          "prompt": "Ghép đôi giá trị:",
+          "options": [],
+          "correct_option_id": null,
+          "correct_option_text": null,
+          "explanation": null,
+          "interaction": {
+            "blanks": [],
+            "bank": [],
+            "pairs": [
+              {
+                "left": "Luật pháp",
+                "right": "Sự công bằng"
+              },
+              {
+                "left": "Đạo đức",
+                "right": "Sự tử tế"
+              }
+            ],
+            "sequence": [],
+            "sentence_template": null,
+            "sentence_answers": []
+          }
+        }
+      ]
+    }
+  ]
+}

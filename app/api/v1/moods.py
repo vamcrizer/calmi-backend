@@ -159,7 +159,7 @@ async def get_ai_mood_summary(
             result = api_response(
                 data={
                     "summary": "Chào bạn! Calmi chưa có đủ dữ liệu cảm xúc của bạn. Hãy check-in mỗi ngày để Calmi có thể hiểu bạn hơn nhé! 💚",
-                    "emoji": "🤗",
+                    "emoji": "neutral",
                     "trend": "neutral",
                     "days_tracked": 0,
                 },
@@ -202,16 +202,16 @@ Yêu cầu:
             older_avg = sum(d.get("mood_value", 0) for d in mood_data[3:] if d.get("mood_value")) / max(1, len([d for d in mood_data[3:] if d.get("mood_value")]))
             if recent_avg > older_avg + 0.3:
                 trend = "up"
-                emoji = "📈"
+                emoji = "up"
             elif recent_avg < older_avg - 0.3:
                 trend = "down"
-                emoji = "💚"
+                emoji = "down"
             else:
                 trend = "stable"
-                emoji = "✨"
+                emoji = "stable"
         else:
             trend = "neutral"
-            emoji = "🌟"
+            emoji = "neutral"
         
         result = api_response(
             data={
@@ -232,7 +232,7 @@ Yêu cầu:
         return api_response(
             data={
                 "summary": "Calmi thấy bạn đang cố gắng mỗi ngày. Tiếp tục check-in để Calmi hiểu bạn hơn nhé! 💚",
-                "emoji": "🤗",
+                "emoji": "neutral",
                 "trend": "neutral",
                 "days_tracked": 0,
             },
